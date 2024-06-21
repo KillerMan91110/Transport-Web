@@ -27,26 +27,26 @@ public class ControladorClientes {
     public String Eliminar(@RequestParam("id") int id, Model model) {
 
         service.Eliminar(id);
-        return Mostrar(model);
+        return "redirect:/listadoClientes";
     }
 
     @PostMapping("/registroCliente")
     public String Registrar(@RequestParam("nombre") String nombre,
-            @RequestParam("ruc") String ruc,
-            @RequestParam("direccion") String direccion, Model model) {
+                            @RequestParam("ruc") String ruc,
+                            @RequestParam("direccion") String direccion, Model model) {
         Clientes cl = new Clientes();
         cl.setNombre(nombre);
         cl.setRuc(ruc);
         cl.setDireccion(direccion);
         service.Guardar(cl);
-        return Mostrar(model);
+        return "redirect:/listadoClientes";
     }
 
     @PostMapping("/actualizarCliente")
     public String Actualizar(@RequestParam("id") int id,
-            @RequestParam("nombre") String nombre,
-            @RequestParam("ruc") String ruc,
-            @RequestParam("direccion") String direccion, Model model) {
+                             @RequestParam("nombre") String nombre,
+                             @RequestParam("ruc") String ruc,
+                             @RequestParam("direccion") String direccion, Model model) {
         Clientes cl = new Clientes();
         cl.setId(id);
         cl.setNombre(nombre);
@@ -55,7 +55,7 @@ public class ControladorClientes {
 
         service.Guardar(cl);
 
-        return Mostrar(model);
+        return "redirect:/listadoClientes";
     }
 
     @PostMapping("/buscarClientes")

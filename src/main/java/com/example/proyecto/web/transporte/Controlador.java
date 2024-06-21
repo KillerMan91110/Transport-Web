@@ -14,19 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class Controlador {
-    /*@GetMapping("/registroCamiones")
-    public String registroCamiones() {
-        return "registroCamiones"; //index.html
-    }
-    @GetMapping("/registroEmpleados")
-    public String registroEmpleados() {
-        return "registroEmpleados"; //index.html
-    }
-    @GetMapping("/registroViajes")
-    public String registroViajes() {
-        return "registroViajes"; //index.html
-    }*/
-     @Autowired
+
+    @Autowired
     private IEmpleadosService service;
     @GetMapping("/")
     public String index() {
@@ -38,25 +27,27 @@ public class Controlador {
         model.addAttribute("empleados", empleados); //
         return "empleados/listadoEmpleados"; //listadoEmpleados.html
     }
-     @GetMapping("/eliminarEmpleado")
+    @GetMapping("/eliminarEmpleado")
     public String Eliminar(@RequestParam("id") int id, Model model) {
 
         service.Eliminar(id);
-        return Mostrar(model);
+        return "redirect:/listadoEmpleados";
     }
-     @GetMapping("/registroEmpleados") // http://localhost/
+    @GetMapping("/registroEmpleados") // http://localhost/
     public String registroEmpleados(){
         return "empleados/registroEmpleados"; //new_servicio.html
     }
     @PostMapping("/registroEmpleados")
     public String Registrar(@RequestParam("dni") String dni,
-            @RequestParam("nombre") String nom,
-            @RequestParam("sexo") String sexo,
-            @RequestParam("num_licencia") String numLic,
-            @RequestParam("celular") String celular,
-            @RequestParam("correo") String correo,
-            @RequestParam("direccion") String direc,
-            Model model) {
+                            @RequestParam("nombre") String nom,
+                            @RequestParam("sexo") String sexo,
+                            @RequestParam("num_licencia") String numLic,
+                            @RequestParam("celular") String celular,
+                            @RequestParam("correo") String correo,
+                            @RequestParam("direccion") String direc,
+                            @RequestParam("username") String user,
+                            @RequestParam("password") String pass,
+                            Model model) {
         Empleados e = new Empleados();
         e.setDni(dni);
         e.setNombre(nom);
@@ -65,8 +56,10 @@ public class Controlador {
         e.setCelular(celular);
         e.setCorreo(correo);
         e.setDireccion(direc);
+        e.setUsername(user);
+        e.setPassword(pass);
         service.Guardar(e);
-        return Mostrar(model);
+        return "redirect:/listadoEmpleados";
     }
 
     @GetMapping("/editarEmpleado")
@@ -78,14 +71,16 @@ public class Controlador {
 
     @PostMapping("/actualizar")
     public String Actualizar(@RequestParam("id") int id,
-            @RequestParam("dni") String dni,
-            @RequestParam("nombre") String nom,
-            @RequestParam("sexo") String sexo,
-            @RequestParam("num_licencia") String numLic,
-            @RequestParam("celular") String celular,
-            @RequestParam("correo") String correo,
-            @RequestParam("direccion") String direc,
-            Model model) {
+                             @RequestParam("dni") String dni,
+                             @RequestParam("nombre") String nom,
+                             @RequestParam("sexo") String sexo,
+                             @RequestParam("num_licencia") String numLic,
+                             @RequestParam("celular") String celular,
+                             @RequestParam("correo") String correo,
+                             @RequestParam("direccion") String direc,
+                             @RequestParam("username") String user,
+                             @RequestParam("password") String pass,
+                             Model model) {
         Empleados e = new Empleados();
         e.setId(id);
         e.setDni(dni);
@@ -95,10 +90,11 @@ public class Controlador {
         e.setCelular(celular);
         e.setCorreo(correo);
         e.setDireccion(direc);
-
+        e.setUsername(user);
+        e.setPassword(pass);
         service.Guardar(e);
 
-        return Mostrar(model);
+        return "redirect:/listadoEmpleados";
     }
 
     @PostMapping("/buscar")

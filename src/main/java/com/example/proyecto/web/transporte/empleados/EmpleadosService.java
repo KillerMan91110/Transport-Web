@@ -1,18 +1,22 @@
 package com.example.proyecto.web.transporte.empleados;
 
-import java.util.List;
-import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.proyecto.web.transporte.roles.IRoles;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
+@RequiredArgsConstructor
 public class EmpleadosService implements IEmpleadosService{
-    @Autowired
-    private IEmpleados data;
+    private final IEmpleados data;
+    private final IRoles datarol;
     
     @Override
     public List<Empleados> Listar() {
-        return (List<Empleados>) data.findAll();
+        return data.findAllNotRole("ADMINISTRADOR");
     }
 
     @Override
@@ -22,6 +26,9 @@ public class EmpleadosService implements IEmpleadosService{
 
     @Override
     public void Guardar(Empleados a) {
+        a.setPassword(PasswordEncode(a.getPassword()));
+        a.setEnabled(true);//Habilita el usuario
+        a.addRole(datarol.findByName("CONDUCTOR"));//Asigna el rol Conductor
         data.save(a);
     }
 
@@ -35,4 +42,11 @@ public class EmpleadosService implements IEmpleadosService{
         return data.buscarPorTodo(dato);
     }
 
+    /**
+     * Encriptar cadena para password
+     * */
+    private String PasswordEncode(String password) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder.encode(password);
+    }
 }

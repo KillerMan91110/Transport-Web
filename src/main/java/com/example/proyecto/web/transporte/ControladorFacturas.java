@@ -31,7 +31,7 @@ public class ControladorFacturas {
     public String Eliminar(@RequestParam("id") int id, Model model) {
 
         serviceFacturas.Eliminar(id);
-        return Mostrar(model);
+        return "redirect:/listadoFacturas";
     }
 
     @GetMapping("/registroFacturas") // http://localhost/
@@ -41,21 +41,21 @@ public class ControladorFacturas {
 
     @PostMapping("/registroFacturas")
     public String Registrar(//@RequestParam("NumOrden") int NumOrden,
-            @RequestParam("NumFactura") String NumFactura,
-            @RequestParam("NomProveedor") String NomProveedor,
-            @RequestParam("FechaEmision") @DateTimeFormat(pattern = "yyyy-MM-dd") Date FechaEmision ,
-            @RequestParam("FechaRecepcion") @DateTimeFormat(pattern = "yyyy-MM-dd") Date FechaRecepcion ,
-            //@RequestParam("MontoSoles") float MontoSoles,
-            //@RequestParam("MontoDolares") float MontoDolares,
-            @RequestParam("TipoMoneda") String TipoMoneda,
-            @RequestParam("Monto") float Monto,
-            @RequestParam("FechaPagoDetraccion") @DateTimeFormat(pattern = "yyyy-MM-dd") Date FechaPagoDetraccion ,
-            @RequestParam("DepositoDetraccion") float DepositoDetraccion,
-            @RequestParam("FechaPago") @DateTimeFormat(pattern = "yyyy-MM-dd") Date FechaPago ,
-            @RequestParam("Observacion") String Observacion,
-            Model model) throws ParseException {
+                            @RequestParam("NumFactura") String NumFactura,
+                            @RequestParam("NomProveedor") String NomProveedor,
+                            @RequestParam("FechaEmision") @DateTimeFormat(pattern = "yyyy-MM-dd") Date FechaEmision ,
+                            @RequestParam("FechaRecepcion") @DateTimeFormat(pattern = "yyyy-MM-dd") Date FechaRecepcion ,
+                            //@RequestParam("MontoSoles") float MontoSoles,
+                            //@RequestParam("MontoDolares") float MontoDolares,
+                            @RequestParam("TipoMoneda") String TipoMoneda,
+                            @RequestParam("Monto") float Monto,
+                            @RequestParam("FechaPagoDetraccion") @DateTimeFormat(pattern = "yyyy-MM-dd") Date FechaPagoDetraccion ,
+                            @RequestParam("DepositoDetraccion") float DepositoDetraccion,
+                            @RequestParam("FechaPago") @DateTimeFormat(pattern = "yyyy-MM-dd") Date FechaPago ,
+                            @RequestParam("Observacion") String Observacion,
+                            Model model) throws ParseException {
 
-               
+
 
         Facturas f = new Facturas();
         //f.setNumOrden(NumOrden);
@@ -71,8 +71,8 @@ public class ControladorFacturas {
         f.setObservacion(Observacion);
 
         serviceFacturas.Guardar(f);
-        return Mostrar(model);
-        
+        return "redirect:/listadoFacturas";
+
     }
 
     /*@GetMapping("/editarViaje")
@@ -83,20 +83,20 @@ public class ControladorFacturas {
     }*/
     @PostMapping("/actualizarFacturas")
     public String Actualizar(@RequestParam("id") int id,
-            //@RequestParam("NumOrden") int NumOrden,
-            @RequestParam("NumFactura") String NumFactura,
-            @RequestParam("NomProveedor") String NomProveedor,
-            @RequestParam("FechaEmision") @DateTimeFormat(pattern = "yyyy-MM-dd") Date FechaEmision ,
-            @RequestParam("FechaRecepcion") @DateTimeFormat(pattern = "yyyy-MM-dd") Date FechaRecepcion ,
-            //@RequestParam("MontoSoles") float MontoSoles,
-            //@RequestParam("MontoDolares") float MontoDolares,
-            @RequestParam("TipoMoneda") String TipoMoneda,
-            @RequestParam("Monto") float Monto,
-            @RequestParam("FechaPagoDetraccion") @DateTimeFormat(pattern = "yyyy-MM-dd") Date FechaPagoDetraccion ,
-            @RequestParam("DepositoDetraccion") float DepositoDetraccion,
-            @RequestParam("FechaPago") @DateTimeFormat(pattern = "yyyy-MM-dd") Date FechaPago ,
-            @RequestParam("Observacion") String Observacion,
-            Model model) {
+                             //@RequestParam("NumOrden") int NumOrden,
+                             @RequestParam("NumFactura") String NumFactura,
+                             @RequestParam("NomProveedor") String NomProveedor,
+                             @RequestParam("FechaEmision") @DateTimeFormat(pattern = "yyyy-MM-dd") Date FechaEmision ,
+                             @RequestParam("FechaRecepcion") @DateTimeFormat(pattern = "yyyy-MM-dd") Date FechaRecepcion ,
+                             //@RequestParam("MontoSoles") float MontoSoles,
+                             //@RequestParam("MontoDolares") float MontoDolares,
+                             @RequestParam("TipoMoneda") String TipoMoneda,
+                             @RequestParam("Monto") float Monto,
+                             @RequestParam("FechaPagoDetraccion") @DateTimeFormat(pattern = "yyyy-MM-dd") Date FechaPagoDetraccion ,
+                             @RequestParam("DepositoDetraccion") float DepositoDetraccion,
+                             @RequestParam("FechaPago") @DateTimeFormat(pattern = "yyyy-MM-dd") Date FechaPago ,
+                             @RequestParam("Observacion") String Observacion,
+                             Model model) {
         Facturas f = new Facturas();
         f.setId(id);
         //f.setNumOrden(NumOrden);
@@ -113,7 +113,7 @@ public class ControladorFacturas {
         f.setFechaPago(FechaPago);
         f.setObservacion(Observacion);
         serviceFacturas.Guardar(f);
-        return Mostrar(model);
+        return "redirect:/listadoFacturas";
     }
 
     @PostMapping("/buscarFacturas")
@@ -123,17 +123,17 @@ public class ControladorFacturas {
         model.addAttribute("facturas", facturas);
         return "facturas/listadoFacturas";
     }
-     @GetMapping("/ascendente")
+    @GetMapping("/ascendente")
     public String MostrarAscendente(Model model) {
         List<Facturas> facturas = serviceFacturas.ListarOrdenAscendente();
         model.addAttribute("facturas", facturas);
         return "facturas/listadoFacturas";//listaantenciones.html
     }
-    
+
     @GetMapping("/descendente")
     public String MostrarDescendente(Model model) {
         List<Facturas> facturas = serviceFacturas.ListarOrdenDescendente();
         model.addAttribute("facturas", facturas);
         return "facturas/listadoFacturas";//listaantenciones.html
-    }   
+    }
 }

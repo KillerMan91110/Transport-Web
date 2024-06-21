@@ -27,37 +27,37 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ControladorViajes {
     @Autowired
     private IViajesService serviceViaje;
-    
+
     @Autowired
     private IEmpleadosService serviceE;
-    
+
     @Autowired
     private ICarretasService serviceC;
 
     @Autowired
-    private ITractosService serviceT;    
-    
+    private ITractosService serviceT;
+
     @Autowired
-    private IClientesService serviceCli;    
-    
+    private IClientesService serviceCli;
+
     @GetMapping("/listadoViajes")
     public String Mostrar(Model model) {
         List<Viajes> viajes = serviceViaje.Listar();
         model.addAttribute("viajes", viajes);
-        
+
         List<Empleados> empleados = serviceE.Listar();
         model.addAttribute("empleados", empleados);
-        
+
         List<Tractos> tractos = serviceT.Listar();
         model.addAttribute("tractos", tractos);
 
         List<Carretas> carretas = serviceC.Listar();
         model.addAttribute("carretas", carretas);
-        
+
         List<Clientes> clientes = serviceCli.Listar();
         model.addAttribute("clientes", clientes);
-        
-        
+
+
         return "viajes/listadoviajes"; //listadiCamiones.html
     }
 
@@ -65,7 +65,7 @@ public class ControladorViajes {
     public String Eliminar(@RequestParam("id") int id, Model model) {
 
         serviceViaje.Eliminar(id);
-        return Mostrar(model);
+        return "redirect:/listadoViajes";
     }
 
     @GetMapping("/registroViajes") // http://localhost/
@@ -75,17 +75,17 @@ public class ControladorViajes {
 
     @PostMapping("/registroViajes")
     public String Registrar(@RequestParam("Fecha") @DateTimeFormat(pattern = "yyyy-MM-dd") Date Fecha,
-            @RequestParam("TipoServicio") String TipoServicio,
-            @RequestParam("nombre") Empleados nombre,
-            @RequestParam("PlacaTracto") Tractos PlacaTracto,
-            @RequestParam("PlacaCarreta") Carretas PlacaCarreta,
-            @RequestParam("nombre") Clientes Nombre,
-            @RequestParam("Destino") String Destino,
-            @RequestParam("AlmacenRetiroContenedor") String AlmacenRetiroContenedor,
-            @RequestParam("AlmacenDevolucionContenedor") String AlmacenDevolucionContenedor,
-            @RequestParam("MontoViaje") Float MontoViaje,
-            Model model) {
-        Viajes v = new Viajes();      
+                            @RequestParam("TipoServicio") String TipoServicio,
+                            @RequestParam("nombre") Empleados nombre,
+                            @RequestParam("PlacaTracto") Tractos PlacaTracto,
+                            @RequestParam("PlacaCarreta") Carretas PlacaCarreta,
+                            @RequestParam("nombre") Clientes Nombre,
+                            @RequestParam("Destino") String Destino,
+                            @RequestParam("AlmacenRetiroContenedor") String AlmacenRetiroContenedor,
+                            @RequestParam("AlmacenDevolucionContenedor") String AlmacenDevolucionContenedor,
+                            @RequestParam("MontoViaje") Float MontoViaje,
+                            Model model) {
+        Viajes v = new Viajes();
         v.setFecha(Fecha);
         v.setTipoServicio(TipoServicio);
         v.setEmpleados(nombre);
@@ -97,7 +97,7 @@ public class ControladorViajes {
         v.setAlmacenDevolucionContenedor(AlmacenDevolucionContenedor);
         v.setMontoViaje(MontoViaje);
         serviceViaje.Guardar(v);
-        return Mostrar(model);
+        return "redirect:/listadoViajes";
     }
 
     /*@GetMapping("/editarViaje")
@@ -109,17 +109,17 @@ public class ControladorViajes {
 
     @PostMapping("/actualizarViajes")
     public String Actualizar(@RequestParam("id") int id,
-            @RequestParam("Fecha") @DateTimeFormat(pattern = "yyyy-MM-dd") Date Fecha,
-            @RequestParam("TipoServicio") String TipoServicio,
-            @RequestParam("nombre") Empleados nombre,
-            @RequestParam("PlacaTracto") Tractos PlacaTracto,
-            @RequestParam("PlacaCarreta") Carretas PlacaCarreta,
-            @RequestParam("nombre") Clientes Nombre,
-            @RequestParam("Destino") String Destino,
-            @RequestParam("AlmacenRetiroContenedor") String AlmacenRetiroContenedor,
-            @RequestParam("AlmacenDevolucionContenedor") String AlmacenDevolucionContenedor,
-            @RequestParam("MontoViaje") Float MontoViaje,
-            Model model) {
+                             @RequestParam("Fecha") @DateTimeFormat(pattern = "yyyy-MM-dd") Date Fecha,
+                             @RequestParam("TipoServicio") String TipoServicio,
+                             @RequestParam("nombre") Empleados nombre,
+                             @RequestParam("PlacaTracto") Tractos PlacaTracto,
+                             @RequestParam("PlacaCarreta") Carretas PlacaCarreta,
+                             @RequestParam("nombre") Clientes Nombre,
+                             @RequestParam("Destino") String Destino,
+                             @RequestParam("AlmacenRetiroContenedor") String AlmacenRetiroContenedor,
+                             @RequestParam("AlmacenDevolucionContenedor") String AlmacenDevolucionContenedor,
+                             @RequestParam("MontoViaje") Float MontoViaje,
+                             Model model) {
         Viajes v = new Viajes();
         v.setId(id);
         v.setFecha(Fecha);
@@ -133,52 +133,52 @@ public class ControladorViajes {
         v.setAlmacenDevolucionContenedor(AlmacenDevolucionContenedor);
         v.setMontoViaje(MontoViaje);
         serviceViaje.Guardar(v);
-        return Mostrar(model);
+        return "redirect:/listadoViajes";
     }
 
     @PostMapping("/buscarViaje")
     public String Buscar(@RequestParam("dato") String dato, Model model) {
         List<Viajes> viajes = serviceViaje.Buscar(dato);
-         model.addAttribute("viajes", viajes);
-        
+        model.addAttribute("viajes", viajes);
+
         List<Empleados> empleados = serviceE.Listar();
         model.addAttribute("empleados", empleados);
-        
-       List<Tractos> tractos = serviceT.Listar();
+
+        List<Tractos> tractos = serviceT.Listar();
         model.addAttribute("tractos", tractos);
 
         List<Carretas> carretas = serviceC.Listar();
         model.addAttribute("carretas", carretas);
-        
-         List<Clientes> clientes = serviceCli.Listar();
+
+        List<Clientes> clientes = serviceCli.Listar();
         model.addAttribute("clientes", clientes);
-        
-        return "viajes/listadoViajes";   
+
+        return "viajes/listadoViajes";
     }
-     @GetMapping("/ascendenteViajes")
+    @GetMapping("/ascendenteViajes")
     public String MostrarAscendente(Model model) {
         List<Viajes> viajes = serviceViaje.ListarOrdenAscendente();
         model.addAttribute("viajes", viajes);
         return "viajes/listadoviajes";//listaantenciones.html
     }
-    
+
     @GetMapping("/descendenteViajes")
     public String MostrarDescendente(Model model) {
         List<Viajes> viajes = serviceViaje.ListarOrdenDescendente();
         model.addAttribute("viajes", viajes);
         return "viajes/listadoviajes";//listaantenciones.html
-    }   
-     @GetMapping("/reporte")
+    }
+    @GetMapping("/reporte")
     public String ReporteGrafico(Model model)
     {
         int cantexpo = 0;
         int cantimpo = 0;
-        
+
         Map<String, Integer> graphData = new TreeMap<>();
         List<Viajes> viajes = serviceViaje.Listar();
-        for (int i = 0; i < viajes.size(); i++) 
+        for (int i = 0; i < viajes.size(); i++)
         {
-           
+
             String nom = viajes.get(i).getTipoServicio();
             if(nom.equals("EXPORTACION")){
                 cantexpo++;
@@ -186,9 +186,9 @@ public class ControladorViajes {
                 cantimpo++;
             }
         }
-         graphData.put("EXPORTACION",cantexpo);
-         graphData.put("IMPORTACION",cantimpo);
-         
+        graphData.put("EXPORTACION",cantexpo);
+        graphData.put("IMPORTACION",cantimpo);
+
         model.addAttribute("graphData", graphData);
         return "viajes/reporteviajes"; //grafico.html
     }

@@ -27,38 +27,38 @@ public class ControladorTractos {
     public String Eliminar(@RequestParam("id") int id, Model model) {
 
         serviceTractos.Eliminar(id);
-        return Mostrar(model);
+        return "redirect:/listadoTracto";
     }
 
     @PostMapping("/registroTracto")
     public String Registrar(@RequestParam("PlacaTracto") String PlacaTracto,
-            @RequestParam("TipoTraccion") String TipoTraccion,
-            @RequestParam("Potencia") String Potencia,
-            @RequestParam("Motor") String Motor,
-            Model model) {
+                            @RequestParam("TipoTraccion") String TipoTraccion,
+                            @RequestParam("Potencia") String Potencia,
+                            @RequestParam("Motor") String Motor,
+                            Model model) {
         Tractos t = new Tractos();
         t.setPlacaTracto(PlacaTracto);
         t.setTipoTraccion(TipoTraccion);
         t.setPotencia(Potencia);
         t.setMotor(Motor);
         serviceTractos.Guardar(t);
-        return Mostrar(model);
+        return "redirect:/listadoTracto";
     }
 
     @PostMapping("/actualizarTracto")
     public String Actualizar(@RequestParam("id") int id,
-            @RequestParam("PlacaTracto") String PlacaTracto,
-            @RequestParam("TipoTraccion") String TipoTraccion,
-            @RequestParam("Potencia") String Potencia,
-            @RequestParam("Motor") String Motor,
-            Model model) {
+                             @RequestParam("PlacaTracto") String PlacaTracto,
+                             @RequestParam("TipoTraccion") String TipoTraccion,
+                             @RequestParam("Potencia") String Potencia,
+                             @RequestParam("Motor") String Motor,
+                             Model model) {
         Tractos t = new Tractos();
         t.setId(id);
         t.setPlacaTracto(PlacaTracto);
         t.setTipoTraccion(TipoTraccion);
         t.setPotencia(Potencia);
         t.setMotor(Motor);
-        return Mostrar(model);
+        return "redirect:/listadoTracto";
     }
 
     @PostMapping("/buscarTracto")

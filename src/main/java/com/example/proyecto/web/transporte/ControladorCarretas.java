@@ -30,37 +30,37 @@ public class ControladorCarretas {
     public String Eliminar(@RequestParam("id") int id, Model model) {
 
         serviceCarretas.Eliminar(id);
-        return Mostrar(model);
+        return "redirect:/listadoCarretas";
     }
 
     @PostMapping("/registroCarreta")
     public String Registrar(@RequestParam("PlacaCarreta") String PlacaCarreta,
-            @RequestParam("Peso") String Peso,
-            @RequestParam("Largo") String Largo,
-            @RequestParam("Ancho") String Ancho,
-            Model model) {
+                            @RequestParam("Peso") String Peso,
+                            @RequestParam("Largo") String Largo,
+                            @RequestParam("Ancho") String Ancho,
+                            Model model) {
         Carretas c = new Carretas();
         c.setPlacaCarreta(PlacaCarreta);
         c.setPeso(Peso);
         c.setLargo(Largo);
         c.setAncho(Ancho);
         serviceCarretas.Guardar(c);
-        return Mostrar(model);
+        return "redirect:/listadoCarretas";
     }
     @PostMapping("/actualizarCarreta")
     public String Actualizar(@RequestParam("id") int id,
-           @RequestParam("PlacaCarreta") String PlacaCarreta,
-            @RequestParam("Peso") String Peso,
-            @RequestParam("Largo") String Largo,
-            @RequestParam("Ancho") String Ancho,
-            Model model) {
+                             @RequestParam("PlacaCarreta") String PlacaCarreta,
+                             @RequestParam("Peso") String Peso,
+                             @RequestParam("Largo") String Largo,
+                             @RequestParam("Ancho") String Ancho,
+                             Model model) {
         Carretas c = new Carretas();
         c.setId(id);
         c.setPlacaCarreta(PlacaCarreta);
         c.setPeso(Peso);
         c.setLargo(Largo);
         c.setAncho(Ancho);
-        return Mostrar(model);
+        return "redirect:/listadoCarretas";
     }
 
     @PostMapping("/buscarCarreta")
@@ -68,7 +68,7 @@ public class ControladorCarretas {
         List<Carretas> carretas = serviceCarretas.Listar();
         model.addAttribute("carretas", carretas);
 
-         return "camiones/listadoCarretas";
+        return "camiones/listadoCarretas";
     }
 
     /*@GetMapping("/ascendenteViajes")
