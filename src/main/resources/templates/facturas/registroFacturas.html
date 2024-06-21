@@ -37,7 +37,7 @@
     </head>
     <body>
         <header>
-            <div th:insert="menu :: #navBar"></div>
+            <th:block th:replace="menu :: NavBar"></th:block>
         </header>
         <main>
             <hr class="container mt-5">

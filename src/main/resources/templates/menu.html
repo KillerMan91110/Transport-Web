@@ -1,4 +1,5 @@
-<div id="navBar">
+
+<th:block th:fragment="NavBar">
     <form
             th:action="@{/logout}"
             method="post"
@@ -7,45 +8,43 @@
     >
     </form>
     <nav class="navbar navbar-expand-lg bg-primary">
-        <div id="NavBar">
-            <nav class="navbar navbar-expand-lg bg-primary">
-                <div class="container-fluid">
-                    <a th:href="@{/}"><img th:src="@{/img/MARM E.I.R.L..png}" alt="alt" height="150" width="150"/></a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse " id="navbarNav">
-                        <ul class="navbar-nav justify-content-end align-items-end">
-                            
-                            
-                            <li class="nav-item">
-                                <a class="nav-link text-light" th:href="@{/}"><h5><i class="mx-3 bi bi-house"></i>Inicio</h5></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" th:href="@{/registroEmpleados}"><h5><i class="mx-3 bi bi-person-plus-fill"></i>Conductores</h5></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" th:href="@{/registroFacturas}"><h5><i class="mx-3 bi bi-clipboard-fill"></i>Facturas</h5></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" th:href="@{/listadoEmpleados}"><h5><i class=" mx-3 bi bi-person-lines-fill"></i>Listado</h5></a>
-                            </li>
-                            <th:block sec:authorize="isAuthenticated()">
-                                <li><a class="dropdown-item" href="#!" onclick="document.getElementById('logoutForm').submit();">Logout</a></li>
-                            </th:block>
-                            <th:block sec:authorize="isAuthenticated()">
-                                <th:block sec:authentication="principal.username"
-                                >User</th:block
-                                >
-                            </th:block>
+        <div class="container-fluid">
+            <a th:href="@{/}"><img th:src="@{/img/MARM E.I.R.L..png}" alt="alt" height="150" width="150"/></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse " id="navbarNav">
+                <ul class="navbar-nav me-auto justify-content-end align-items-end">
 
-                        </ul>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-light" th:href="@{/}"><h5><i class="mx-3 bi bi-house"></i>Inicio</h5></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" th:href="@{/registroEmpleados}"><h5><i class="mx-3 bi bi-person-plus-fill"></i>Conductores</h5></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" th:href="@{/registroFacturas}"><h5><i class="mx-3 bi bi-clipboard-fill"></i>Facturas</h5></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" th:href="@{/listadoEmpleados}"><h5><i class=" mx-3 bi bi-person-lines-fill"></i>Listado</h5></a>
+                    </li>
+
+                </ul>
+                <form class="d-flex" sec:authorize="isAuthenticated()">
+                    <div class="me-3" style="text-align: center">
+                                 <span class="align-middle fs-5 fw-bold text-light" th:text = "@{'Bienvenid@ '}"></span>
+                                 <span class="align-middle fs-5 fw-bold text-light" sec:authentication="principal.username">
+                                    User
+                                </span>
                     </div>
-                </div>
-            </nav>
+                    <a class="btn btn-light btn-lg" href="#!" onclick="document.getElementById('logoutForm').submit();">Cerrar Sesión</a>
+                </form>
+            </div>
+
         </div>
     </nav>
-</div>
+</th:block>
 
 <div id="barraFooter">
     <div class="container-fluid justify-content-center align-items-center text-center ">
@@ -66,7 +65,7 @@
                                                      height="70" width="100"></a>
 
                 <a class="me-3" th:href="@{https://web.whatsapp.com/}"> <img th:src="@{/img/whatsapp.png}" alt="whatsapp"
-                                                     height="70" width="70"></a>
+                                                                             height="70" width="70"></a>
 
             </div>
         </div>

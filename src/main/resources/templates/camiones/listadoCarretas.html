@@ -69,8 +69,8 @@
     </head>
     <body>
         <header>
-            <div th:insert="menu :: #navBar"></div>
-        </header>
+             <th:block th:replace="menu :: NavBar"></th:block>
+         </header>
         <hr class="container mt-5">
         <ul class="nav nav-tabs container justify-content-center align-items-center">
             <li class="nav-item">
