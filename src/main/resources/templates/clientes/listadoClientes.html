@@ -154,25 +154,7 @@
             <th:block th:replace="menu :: NavBar"></th:block>
         </header>
         <hr class="container mt-5">
-        <ul class="nav nav-tabs container justify-content-center align-items-center">
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/listadoEmpleados}" aria-current="page">Conductores</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" th:href="@{/listadoViajes}">Viajes</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/listadoFacturas}">Facturas</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link  " th:href="@{/listadoTracto}" aria-current="page">Tractos</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/listadoCarretas}">Carretas</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/listadoClientes}">Clientes</a>
-            </li>
+        <th:block th:replace="menu :: NavList"></th:block>
             <div class="container">
                 <div class="alert alert-danger my-2 text-center" role="alert"><b>LISTADO CLIENTES</b></div>
                 <hr class="container-fluid">
@@ -180,26 +162,13 @@
 
                 <form class="row g-3 justify-content-center align-items-center" action="buscarCliente" method="POST" role="search">
                     <div class="col-auto">
-                        <input class="form-control" type="search" name="dato" placeholder="Ingrese dato a buscar" aria-label="Search">
-                    </div>
-                    <div class="col-auto">
-                        <button class="btn btn-outline-primary me-5" type="submit">Buscar</button>
-                    </div>
-                    <div class="col-auto">
-                        <a th:href="@{/ascendenteViajes}" class="ms-5 btn btn-success" ><i class="bi bi-sort-up"></i>Orden Ascendente</a>
-                    </div>
-                    <div class="col-auto">
-                        <a th:href="@{/descendenteViajes}" class="btn btn-danger"><i class="bi bi-sort-down"></i>Orden Descendente</a>
-                    </div>
-                    <div class="col-auto">
                         <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"><i class="bi bi-plus-circle"></i>Agregar Cliente</button>
                     </div>
-
                 </form>
 
                 <hr class="container">
             </div>
-        </ul>
+
 
         <div class="m-5">
             <table class="table table-striped mb-5 container">

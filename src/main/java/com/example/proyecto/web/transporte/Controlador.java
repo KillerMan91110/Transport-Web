@@ -21,6 +21,10 @@ public class Controlador {
     public String index() {
         return "index"; //index.html
     }
+    @GetMapping("/nosotros")
+    public String nosotros() {
+        return "nosotros"; //index.html
+    }
     @GetMapping("/listadoEmpleados")
     public String Mostrar(Model model) {
         List<Empleados> empleados = service.Listar();

@@ -33,7 +33,7 @@ public class ConfigSecurity {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> {
-                    auth.antMatchers("/","/img/**","/js/**").permitAll();
+                    auth.antMatchers("/", "/nosotros","/contacto", "/img/**","/js/**").permitAll();
                     auth.antMatchers("/listadoFacturas","/registroFacturas","/actualizarFacturas").hasAnyAuthority("CONDUCTOR","ADMINISTRADOR");
                     auth.anyRequest().hasAnyAuthority("ADMINISTRADOR");
                 })

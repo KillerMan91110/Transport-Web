@@ -1,5 +1,6 @@
+let table;
 $(document).ready( function () {
-    $('#myTable').DataTable({
+    table = $('#myTable').DataTable({
         responsive:true,
     });
 } );
