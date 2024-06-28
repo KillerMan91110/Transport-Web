@@ -16,8 +16,7 @@
                     </button>
                     <div class="collapse navbar-collapse " id="navbarNav">
                         <ul class="navbar-nav justify-content-end align-items-end">
-                            
-                            
+
                             <li class="nav-item">
                                 <a class="nav-link text-light" th:href="@{/}"><h5><i class="mx-3 bi bi-house"></i>Inicio</h5></a>
                             </li>
@@ -25,7 +24,7 @@
                                 <a class="nav-link text-light" th:href="@{/registroEmpleados}"><h5><i class="mx-3 bi bi-person-plus-fill"></i>Conductores</h5></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-light" th:href="@{/registroFacturas}"><h5><i class="mx-3 bi bi-clipboard-fill"></i>Facturas</h5></a>
+                                <a class="nav-link text-light" th:href="@{/registroFacturas}"><h5><i class="mx-3 bi bi-clipboard-fill"></i>Guía de Remisión</h5></a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-light" th:href="@{/listadoEmpleados}"><h5><i class=" mx-3 bi bi-person-lines-fill"></i>Listado</h5></a>
@@ -35,7 +34,7 @@
                             </th:block>
                             <th:block sec:authorize="isAuthenticated()">
                                 <th:block sec:authentication="principal.username"
-                                >User</th:block
+                                >   User</th:block
                                 >
                             </th:block>
 

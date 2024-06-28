@@ -24,94 +24,146 @@ public class ControladorFacturas {
     public String Mostrar(Model model) {
         List<Facturas> facturas = serviceFacturas.Listar();
         model.addAttribute("facturas", facturas);
-        return "facturas/listadoFacturas"; //listadiCamiones.html
+        return "facturas/listadoFacturas";
     }
 
     @GetMapping("/eliminarFactura")
     public String Eliminar(@RequestParam("id") int id, Model model) {
-
         serviceFacturas.Eliminar(id);
         return "redirect:/listadoFacturas";
     }
 
-    @GetMapping("/registroFacturas") // http://localhost/
-    public String registroCamiones() {
-        return "facturas/registroFacturas"; //new_servicio.html
+    @GetMapping("/registroFacturas")
+    public String registroFacturas() {
+        return "facturas/registroFacturas";
     }
 
     @PostMapping("/registroFacturas")
-    public String Registrar(//@RequestParam("NumOrden") int NumOrden,
-                            @RequestParam("NumFactura") String NumFactura,
-                            @RequestParam("NomProveedor") String NomProveedor,
-                            @RequestParam("FechaEmision") @DateTimeFormat(pattern = "yyyy-MM-dd") Date FechaEmision ,
-                            @RequestParam("FechaRecepcion") @DateTimeFormat(pattern = "yyyy-MM-dd") Date FechaRecepcion ,
-                            //@RequestParam("MontoSoles") float MontoSoles,
-                            //@RequestParam("MontoDolares") float MontoDolares,
-                            @RequestParam("TipoMoneda") String TipoMoneda,
-                            @RequestParam("Monto") float Monto,
-                            @RequestParam("FechaPagoDetraccion") @DateTimeFormat(pattern = "yyyy-MM-dd") Date FechaPagoDetraccion ,
-                            @RequestParam("DepositoDetraccion") float DepositoDetraccion,
-                            @RequestParam("FechaPago") @DateTimeFormat(pattern = "yyyy-MM-dd") Date FechaPago ,
-                            @RequestParam("Observacion") String Observacion,
-                            Model model) throws ParseException {
-
-
+    public String Registrar(
+            @RequestParam("Num_Factura") String NumFactura,
+            @RequestParam("PuntoPartida") String PuntoPartida,
+            @RequestParam("PuntoLlegada") String PuntoLlegada,
+            @RequestParam("Destinatario") String Destinatario,
+            @RequestParam("DocumentoDestinatario") String DocumentoDestinatario,
+            @RequestParam("Proveedor") String Proveedor,
+            @RequestParam("DocumentoProveedor") String DocumentoProveedor,
+            @RequestParam("MotivoTraslado") String MotivoTraslado,
+            @RequestParam("ModalidadTraslado") String ModalidadTraslado,
+            @RequestParam("FechaEmision") @DateTimeFormat(pattern = "yyyy-MM-dd") Date FechaEmision,
+            @RequestParam("HoraEmision") @DateTimeFormat(pattern = "HH:mm") Date HoraEmision,
+            @RequestParam("FechaTraslado") @DateTimeFormat(pattern = "yyyy-MM-dd") Date FechaTraslado,
+            @RequestParam("NumeroPedido") String NumeroPedido,
+            @RequestParam("RazonSocialTransportista") String RazonSocialTransportista,
+            @RequestParam("RUCTransportista") String RUCTransportista,
+            @RequestParam("NumeroMTC") String NumeroMTC,
+            @RequestParam("Conductor") String Conductor,
+            @RequestParam("DocumentoConductor") String DocumentoConductor,
+            @RequestParam("NumeroLicencia") String NumeroLicencia,
+            @RequestParam("NumeroPlaca") String NumeroPlaca,
+            @RequestParam("IdProducto") String IdProducto,
+            @RequestParam("CodigoProducto") String CodigoProducto,
+            @RequestParam("DescripcionProducto") String DescripcionProducto,
+            @RequestParam("CantidadProducto") int CantidadProducto,
+            @RequestParam("UnidadMedida") String UnidadMedida,
+            @RequestParam("PesoProducto") float PesoProducto,
+            @RequestParam("Observacion") String Observacion,
+            Model model) throws ParseException {
 
         Facturas f = new Facturas();
-        //f.setNumOrden(NumOrden);
         f.setNumFactura(NumFactura);
-        f.setNomProveedor(NomProveedor);
+        f.setPuntoPartida(PuntoPartida);
+        f.setPuntoLlegada(PuntoLlegada);
+        f.setDestinatario(Destinatario);
+        f.setDocumentoDestinatario(DocumentoDestinatario);
+        f.setProveedor(Proveedor);
+        f.setDocumentoProveedor(DocumentoProveedor);
+        f.setMotivoTraslado(MotivoTraslado);
+        f.setModalidadTraslado(ModalidadTraslado);
         f.setFechaEmision(FechaEmision);
-        f.setFechaRecepcion(FechaRecepcion);
-        f.setMonto(Monto);
-        f.setTipoMoneda(TipoMoneda);
-        f.setFechaPagoDetraccion(FechaPagoDetraccion);
-        f.setDepositoDetraccion(DepositoDetraccion);
-        f.setFechaPago(FechaPago);
+        f.setHoraEmision(HoraEmision);
+        f.setFechaTraslado(FechaTraslado);
+        f.setNumeroPedido(NumeroPedido);
+        f.setRazonSocialTransportista(RazonSocialTransportista);
+        f.setRUCTransportista(RUCTransportista);
+        f.setNumeroMTC(NumeroMTC);
+        f.setConductor(Conductor);
+        f.setDocumentoConductor(DocumentoConductor);
+        f.setNumeroLicencia(NumeroLicencia);
+        f.setNumeroPlaca(NumeroPlaca);
+        f.setIdProducto(IdProducto);
+        f.setCodigoProducto(CodigoProducto);
+        f.setDescripcionProducto(DescripcionProducto);
+        f.setCantidadProducto(CantidadProducto);
+        f.setUnidadMedida(UnidadMedida);
+        f.setPesoProducto(PesoProducto);
         f.setObservacion(Observacion);
 
         serviceFacturas.Guardar(f);
         return "redirect:/listadoFacturas";
-
     }
 
-    /*@GetMapping("/editarViaje")
-    public String Editar(@RequestParam("id") int id, Model model) {
-        Optional<Viajes> viajes = service.ConsultarId(id);
-        model.addAttribute("Viajes", viajes);
-        return "viajes/editarViaje"; //editarEmpleado.html
-    }*/
     @PostMapping("/actualizarFacturas")
-    public String Actualizar(@RequestParam("id") int id,
-                             //@RequestParam("NumOrden") int NumOrden,
-                             @RequestParam("NumFactura") String NumFactura,
-                             @RequestParam("NomProveedor") String NomProveedor,
-                             @RequestParam("FechaEmision") @DateTimeFormat(pattern = "yyyy-MM-dd") Date FechaEmision ,
-                             @RequestParam("FechaRecepcion") @DateTimeFormat(pattern = "yyyy-MM-dd") Date FechaRecepcion ,
-                             //@RequestParam("MontoSoles") float MontoSoles,
-                             //@RequestParam("MontoDolares") float MontoDolares,
-                             @RequestParam("TipoMoneda") String TipoMoneda,
-                             @RequestParam("Monto") float Monto,
-                             @RequestParam("FechaPagoDetraccion") @DateTimeFormat(pattern = "yyyy-MM-dd") Date FechaPagoDetraccion ,
-                             @RequestParam("DepositoDetraccion") float DepositoDetraccion,
-                             @RequestParam("FechaPago") @DateTimeFormat(pattern = "yyyy-MM-dd") Date FechaPago ,
-                             @RequestParam("Observacion") String Observacion,
-                             Model model) {
+    public String Actualizar(
+            @RequestParam("id") int id,
+            @RequestParam("Num_Factura") String NumFactura,
+            @RequestParam("PuntoPartida") String PuntoPartida,
+            @RequestParam("PuntoLlegada") String PuntoLlegada,
+            @RequestParam("Destinatario") String Destinatario,
+            @RequestParam("DocumentoDestinatario") String DocumentoDestinatario,
+            @RequestParam("Proveedor") String Proveedor,
+            @RequestParam("DocumentoProveedor") String DocumentoProveedor,
+            @RequestParam("MotivoTraslado") String MotivoTraslado,
+            @RequestParam("ModalidadTraslado") String ModalidadTraslado,
+            @RequestParam("FechaEmision") @DateTimeFormat(pattern = "yyyy-MM-dd") Date FechaEmision,
+            @RequestParam("HoraEmision") @DateTimeFormat(pattern = "HH:mm") Date HoraEmision,
+            @RequestParam("FechaTraslado") @DateTimeFormat(pattern = "yyyy-MM-dd") Date FechaTraslado,
+            @RequestParam("NumeroPedido") String NumeroPedido,
+            @RequestParam("RazonSocialTransportista") String RazonSocialTransportista,
+            @RequestParam("RUCTransportista") String RUCTransportista,
+            @RequestParam("NumeroMTC") String NumeroMTC,
+            @RequestParam("Conductor") String Conductor,
+            @RequestParam("DocumentoConductor") String DocumentoConductor,
+            @RequestParam("NumeroLicencia") String NumeroLicencia,
+            @RequestParam("NumeroPlaca") String NumeroPlaca,
+            @RequestParam("IdProducto") String IdProducto,
+            @RequestParam("CodigoProducto") String CodigoProducto,
+            @RequestParam("DescripcionProducto") String DescripcionProducto,
+            @RequestParam("CantidadProducto") int CantidadProducto,
+            @RequestParam("UnidadMedida") String UnidadMedida,
+            @RequestParam("PesoProducto") float PesoProducto,
+            @RequestParam("Observacion") String Observacion,
+            Model model) {
+
         Facturas f = new Facturas();
         f.setId(id);
-        //f.setNumOrden(NumOrden);
         f.setNumFactura(NumFactura);
-        f.setNomProveedor(NomProveedor);
+        f.setPuntoPartida(PuntoPartida);
+        f.setPuntoLlegada(PuntoLlegada);
+        f.setDestinatario(Destinatario);
+        f.setDocumentoDestinatario(DocumentoDestinatario);
+        f.setProveedor(Proveedor);
+        f.setDocumentoProveedor(DocumentoProveedor);
+        f.setMotivoTraslado(MotivoTraslado);
+        f.setModalidadTraslado(ModalidadTraslado);
         f.setFechaEmision(FechaEmision);
-        f.setFechaRecepcion(FechaRecepcion);
-        //f.setMontoSoles(MontoSoles);
-        //f.setMontoDolares(MontoDolares);
-        f.setMonto(Monto);
-        f.setTipoMoneda(TipoMoneda);
-        f.setFechaPagoDetraccion(FechaPagoDetraccion);
-        f.setDepositoDetraccion(DepositoDetraccion);
-        f.setFechaPago(FechaPago);
+        f.setHoraEmision(HoraEmision);
+        f.setFechaTraslado(FechaTraslado);
+        f.setNumeroPedido(NumeroPedido);
+        f.setRazonSocialTransportista(RazonSocialTransportista);
+        f.setRUCTransportista(RUCTransportista);
+        f.setNumeroMTC(NumeroMTC);
+        f.setConductor(Conductor);
+        f.setDocumentoConductor(DocumentoConductor);
+        f.setNumeroLicencia(NumeroLicencia);
+        f.setNumeroPlaca(NumeroPlaca);
+        f.setIdProducto(IdProducto);
+        f.setCodigoProducto(CodigoProducto);
+        f.setDescripcionProducto(DescripcionProducto);
+        f.setCantidadProducto(CantidadProducto);
+        f.setUnidadMedida(UnidadMedida);
+        f.setPesoProducto(PesoProducto);
         f.setObservacion(Observacion);
+
         serviceFacturas.Guardar(f);
         return "redirect:/listadoFacturas";
     }
@@ -119,21 +171,21 @@ public class ControladorFacturas {
     @PostMapping("/buscarFacturas")
     public String Buscar(@RequestParam("dato") String dato, Model model) {
         List<Facturas> facturas = serviceFacturas.Buscar(dato);
-
         model.addAttribute("facturas", facturas);
         return "facturas/listadoFacturas";
     }
+
     @GetMapping("/ascendente")
     public String MostrarAscendente(Model model) {
         List<Facturas> facturas = serviceFacturas.ListarOrdenAscendente();
         model.addAttribute("facturas", facturas);
-        return "facturas/listadoFacturas";//listaantenciones.html
+        return "facturas/listadoFacturas";
     }
 
     @GetMapping("/descendente")
     public String MostrarDescendente(Model model) {
         List<Facturas> facturas = serviceFacturas.ListarOrdenDescendente();
         model.addAttribute("facturas", facturas);
-        return "facturas/listadoFacturas";//listaantenciones.html
+        return "facturas/listadoFacturas";
     }
 }
