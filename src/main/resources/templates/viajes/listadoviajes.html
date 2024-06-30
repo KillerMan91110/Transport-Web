@@ -247,7 +247,7 @@
 
                             <div class="col-md-12 mb-2">
                                 <label for="recipient-name" class="col-form-label">Conductor:</label>
-                                <select name="nombre" id="nombre" class="form-control">
+                                <select name="nombre_empleado" id="nombre" class="form-control">
                                     <option value="">Seleccione</option>
                                     <option th:each="empleados : ${empleados}" th:value="${empleados.id}" th:text="${empleados.nombre}"></option>
                                 </select>
@@ -286,7 +286,7 @@
                             <div class="d-flex mb-2">
                                 <div class=" col-md-6 me-3">
                                     <label for="recipient-name" class="col-form-label">Cliente:</label>
-                                    <select name="Cliente" id="Cliente" class="form-control">
+                                    <select name="nombre" id="Cliente" class="form-control">
                                         <option value="">Seleccione</option>
                                         <option th:each="clientes : ${clientes}" th:value="${clientes.id}" th:text="${clientes.nombre}"></option>
                                     </select>
