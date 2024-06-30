@@ -39,10 +39,10 @@ public class ControladorGuiaRemision {
             boolean isAdmin = userDetails.getAuthorities().stream()
                     .anyMatch(auth -> auth.getAuthority().equals("ADMINISTRADOR"));
             if (isAdmin) {
-                // If the user is an administrator, show all GuiaRemision
+
                 model.addAttribute("GuiaRemision", serviceGuiaRemision.Listar());
             } else {
-                // If the user is not an administrator, show GuiaRemision by Empleado
+
                 model.addAttribute("GuiaRemision", serviceGuiaRemision.ListarPorEmpleado(empleados.getId()));
             }
         }
