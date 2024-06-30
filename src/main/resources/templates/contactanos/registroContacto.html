@@ -7,6 +7,13 @@
     <title>Contactanos</title>
     <th:block th:replace="fragmentos/other/common_style :: bootstrap5-sa"></th:block>
     <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+    <style>
+        body {
+            background-image: url('/img/aboutus.png'); /* Ruta a tu imagen de fondo */
+            background-size: cover; /* Ajusta la imagen para cubrir todo el fondo */
+            background-repeat: no-repeat; /* Evita que la imagen se repita */
+        }
+    </style>
 </head>
 <body>
 
@@ -28,7 +35,7 @@
                 <div class="card-body p-0">
                     <div class="row g-0">
                         <div class="col-sm-6 d-none d-sm-block">
-                            <iframe th:src="@{https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.065644102311!2d-77.z0174549855675!3d-12.107658646331865!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c80b4ef883bf%3A0xa59dd73ca78f6a1d!2sC.%20Ricardo%20Angulo%201442%2C%20San%20Isidro%2015036!5e0!3m2!1ses-419!2spe!4v1667173446899!5m2!1ses-419!2spe}" class="w-100 h-100"  allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.065644102311!2d-77.0174549855675!3d-12.107658646331865!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c80b4ef883bf%3A0xa59dd73ca78f6a1d!2sC.%20Ricardo%20Angulo%201442%2C%20San%20Isidro%2015036!5e0!3m2!1ses-419!2spe!4v1667173446899!5m2!1ses-419!2spe" class="w-100 h-100"  allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
                         <div class="col-sm-6 p-4" id="form-container">
                             <div class="text-center">
@@ -92,6 +99,7 @@
         </div>
     </div>
 </div>
+
 <script th:src="@{/js/scripts.js}"></script>
 <script th:src="@{/js/request/contacts_script.js}"></script>
 </body>
