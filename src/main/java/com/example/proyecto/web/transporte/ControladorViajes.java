@@ -76,7 +76,7 @@ public class ControladorViajes {
     @PostMapping("/registroViajes")
     public String Registrar(@RequestParam("Fecha") @DateTimeFormat(pattern = "yyyy-MM-dd") Date Fecha,
                             @RequestParam("TipoServicio") String TipoServicio,
-                            @RequestParam("nombre") Empleados nombre,
+                            @RequestParam("nombre_empleado") Empleados nombre,
                             @RequestParam("PlacaTracto") Tractos PlacaTracto,
                             @RequestParam("PlacaCarreta") Carretas PlacaCarreta,
                             @RequestParam("nombre") Clientes Nombre,
