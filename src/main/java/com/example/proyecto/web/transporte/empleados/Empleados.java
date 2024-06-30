@@ -1,5 +1,6 @@
 package com.example.proyecto.web.transporte.empleados;
 
+import com.example.proyecto.web.transporte.guia_remision.GuiaRemision;
 import com.example.proyecto.web.transporte.roles.Roles;
 import lombok.Data;
 
@@ -11,12 +12,14 @@ import java.util.Set;
 @Entity
 @Table(name="empleados")
 public class Empleados {
+
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY) //Autoincremental
     @Column(name = "id")
     int id;
     String dni;
     String nombre;
+
     //--------
     //Parametros para usar en el login
     String username;
@@ -35,6 +38,9 @@ public class Empleados {
     String celular;
     String correo;
     String direccion;
+
+    @OneToMany(mappedBy = "empleados", cascade = CascadeType.ALL, orphanRemoval = false)
+    private Set<GuiaRemision> guia_remision = new HashSet<>();
 
     /**
      * Agrega un Rol

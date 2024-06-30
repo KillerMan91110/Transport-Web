@@ -1,45 +1,68 @@
 package com.example.proyecto.web.transporte;
 
-import com.example.proyecto.web.transporte.facturas.Facturas;
-import com.example.proyecto.web.transporte.facturas.IFacturasService;
+import com.example.proyecto.web.transporte.security.CustomUserDetails;
+import com.example.proyecto.web.transporte.empleados.Empleados;
+import com.example.proyecto.web.transporte.empleados.IEmpleadosService;
+import com.example.proyecto.web.transporte.guia_remision.GuiaRemision;
+import com.example.proyecto.web.transporte.guia_remision.IGuiaRemisionService;
 
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+
 @Controller
-public class ControladorFacturas {
+public class ControladorGuiaRemision {
 
     @Autowired
-    private IFacturasService serviceFacturas;
+    private IGuiaRemisionService serviceGuiaRemision;
+    @Autowired
+    private IEmpleadosService empleadoService;
 
-    @GetMapping("/listadoFacturas")
-    public String Mostrar(Model model) {
-        List<Facturas> facturas = serviceFacturas.Listar();
-        model.addAttribute("facturas", facturas);
-        return "facturas/listadoFacturas";
+    @GetMapping("/listadoGuiaRemision")
+    public String Mostrar(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
+        if(userDetails != null) {
+            String username = userDetails.getUsername();
+            Empleados empleados = empleadoService.consultarUsername(username).orElse(null);
+            assert empleados != null;
+            boolean isAdmin = userDetails.getAuthorities().stream()
+                    .anyMatch(auth -> auth.getAuthority().equals("ADMINISTRADOR"));
+            if (isAdmin) {
+                // If the user is an administrator, show all GuiaRemision
+                model.addAttribute("GuiaRemision", serviceGuiaRemision.Listar());
+            } else {
+                // If the user is not an administrator, show GuiaRemision by Empleado
+                model.addAttribute("GuiaRemision", serviceGuiaRemision.ListarPorEmpleado(empleados.getId()));
+            }
+        }
+        return "GuiaRemision/listadoGuiaRemision";
     }
 
-    @GetMapping("/eliminarFactura")
+    @GetMapping("/eliminarGuiaRemision")
     public String Eliminar(@RequestParam("id") int id, Model model) {
-        serviceFacturas.Eliminar(id);
-        return "redirect:/listadoFacturas";
+        serviceGuiaRemision.Eliminar(id);
+        return "redirect:/listadoGuiaRemision";
     }
 
-    @GetMapping("/registroFacturas")
-    public String registroFacturas() {
-        return "facturas/registroFacturas";
+    @GetMapping("/registroGuiaRemision")
+    public String registroGuiaRemision() {
+        return "GuiaRemision/registroGuiaRemision";
     }
 
-    @PostMapping("/registroFacturas")
+    @PostMapping("/registroGuiaRemision")
     public String Registrar(
+
             @RequestParam("Num_Factura") String NumFactura,
             @RequestParam("PuntoPartida") String PuntoPartida,
             @RequestParam("PuntoLlegada") String PuntoLlegada,
@@ -63,46 +86,54 @@ public class ControladorFacturas {
             @RequestParam("IdProducto") String IdProducto,
             @RequestParam("CodigoProducto") String CodigoProducto,
             @RequestParam("DescripcionProducto") String DescripcionProducto,
-            @RequestParam("CantidadProducto") int CantidadProducto,
+            @RequestParam("CantidadProducto") int cantidad_producto,
             @RequestParam("UnidadMedida") String UnidadMedida,
-            @RequestParam("PesoProducto") float PesoProducto,
+            @RequestParam("PesoProducto") float peso_producto,
             @RequestParam("Observacion") String Observacion,
-            Model model) throws ParseException {
+            Model model,
+            @AuthenticationPrincipal CustomUserDetails userDetails) throws ParseException {
 
-        Facturas f = new Facturas();
-        f.setNumFactura(NumFactura);
-        f.setPuntoPartida(PuntoPartida);
-        f.setPuntoLlegada(PuntoLlegada);
-        f.setDestinatario(Destinatario);
-        f.setDocumentoDestinatario(DocumentoDestinatario);
-        f.setProveedor(Proveedor);
-        f.setDocumentoProveedor(DocumentoProveedor);
-        f.setMotivoTraslado(MotivoTraslado);
-        f.setModalidadTraslado(ModalidadTraslado);
-        f.setFechaEmision(FechaEmision);
-        f.setHoraEmision(HoraEmision);
-        f.setFechaTraslado(FechaTraslado);
-        f.setNumeroPedido(NumeroPedido);
-        f.setRazonSocialTransportista(RazonSocialTransportista);
-        f.setRUCTransportista(RUCTransportista);
-        f.setNumeroMTC(NumeroMTC);
-        f.setConductor(Conductor);
-        f.setDocumentoConductor(DocumentoConductor);
-        f.setNumeroLicencia(NumeroLicencia);
-        f.setNumeroPlaca(NumeroPlaca);
-        f.setIdProducto(IdProducto);
-        f.setCodigoProducto(CodigoProducto);
-        f.setDescripcionProducto(DescripcionProducto);
-        f.setCantidadProducto(CantidadProducto);
-        f.setUnidadMedida(UnidadMedida);
-        f.setPesoProducto(PesoProducto);
-        f.setObservacion(Observacion);
+        if (userDetails != null) {
+            String username = userDetails.getUsername();
+            Optional<Empleados> empleadosOptional = empleadoService.consultarUsername(username);
+            GuiaRemision f = new GuiaRemision();
+            f.setNumFactura(NumFactura);
+            f.setPuntoPartida(PuntoPartida);
+            f.setPuntoLlegada(PuntoLlegada);
+            f.setDestinatario(Destinatario);
+            f.setDocumentoDestinatario(DocumentoDestinatario);
+            f.setProveedor(Proveedor);
+            f.setDocumentoProveedor(DocumentoProveedor);
+            f.setMotivoTraslado(MotivoTraslado);
+            f.setModalidadTraslado(ModalidadTraslado);
+            f.setFechaEmision(FechaEmision);
+            f.setHoraEmision(HoraEmision);
+            f.setFechaTraslado(FechaTraslado);
+            f.setNumeroPedido(NumeroPedido);
+            f.setRazonSocialTransportista(RazonSocialTransportista);
+            f.setRUCTransportista(RUCTransportista);
+            f.setNumeroMTC(NumeroMTC);
+            f.setConductor(Conductor);
+            f.setDocumentoConductor(DocumentoConductor);
+            f.setNumeroLicencia(NumeroLicencia);
+            f.setNumeroPlaca(NumeroPlaca);
+            f.setIdProducto(IdProducto);
+            f.setCodigoProducto(CodigoProducto);
+            f.setDescripcionProducto(DescripcionProducto);
+            f.setCantidadProducto(cantidad_producto);
+            f.setUnidadMedida(UnidadMedida);
+            f.setPesoProducto(peso_producto);
+            f.setObservacion(Observacion);
+            f.setEmpleados(empleadosOptional.orElse(null));
+            serviceGuiaRemision.Guardar(f);
+        }
 
-        serviceFacturas.Guardar(f);
-        return "redirect:/listadoFacturas";
+        return "redirect:/listadoGuiaRemision";
+
     }
 
-    @PostMapping("/actualizarFacturas")
+
+    @PostMapping("/actualizarGuiaRemision")
     public String Actualizar(
             @RequestParam("id") int id,
             @RequestParam("Num_Factura") String NumFactura,
@@ -134,7 +165,7 @@ public class ControladorFacturas {
             @RequestParam("Observacion") String Observacion,
             Model model) {
 
-        Facturas f = new Facturas();
+        GuiaRemision f = new GuiaRemision();
         f.setId(id);
         f.setNumFactura(NumFactura);
         f.setPuntoPartida(PuntoPartida);
@@ -163,29 +194,28 @@ public class ControladorFacturas {
         f.setUnidadMedida(UnidadMedida);
         f.setPesoProducto(PesoProducto);
         f.setObservacion(Observacion);
-
-        serviceFacturas.Guardar(f);
-        return "redirect:/listadoFacturas";
+        serviceGuiaRemision.Guardar(f);
+        return "redirect:/listadoGuiaRemision";
     }
 
-    @PostMapping("/buscarFacturas")
+    @PostMapping("/buscarGuiaRemision")
     public String Buscar(@RequestParam("dato") String dato, Model model) {
-        List<Facturas> facturas = serviceFacturas.Buscar(dato);
-        model.addAttribute("facturas", facturas);
-        return "facturas/listadoFacturas";
+        List<GuiaRemision> guia_remision = serviceGuiaRemision.Buscar(dato);
+        model.addAttribute("GuiaRemision", guia_remision);
+        return "GuiaRemision/listadoGuiaRemision";
     }
 
     @GetMapping("/ascendente")
     public String MostrarAscendente(Model model) {
-        List<Facturas> facturas = serviceFacturas.ListarOrdenAscendente();
-        model.addAttribute("facturas", facturas);
-        return "facturas/listadoFacturas";
+        List<GuiaRemision> guia_remision = serviceGuiaRemision.ListarOrdenAscendente();
+        model.addAttribute("GuiaRemision", guia_remision);
+        return "GuiaRemision/listadoGuiaRemision";
     }
 
     @GetMapping("/descendente")
     public String MostrarDescendente(Model model) {
-        List<Facturas> facturas = serviceFacturas.ListarOrdenDescendente();
-        model.addAttribute("facturas", facturas);
-        return "facturas/listadoFacturas";
+        List<GuiaRemision> guia_remision = serviceGuiaRemision.ListarOrdenDescendente();
+        model.addAttribute("GuiaRemision", guia_remision);
+        return "GuiaRemision/listadoGuiaRemision";
     }
 }

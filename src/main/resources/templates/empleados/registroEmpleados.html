@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head xmlns:th="http://www.thymeleaf.org">
     <title>REGISTRO CONDUCTORES</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,7 +42,7 @@
 </head>
 <body>
 <header>
-    <div th:insert="menu :: #navBar"></div>
+    <div th:replace="menu :: NavBar"></div>
 </header>
 <main>
     <hr class="container mt-5">

@@ -3,7 +3,6 @@ package com.example.proyecto.web.transporte.empleados;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -26,8 +25,8 @@ public interface IEmpleados extends CrudRepository<Empleados,Integer>{
                 "WHERE r.name != ?1 "
                 , nativeQuery = true)
     List<Empleados> findAllNotRole(String role);
-    
-     
+
+
    
 
   

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html >
+<head xmlns:th="http://www.thymeleaf.org">
     <title>REGISTRO VIAJES</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,7 +56,7 @@
 </head>
 <body>
 <header>
-    <div th:insert="menu :: #navBar"></div>
+    <div th:replace="menu :: NavBar"></div>
 </header>
 <main>
     <hr class="container mt-5">
@@ -70,7 +70,7 @@
                         <img th:src="@{/img/factura.png}" alt="registrar_viaje" height="200" width="200">
                     </div>
                     <hr class="border border-success">
-                    <form action="registroFacturas" method="POST" id="agregar" class="row g-3 needs-validation p-4" novalidate>
+                    <form action="registroGuiaRemision" method="POST" id="agregar" class="row g-3 needs-validation p-4" novalidate>
                         <div class="col-12">
                             <label for="Num_Factura" class="form-label">Número de Factura</label>
                             <input type="text" name="Num_Factura" class="form-control" required>
@@ -153,6 +153,7 @@
                         <div class="col-md-6">
                             <label for="DocumentoConductor" class="form-label">Documento Identidad</label>
                             <input type="text" name="DocumentoConductor" class="form-control" required>
+
                         </div>
                         <div class="col-md-6">
                             <label for="NumeroLicencia" class="form-label">Nº licencia</label>

@@ -121,31 +121,12 @@
     </head>
     <body onload="Editar()">
         <header>
-            <div th:insert="menu :: #navBar"></div>
+            <th:block th:replace="menu :: NavBar"></th:block>
         </header>
         <main>
 
             <hr class="container mt-5">
-            <ul class="nav nav-tabs container justify-content-center align-items-center">
-                <li class="nav-item">
-                    <a class="nav-link active" th:href="@{/listadoEmpleados}" aria-current="page">Conductores</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/listadoViajes}">Viajes</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/listadoFacturas}">Facturas</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link  " th:href="@{/listadoTracto}" aria-current="page">Tractos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/listadoCarretas}">Carretas</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/listadoClientes}">Clientes</a>
-                </li>
-            </ul>
+            <th:block th:replace="menu :: NavList"></th:block>
             <div class="container">
                 <div class="alert alert-danger my-2 text-center" role="alert"><b>LISTADO CONDUCTORES</b></div>
                 <hr class="container-fluid">

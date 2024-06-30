@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-
-<html>
-<head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head >
     <title>LISTADO</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <th:block th:replace="fragmentos/other/common_style :: bootstrap5-sa"></th:block>
+    <!-- Libreria JQUERY -->
+    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+    <!-- Bloque de Scripts de Datatable -->
+    <th:block th:replace="fragmentos/datatable/head :: dataTableHead"></th:block>
     <script>
         function Eliminar(opcion) {
             event.preventDefault();
@@ -139,60 +142,21 @@
 </head>
 <body onload="Editar()">
 <header>
-    <div th:insert="menu :: #navBar"></div>
+    <div th:replace="menu :: NavBar"></div>
 </header>
 <main>
 
     <hr class="container mt-5">
-    <ul class="nav nav-tabs container justify-content-center align-items-center">
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/listadoEmpleados}" aria-current="page">Conductores</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/listadoViajes}">Viajes</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link active" th:href="@{/listadoFacturas}">Facturas</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link  " th:href="@{/listadoTracto}" aria-current="page">Tractos</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/listadoCarretas}">Carretas</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/listadoClientes}">Clientes</a>
-        </li>
-    </ul>
+    <th:block th:replace="menu :: NavList"></th:block>
     <hr class="container">
-
     <div class="container">
-        <div class="alert alert-danger my-2 text-center" role="alert"><b>LISTADO FACTURAS</b></div>
-        <hr class="container-fluid">
+        <div class="alert alert-danger my-2 text-center" role="alert"><b>LISTADO GUIA DE REMISION</b></div>
         <hr class="container">
-
-        <form class="row g-3 justify-content-center align-items-center" action="buscarFacturas" method="POST" role="search">
-            <div class="col-auto">
-                <input class="form-control" type="search" name="dato" placeholder="Ingrese dato a buscar" aria-label="Search">
-            </div>
-            <div class="col-auto">
-                <button class="btn btn-outline-primary me-5" type="submit">Buscar</button>
-            </div>
-            <div class="col-auto">
-                <a th:href="@{/ascendente}" class="ms-5 btn btn-success"><i class="bi bi-sort-up"></i>Orden Ascendente</a>
-            </div>
-            <div class="col-auto">
-                <a th:href="@{/descendente}" class="btn btn-danger"><i class="bi bi-sort-down"></i>Orden Descendente</a>
-            </div>
-        </form>
-
-        <hr class="container">
-
     </div>
-
-    <div class="m-5">
-        <table class="table table-striped mb-5">
-            <tr class="table-primary">
+    <div class="container mb-5" style="width: 100%">
+        <table id="myTable" class="table table-striped nowrap " style="width:100%">
+            <thead>
+            <tr>
                 <th>#</th>
                 <th>ID</th>
                 <th>Punto de Partida</th>
@@ -216,57 +180,60 @@
                 <th>Número de Placa</th>
                 <th>Acciones</th>
             </tr>
-            <tr th:each="facturas,status : ${facturas}" th:if="${facturas.id != ''}">
+            </thead>
+            <tbody>
+            <tr th:each="guia_remision,status : ${GuiaRemision}" th:if="${guia_remision.id != ''}">
                 <td th:text="${status.count}"></td>
-                <td th:text="${facturas.id}"></td>
-                <td th:text="${facturas.PuntoPartida}"></td>
-                <td th:text="${facturas.PuntoLlegada}"></td>
-                <td th:text="${facturas.Destinatario}"></td>
-                <td th:text="${facturas.DocumentoDestinatario}"></td>
-                <td th:text="${facturas.Proveedor}"></td>
-                <td th:text="${facturas.DocumentoProveedor}"></td>
-                <td th:text="${facturas.MotivoTraslado}"></td>
-                <td th:text="${facturas.ModalidadTraslado}"></td>
-                <td th:text="${#dates.format(facturas.FechaEmision, 'dd-MMM-yyyy')}"></td>
-                <td th:text="${facturas.HoraEmision}"></td>
-                <td th:text="${#dates.format(facturas.FechaTraslado, 'dd-MMM-yyyy')}"></td>
-                <td th:text="${facturas.NumeroPedido}"></td>
-                <td th:text="${facturas.RazonSocialTransportista}"></td>
-                <td th:text="${facturas.RUCTransportista}"></td>
-                <td th:text="${facturas.NumeroMTC}"></td>
-                <td th:text="${facturas.Conductor}"></td>
-                <td th:text="${facturas.DocumentoConductor}"></td>
-                <td th:text="${facturas.NumeroLicencia}"></td>
-                <td th:text="${facturas.NumeroPlaca}"></td>
+                <td th:text="${guia_remision.id}"></td>
+                <td th:text="${guia_remision.puntoPartida}"></td>
+                <td th:text="${guia_remision.puntoLlegada}"></td>
+                <td th:text="${guia_remision.destinatario}"></td>
+                <td th:text="${guia_remision.documentoDestinatario}"></td>
+                <td th:text="${guia_remision.proveedor}"></td>
+                <td th:text="${guia_remision.documentoProveedor}"></td>
+                <td th:text="${guia_remision.motivoTraslado}"></td>
+                <td th:text="${guia_remision.modalidadTraslado}"></td>
+                <td th:text="${#dates.format(guia_remision.fechaEmision, 'dd-MMM-yyyy')}"></td>
+                <td th:text="${guia_remision.horaEmision}"></td>
+                <td th:text="${#dates.format(guia_remision.fechaTraslado, 'dd-MMM-yyyy')}"></td>
+                <td th:text="${guia_remision.numeroPedido}"></td>
+                <td th:text="${guia_remision.razonSocialTransportista}"></td>
+                <td th:text="${guia_remision.RUCTransportista}"></td>
+                <td th:text="${guia_remision.numeroMTC}"></td>
+                <td th:text="${guia_remision.conductor}"></td>
+                <td th:text="${guia_remision.documentoConductor}"></td>
+                <td th:text="${guia_remision.numeroLicencia}"></td>
+                <td th:text="${guia_remision.numeroPlaca}"></td>
                 <td class="d-flex">
-                    <a onclick="return Eliminar(this)" th:href="@{/eliminarFactura(id=${facturas.id})}" class="btn btn-danger me-2">
+                    <a onclick="return Eliminar(this)" th:href="@{/eliminarFactura(id=${guia_remision.id})}" class="btn btn-danger me-2">
                         <i class="bi bi-trash-fill"></i>
                     </a>
                     <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEditar"
-                            th:attr="data-bs-id=${facturas.id},
-                            data-bs-PuntoPartida=${facturas.PuntoPartida},
-                            data-bs-PuntoLlegada=${facturas.PuntoLlegada},
-                            data-bs-Destinatario=${facturas.Destinatario},
-                            data-bs-DocumentoDestinatario=${facturas.DocumentoDestinatario},
-                            data-bs-Proveedor=${facturas.Proveedor},
-                            data-bs-DocumentoProveedor=${facturas.DocumentoProveedor},
-                            data-bs-MotivoTraslado=${facturas.MotivoTraslado},
-                            data-bs-ModalidadTraslado=${facturas.ModalidadTraslado},
-                            data-bs-FechaEmision=${facturas.FechaEmision},
-                            data-bs-HoraEmision=${facturas.HoraEmision},
-                            data-bs-FechaTraslado=${facturas.FechaTraslado},
-                            data-bs-NumeroPedido=${facturas.NumeroPedido},
-                            data-bs-RazonSocialTransportista=${facturas.RazonSocialTransportista},
-                            data-bs-RUCTransportista=${facturas.RUCTransportista},
-                            data-bs-NumeroMTC=${facturas.NumeroMTC},
-                            data-bs-Conductor=${facturas.Conductor},
-                            data-bs-DocumentoConductor=${facturas.DocumentoConductor},
-                            data-bs-NumeroLicencia=${facturas.NumeroLicencia},
-                            data-bs-NumeroPlaca=${facturas.NumeroPlaca}">
+                            th:attr="data-bs-id=${guia_remision.id},
+                            data-bs-PuntoPartida=${guia_remision.PuntoPartida},
+                            data-bs-PuntoLlegada=${guia_remision.PuntoLlegada},
+                            data-bs-Destinatario=${guia_remision.Destinatario},
+                            data-bs-DocumentoDestinatario=${guia_remision.DocumentoDestinatario},
+                            data-bs-Proveedor=${guia_remision.Proveedor},
+                            data-bs-DocumentoProveedor=${guia_remision.DocumentoProveedor},
+                            data-bs-MotivoTraslado=${guia_remision.MotivoTraslado},
+                            data-bs-ModalidadTraslado=${guia_remision.ModalidadTraslado},
+                            data-bs-FechaEmision=${guia_remision.FechaEmision},
+                            data-bs-HoraEmision=${guia_remision.HoraEmision},
+                            data-bs-FechaTraslado=${guia_remision.FechaTraslado},
+                            data-bs-NumeroPedido=${guia_remision.NumeroPedido},
+                            data-bs-RazonSocialTransportista=${guia_remision.RazonSocialTransportista},
+                            data-bs-RUCTransportista=${guia_remision.RUCTransportista},
+                            data-bs-NumeroMTC=${guia_remision.NumeroMTC},
+                            data-bs-Conductor=${guia_remision.Conductor},
+                            data-bs-DocumentoConductor=${guia_remision.DocumentoConductor},
+                            data-bs-NumeroLicencia=${guia_remision.NumeroLicencia},
+                            data-bs-NumeroPlaca=${guia_remision.NumeroPlaca}">
                         <i class="bi bi-pencil"></i>
                     </button>
                 </td>
             </tr>
+            </tbody>
         </table>
     </div>
 
@@ -274,7 +241,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Actualizar Factura</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Actualizar Guia de Remision</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -370,5 +337,7 @@
 <footer>
     <div th:insert="menu :: #barraFooter"></div>
 </footer>
+<th:block th:replace="fragmentos/datatable/scripts :: dataTableScript"></th:block>
+<script th:src="@{/js/datatables-demo.js}"></script>
 </body>
 </html>

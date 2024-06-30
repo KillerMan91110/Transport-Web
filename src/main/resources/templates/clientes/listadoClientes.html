@@ -5,14 +5,11 @@
         <title>LISTADO CLIENTES</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- CSS only -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-        <!-- JavaScript Bundle with Popper -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-        <!-- ICONOS -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-        <!-- SweetAlert2 -->
-        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <th:block th:replace="fragmentos/other/common_style :: bootstrap5-sa"></th:block>
+        <!-- Libreria JQUERY -->
+        <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+        <!-- Bloque de Scripts de Datatable -->
+        <th:block th:replace="fragmentos/datatable/head :: dataTableHead"></th:block>
         <script>
             function Agregar1() {
                 event.preventDefault();
@@ -158,68 +155,32 @@
     </head>
     <body onload="Editar()">
         <header>
-            <div th:insert="menu :: #navBar"></div>
+            <th:block th:replace="menu :: NavBar"></th:block>
         </header>
         <hr class="container mt-5">
-        <ul class="nav nav-tabs container justify-content-center align-items-center">
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/listadoEmpleados}" aria-current="page">Conductores</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" th:href="@{/listadoViajes}">Viajes</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/listadoFacturas}">Facturas</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link  " th:href="@{/listadoTracto}" aria-current="page">Tractos</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/listadoCarretas}">Carretas</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/listadoClientes}">Clientes</a>
-            </li>
+        <th:block th:replace="menu :: NavList"></th:block>
             <div class="container">
                 <div class="alert alert-danger my-2 text-center" role="alert"><b>LISTADO CLIENTES</b></div>
-                <hr class="container-fluid">
-                <hr class="container">               
-
-                <form class="row g-3 justify-content-center align-items-center" action="buscarCliente" method="POST" role="search">
-                    <div class="col-auto">
-                        <input class="form-control" type="search" name="dato" placeholder="Ingrese dato a buscar" aria-label="Search">
-                    </div>
-                    <div class="col-auto">
-                        <button class="btn btn-outline-primary me-5" type="submit">Buscar</button>
-                    </div>
-                    <div class="col-auto">
-                        <a th:href="@{/ascendenteViajes}" class="ms-5 btn btn-success" ><i class="bi bi-sort-up"></i>Orden Ascendente</a>
-                    </div>
-                    <div class="col-auto">
-                        <a th:href="@{/descendenteViajes}" class="btn btn-danger"><i class="bi bi-sort-down"></i>Orden Descendente</a>
-                    </div>
-                    <div class="col-auto">
-                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"><i class="bi bi-plus-circle"></i>Agregar Cliente</button>
-                    </div>
-
-                </form>
-
                 <hr class="container">
+                <div class="row">
+                <div class="col-auto">
+                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"><i class="bi bi-plus-circle"></i>Agregar Cliente</button>
+                </div>
+                </div>
             </div>
-        </ul>
-
-        <div class="m-5">
-            <table class="table table-striped mb-5 container">
-                <tr class="table-primary">
+        <div class="container mb-5" style="width: 100%">
+            <table id="myTable" class="table table-striped nowrap " style="width:100%">
+                <thead>
+                <tr>
                     <th>#</th>
                     <th>Id</th>
                     <th>Nombre</th>
                     <th>Ruc</th>
                     <th>Direccion</th>
-
-
                     <th>Aciones</th>
                 </tr>
+                </thead>
+                <tbody>
                 <tr th:each="clientes,status : ${clientes}"  th:if="${clientes.id!=''}">
                     <td th:text="${status.count}"></td>
                     <td th:text="${clientes.id}"></td>
@@ -230,7 +191,7 @@
                     <td class="d-flex">
                         <a onclick="return Eliminar(this)" th:href="@{/eliminarClientes(id=${clientes.id})}" class="me-2 btn btn-danger"> <i class="bi bi-trash-fill"></i> </a>
 
-                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEditar" 
+                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEditar"
                                 th:attr="data-bs-id=${clientes.id},
                                 data-bs-nombre=${clientes.nombre},
                                 data-bs-ruc=${clientes.ruc},
@@ -239,6 +200,7 @@
 
                     </td>
                 </tr>
+                </tbody>
             </table> 
         </div>
         <!-- Model REGISTRAR -->
@@ -285,5 +247,7 @@
                 </div>
             </div>
         </div>
+        <th:block th:replace="fragmentos/datatable/scripts :: dataTableScript"></th:block>
+        <script th:src="@{/js/datatables-demo.js}"></script>
     </body>
 </html>

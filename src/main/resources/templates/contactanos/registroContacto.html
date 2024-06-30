@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Contactanos</title>
+    <th:block th:replace="fragmentos/other/common_style :: bootstrap5-sa"></th:block>
+    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+</head>
+<body>
+<!-- Bootstrap 5 Contact Form Snippet -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+    </symbol>
+    <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+    </symbol>
+    <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+    </symbol>
+</svg>
+<div class="container-fluid px-5 my-5">
+    <div class="row justify-content-center">
+        <div class="col-xl-10">
+            <div class="card border-0 rounded-3 shadow-lg overflow-hidden">
+                <div class="card-body p-0">
+                    <div class="row g-0">
+                        <div class="col-sm-6 d-none d-sm-block">
+                            <iframe th:src="@{https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.065644102311!2d-77.z0174549855675!3d-12.107658646331865!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c80b4ef883bf%3A0xa59dd73ca78f6a1d!2sC.%20Ricardo%20Angulo%201442%2C%20San%20Isidro%2015036!5e0!3m2!1ses-419!2spe!4v1667173446899!5m2!1ses-419!2spe}" class="w-100 h-100"  allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                        <div class="col-sm-6 p-4" id="form-container">
+                            <div class="text-center">
+                                <div class="h3 fw-light">Contact Form</div>
+                                <p class="mb-4 text-muted">Split layout contact form</p>
+                            </div>
+                            <form th:action="@{/contacto}" method="POST" th:object="${newContact}" id="contactForm" class="needs-validation" novalidate>
+
+                                <!-- Name Input -->
+                                <div class="form-floating mb-3">
+                                    <input class="form-control" th:field="*{nombre}" id="name" type="text" placeholder="Nombre" required/>
+                                    <label for="name">Nombre</label>
+                                    <div class="invalid-feedback" >Name is required.</div>
+                                </div>
+
+                                <!-- Email Input -->
+                                <div class="form-floating mb-3">
+                                    <input class="form-control" th:field="*{email}" id="emailAddress" type="email" placeholder="Email" required />
+                                    <label for="emailAddress">Email</label>
+                                    <div class="invalid-feedback">Email Address Email is not valid.</div>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input class="form-control" th:field="*{telefono}" id="phone" type="text" placeholder="Telefono" required />
+                                    <label for="phone">Telefono</label>
+                                    <div class="invalid-feedback">Phone is not valid.</div>
+                                </div>
+
+                                <!-- Message Input -->
+                                <div class="form-floating mb-3">
+                                    <textarea class="form-control" th:field="*{mensaje}" id="message" type="text" placeholder="Mensaje" style="height: 10rem;" required></textarea>
+                                    <label for="message">Mensaje</label>
+                                    <div class="invalid-feedback" >Message is required.</div>
+                                </div>
+
+                                <!-- Submit success message -->
+                                <div class="d-none" id="submitSuccessMessage">
+                                    <div class="text-center mb-3">
+                                        <div class="fw-bolder">Form submission successful!</div>
+                                        <p>To activate this form, sign up at</p>
+                                    </div>
+                                </div>
+
+                                <!-- Submit error message -->
+                                <div class="d-none" id="submitErrorMessage">
+                                    <div class="text-center text-danger mb-3">Error sending message!</div>
+                                </div>
+
+                                <!-- Submit button -->
+                                <div class="d-grid">
+                                    <button class="btn btn-primary btn-lg" id="submitButton" type="submit">Submit</button>
+                                </div>
+                            </form>
+                            <!-- End of contact form -->
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/scripts.js}"></script>
+<script th:src="@{/js/request/contacts_script.js}"></script>
+</body>
+</html>
