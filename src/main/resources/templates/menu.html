@@ -36,10 +36,13 @@
                             <a class="nav-link text-light" th:href="@{/registroEmpleados}"><h5><i class="mx-3 bi bi-person-plus-fill"></i>Conductores</h5></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" th:href="@{/registroFacturas}"><h5><i class="mx-3 bi bi-clipboard-fill"></i>Facturas</h5></a>
+                            <a class="nav-link text-light" th:href="@{/registroGuiaRemision}"><h5><i class="mx-3 bi bi-clipboard-fill"></i>Guia de Remisión</h5></a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" sec:authorize="hasAnyAuthority('ADMINISTRADOR')">
                             <a class="nav-link text-light" th:href="@{/listadoEmpleados}"><h5><i class=" mx-3 bi bi-person-lines-fill"></i>Listado</h5></a>
+                        </li>
+                        <li class="nav-item" sec:authorize="hasAnyAuthority('CONDUCTOR')">
+                            <a class="nav-link text-light" th:href="@{/listadoGuiaRemision}"><h5><i class=" mx-3 bi bi-person-lines-fill"></i>Listado</h5></a>
                         </li>
                     </th:block>
                 </ul>
@@ -67,7 +70,7 @@
             <a class="nav-link" th:href="@{/listadoViajes}" th:classappend="${#request.getRequestURI() == '/listadoViajes'? 'active': ''}">Viajes</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" th:href="@{/listadoFacturas}" th:classappend="${#request.getRequestURI() == '/listadoFacturas'? 'active': ''}">Facturas</a>
+            <a class="nav-link" th:href="@{/listadoGuiaRemision}" th:classappend="${#request.getRequestURI() == '/listadoGuiaRemision'? 'active': ''}">Guia de Remision</a>
         </li>
         <li class="nav-item">
             <a class="nav-link  " th:href="@{/listadoTracto}" th:classappend="${#request.getRequestURI() == '/listadoTracto'? 'active': ''}">Tractos</a>

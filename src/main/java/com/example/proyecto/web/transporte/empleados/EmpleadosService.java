@@ -2,8 +2,10 @@ package com.example.proyecto.web.transporte.empleados;
 
 import com.example.proyecto.web.transporte.roles.IRoles;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +24,11 @@ public class EmpleadosService implements IEmpleadosService{
     @Override
     public Optional<Empleados> ConsultarId(int id) {
         return data.findById(id);
+    }
+
+    @Override
+    public Optional<Empleados> consultarUsername(String username) {
+        return data.findByUsername(username);
     }
 
     @Override
@@ -49,4 +56,6 @@ public class EmpleadosService implements IEmpleadosService{
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.encode(password);
     }
+
+
 }

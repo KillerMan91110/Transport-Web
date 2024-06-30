@@ -6,6 +6,10 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <th:block th:replace="fragmentos/other/common_style :: bootstrap5-sa"></th:block>
+        <!-- Libreria JQUERY -->
+        <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+        <!-- Bloque de Scripts de Datatable -->
+        <th:block th:replace="fragmentos/datatable/head :: dataTableHead"></th:block>
         <script>
             function Agregar1() {
                 event.preventDefault();
@@ -157,31 +161,26 @@
         <th:block th:replace="menu :: NavList"></th:block>
             <div class="container">
                 <div class="alert alert-danger my-2 text-center" role="alert"><b>LISTADO CLIENTES</b></div>
-                <hr class="container-fluid">
-                <hr class="container">               
-
-                <form class="row g-3 justify-content-center align-items-center" action="buscarCliente" method="POST" role="search">
-                    <div class="col-auto">
-                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"><i class="bi bi-plus-circle"></i>Agregar Cliente</button>
-                    </div>
-                </form>
-
                 <hr class="container">
+                <div class="row">
+                <div class="col-auto">
+                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"><i class="bi bi-plus-circle"></i>Agregar Cliente</button>
+                </div>
+                </div>
             </div>
-
-
-        <div class="m-5">
-            <table class="table table-striped mb-5 container">
-                <tr class="table-primary">
+        <div class="container mb-5" style="width: 100%">
+            <table id="myTable" class="table table-striped nowrap " style="width:100%">
+                <thead>
+                <tr>
                     <th>#</th>
                     <th>Id</th>
                     <th>Nombre</th>
                     <th>Ruc</th>
                     <th>Direccion</th>
-
-
                     <th>Aciones</th>
                 </tr>
+                </thead>
+                <tbody>
                 <tr th:each="clientes,status : ${clientes}"  th:if="${clientes.id!=''}">
                     <td th:text="${status.count}"></td>
                     <td th:text="${clientes.id}"></td>
@@ -192,7 +191,7 @@
                     <td class="d-flex">
                         <a onclick="return Eliminar(this)" th:href="@{/eliminarClientes(id=${clientes.id})}" class="me-2 btn btn-danger"> <i class="bi bi-trash-fill"></i> </a>
 
-                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEditar" 
+                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEditar"
                                 th:attr="data-bs-id=${clientes.id},
                                 data-bs-nombre=${clientes.nombre},
                                 data-bs-ruc=${clientes.ruc},
@@ -201,6 +200,7 @@
 
                     </td>
                 </tr>
+                </tbody>
             </table> 
         </div>
         <!-- Model REGISTRAR -->
@@ -211,7 +211,7 @@
                         <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
 
                         <div class="card-body p-3 rounded text-center">
-                            <img th:src="@{/img/cliente.png}" alt="registrar_viaje" height="200" width="200">
+                            <img src="cliente.png" alt="registrar_viaje" height="200" width="200">          
                         </div>
                         <hr class="border border-primary">
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -247,5 +247,7 @@
                 </div>
             </div>
         </div>
+        <th:block th:replace="fragmentos/datatable/scripts :: dataTableScript"></th:block>
+        <script th:src="@{/js/datatables-demo.js}"></script>
     </body>
 </html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html >
+<head xmlns:th="http://www.thymeleaf.org">
+    <title>REGISTRO VIAJES</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <!-- ICONOS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <!-- SweetAlert2 -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function validarFormulario() {
+            const formulario = document.getElementById('agregar');
+            if (!formulario.checkValidity()) {
+                formulario.reportValidity();
+                return false;
+            }
+            return true;
+        }
+
+        function Agregar1(event) {
+            event.preventDefault();
+
+            if (!validarFormulario()) {
+                return;
+            }
+
+            Swal.fire({
+                title: '¿Estas seguro de agregar una nueva guía de remisión?',
+                text: "Se podrá modificar en el futuro",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Aceptar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Agregado!',
+                        'La guía ha sido agregada.',
+                        'Exito'
+                    ).then((result) => {
+                        if (result.isConfirmed) {
+                            const formulario = document.getElementById('agregar');
+                            formulario.submit();
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<header>
+    <div th:replace="menu :: NavBar"></div>
+</header>
+<main>
+    <hr class="container mt-5">
+    <div class="container">
+        <div class="alert alert-success my-2 text-center" role="alert"><b>Registrar Guía de Remisión</b></div>
+        <hr class="container-fluid">
+        <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-2">
+            <div class="col mx-auto">
+                <div class="card shadow-lg p-3 mb-5 bg-body rounded me-5 border-success m-5" style="width: 35rem;">
+                    <div class="card-body p-3 rounded text-center">
+                        <img th:src="@{/img/factura.png}" alt="registrar_viaje" height="200" width="200">
+                    </div>
+                    <hr class="border border-success">
+                    <form action="registroGuiaRemision" method="POST" id="agregar" class="row g-3 needs-validation p-4" novalidate>
+                        <div class="col-12">
+                            <label for="Num_Factura" class="form-label">Número de Factura</label>
+                            <input type="text" name="Num_Factura" class="form-control" required>
+                        </div>
+                        <div class="col-12">
+                            <h5>Datos de destinatario y envío</h5>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="PuntoPartida" class="form-label">Punto de partida</label>
+                            <input type="text" name="PuntoPartida" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="PuntoLlegada" class="form-label">Punto de llegada</label>
+                            <input type="text" name="PuntoLlegada" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="Destinatario" class="form-label">Destinatario</label>
+                            <input type="text" name="Destinatario" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="DocumentoDestinatario" class="form-label">Documento (DNI/RUC)</label>
+                            <input type="text" name="DocumentoDestinatario" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="Proveedor" class="form-label">Proveedor</label>
+                            <input type="text" name="Proveedor" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="DocumentoProveedor" class="form-label">Documento (DNI/RUC)</label>
+                            <input type="text" name="DocumentoProveedor" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="MotivoTraslado" class="form-label">Motivo de traslado</label>
+                            <input type="text" name="MotivoTraslado" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="ModalidadTraslado" class="form-label">Modalidad Traslado</label>
+                            <input type="text" name="ModalidadTraslado" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="FechaEmision" class="form-label">Fecha emisión</label>
+                            <input type="date" name="FechaEmision" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="HoraEmision" class="form-label">Hora emisión</label>
+                            <input type="time" name="HoraEmision" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="FechaTraslado" class="form-label">Fecha traslado</label>
+                            <input type="date" name="FechaTraslado" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="NumeroPedido" class="form-label">Número pedido</label>
+                            <input type="text" name="NumeroPedido" class="form-control" required>
+                        </div>
+
+                        <div class="col-12">
+                            <h5>Datos transportista</h5>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="RazonSocialTransportista" class="form-label">Razón social</label>
+                            <input type="text" name="RazonSocialTransportista" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="RUCTransportista" class="form-label">RUC</label>
+                            <input type="text" name="RUCTransportista" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="NumeroMTC" class="form-label">Número MTC</label>
+                            <input type="text" name="NumeroMTC" class="form-control" required>
+                        </div>
+
+                        <div class="col-12">
+                            <h5>Datos de la unidad y Conductor</h5>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="Conductor" class="form-label">Conductor</label>
+                            <input type="text" name="Conductor" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="DocumentoConductor" class="form-label">Documento Identidad</label>
+                            <input type="text" name="DocumentoConductor" class="form-control" required>
+
+                        </div>
+                        <div class="col-md-6">
+                            <label for="NumeroLicencia" class="form-label">Nº licencia</label>
+                            <input type="text" name="NumeroLicencia" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="NumeroPlaca" class="form-label">Número placa</label>
+                            <input type="text" name="NumeroPlaca" class="form-control" required>
+                        </div>
+
+                        <div class="col-12">
+                            <h5>Datos Productos</h5>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="IdProducto" class="form-label">IdProducto</label>
+                            <input type="text" name="IdProducto" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="CodigoProducto" class="form-label">CodigoProducto</label>
+                            <input type="text" name="CodigoProducto" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="DescripcionProducto" class="form-label">Descripción</label>
+                            <input type="text" name="DescripcionProducto" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="CantidadProducto" class="form-label">Cantidad</label>
+                            <input type="number" name="CantidadProducto" class="form-control" min="0" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="UnidadMedida" class="form-label">Unidad de Medida</label>
+                            <select name="UnidadMedida" class="form-select" required>
+                                <option value="Kilogramos">Kilogramos</option>
+                                <option value="Tonelada">Tonelada</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="PesoProducto" class="form-label">Peso</label>
+                            <input type="number" name="PesoProducto" class="form-control" min="0" required>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="Observacion" class="form-label">Observación</label>
+                            <input type="text" name="Observacion" class="form-control">
+                        </div>
+
+                        <div class="d-grid gap-3 mt-5 mb-2">
+                            <button onclick="Agregar1(event)" class="btn btn-success" type="submit" name="registrar"><i class="bi bi-check-circle-fill"></i> Registrar Guía de Remisión</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer>
+    <div th:insert="menu :: #barraFooter"></div>
+</footer>
+</body>
+</html>
