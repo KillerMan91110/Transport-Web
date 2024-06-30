@@ -9,7 +9,7 @@
     <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
 </head>
 <body>
-<!-- Bootstrap 5 Contact Form Snippet -->
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
     <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
@@ -32,19 +32,19 @@
                         </div>
                         <div class="col-sm-6 p-4" id="form-container">
                             <div class="text-center">
-                                <div class="h3 fw-light">Contact Form</div>
-                                <p class="mb-4 text-muted">Split layout contact form</p>
+                                <div class="h3 fw-light">Contactanos</div>
+
                             </div>
                             <form th:action="@{/contacto}" method="POST" th:object="${newContact}" id="contactForm" class="needs-validation" novalidate>
 
-                                <!-- Name Input -->
+
                                 <div class="form-floating mb-3">
                                     <input class="form-control" th:field="*{nombre}" id="name" type="text" placeholder="Nombre" required/>
                                     <label for="name">Nombre</label>
                                     <div class="invalid-feedback" >Name is required.</div>
                                 </div>
 
-                                <!-- Email Input -->
+
                                 <div class="form-floating mb-3">
                                     <input class="form-control" th:field="*{email}" id="emailAddress" type="email" placeholder="Email" required />
                                     <label for="emailAddress">Email</label>
@@ -57,14 +57,14 @@
                                     <div class="invalid-feedback">Phone is not valid.</div>
                                 </div>
 
-                                <!-- Message Input -->
+
                                 <div class="form-floating mb-3">
                                     <textarea class="form-control" th:field="*{mensaje}" id="message" type="text" placeholder="Mensaje" style="height: 10rem;" required></textarea>
                                     <label for="message">Mensaje</label>
                                     <div class="invalid-feedback" >Message is required.</div>
                                 </div>
 
-                                <!-- Submit success message -->
+
                                 <div class="d-none" id="submitSuccessMessage">
                                     <div class="text-center mb-3">
                                         <div class="fw-bolder">Form submission successful!</div>
@@ -72,17 +72,17 @@
                                     </div>
                                 </div>
 
-                                <!-- Submit error message -->
+
                                 <div class="d-none" id="submitErrorMessage">
                                     <div class="text-center text-danger mb-3">Error sending message!</div>
                                 </div>
 
-                                <!-- Submit button -->
+
                                 <div class="d-grid">
-                                    <button class="btn btn-primary btn-lg" id="submitButton" type="submit">Submit</button>
+                                    <button class="btn btn-primary btn-lg" id="submitButton" type="submit">Enviar</button>
                                 </div>
                             </form>
-                            <!-- End of contact form -->
+
 
                         </div>
                     </div>
