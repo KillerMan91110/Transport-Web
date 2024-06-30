@@ -9,7 +9,7 @@
     </form>
     <nav class="navbar navbar-expand-lg bg-primary">
         <div class="container-fluid">
-            <a th:href="@{/}"><img th:src="@{/img/MARM E.I.R.L..png}" alt="alt" height="150" width="150"/></a>
+            <a th:href="@{/}"><img th:src="@{/img/Logo.png}" alt="alt" height="100" width="150"/></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -88,26 +88,55 @@
 </th:block>
 <div id="barraFooter">
     <div class="container-fluid justify-content-center align-items-center text-center ">
-        <div class="row p-3 bg-primary text-white">
+        <div class="row p-3 bg-primary text-white align-items-center justify-content-between">
             <div class="col-lg-2">
-                <a th:href="@{/}"> <img id="logo" th:src="@{/img/MARM E.I.R.L..png}" alt="logo" height="150"
-                                        width="150"></a>
+                <a href="/"> <img id="logo" src="/img/Logo.png" alt="logo" height="100" width="150"></a>
             </div>
-            <div class="col-lg-6">
-                <p class="tam-letra-footer">Sitio desarrollado por el GRUPO 1.</br>Correo
-                    Electrónico: <a class="text-dark" href="mailto:transportesmarm@gmail.com">transportesmarm@gmail.com</a></br>Curso: Soluciones WEB y Aplicaciones Disribuidas </a></p>
+
+            <div class="col-lg-3">
+                <h4 class="mb-3 mb-lg-0">Dirección</h4>
+                <p class="tam-letra-footer text-center text-lg-start">
+                    JR. BOLOGNESI NRO. 240 INT. 202 PROV. CONST. <br>DEL CALLAO-PROV. CONST. DEL CALLAO-BELLAVISTA<br>
+                </p>
             </div>
-            <div class="col-lg-4">
-                <a class="me-3" th:href="@{/}"> <img th:src="@{/img/facebook.png}" alt="fb" height="70"
-                                                     width="70"></a>
 
-                <a class="me-3" th:href="@{/}"> <img th:src="@{/img/trailer_fondo.png}" alt="instagram"
-                                                     height="70" width="100"></a>
+            <div class="col-lg-3">
+                <h4 class="mb-3 mb-lg-0">Redes Sociales</h4>
+                <p class="tam-letra-footer text-center">
+                    997185499
+                </p>
+            </div>
 
-                <a class="me-3" th:href="@{https://web.whatsapp.com/}"> <img th:src="@{/img/whatsapp.png}" alt="whatsapp"
-                                                                             height="70" width="70"></a>
+            <div class="col-lg-4 text-center">
+                <h4 class="mb-3 mb-lg-0">Redes Sociales</h4>
+                <a class="me-3" href="https://www.facebook.com/transportsac.pe">
+                    <img src="/img/facebook.png" alt="fb" height="70">
+                </a>
+                <a class="me-3" href="https://www.instagram.com/mactransportsac/">
+                    <img src="/img/instagram.png" alt="ig" height="70">
+                </a>
+                <a class="me-3" href="https://web.whatsapp.com/">
+                    <img src="/img/whatsapp.png" alt="whatsapp" height="70" width="70">
+                </a>
+            </div>
+        </div>
 
+        <div class="row bg-primary text-white">
+            <div class="col-12 text-start ps-4">
+                <p>© ALL RIGHTS RESERVED Todos los derechos reservados grupo 4 soluciones web</p>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .bg-primary {
+        background-color: #0d6efd !important;
+    }
+    .text-start {
+        text-align: left !important;
+    }
+    .ps-4 {
+        padding-left: 1.5rem !important;
+    }
+</style>

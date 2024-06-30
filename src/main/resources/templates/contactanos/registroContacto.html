@@ -7,9 +7,16 @@
     <title>Contactanos</title>
     <th:block th:replace="fragmentos/other/common_style :: bootstrap5-sa"></th:block>
     <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+    <style>
+        body {
+            background-image: url('/img/aboutus.png'); /* Ruta a tu imagen de fondo */
+            background-size: cover; /* Ajusta la imagen para cubrir todo el fondo */
+            background-repeat: no-repeat; /* Evita que la imagen se repita */
+        }
+    </style>
 </head>
 <body>
-<!-- Bootstrap 5 Contact Form Snippet -->
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
     <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
@@ -28,23 +35,23 @@
                 <div class="card-body p-0">
                     <div class="row g-0">
                         <div class="col-sm-6 d-none d-sm-block">
-                            <iframe th:src="@{https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.065644102311!2d-77.z0174549855675!3d-12.107658646331865!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c80b4ef883bf%3A0xa59dd73ca78f6a1d!2sC.%20Ricardo%20Angulo%201442%2C%20San%20Isidro%2015036!5e0!3m2!1ses-419!2spe!4v1667173446899!5m2!1ses-419!2spe}" class="w-100 h-100"  allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.065644102311!2d-77.0174549855675!3d-12.107658646331865!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c80b4ef883bf%3A0xa59dd73ca78f6a1d!2sC.%20Ricardo%20Angulo%201442%2C%20San%20Isidro%2015036!5e0!3m2!1ses-419!2spe!4v1667173446899!5m2!1ses-419!2spe" class="w-100 h-100"  allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
                         <div class="col-sm-6 p-4" id="form-container">
                             <div class="text-center">
-                                <div class="h3 fw-light">Contact Form</div>
-                                <p class="mb-4 text-muted">Split layout contact form</p>
+                                <div class="h3 fw-light">Contactanos</div>
+
                             </div>
                             <form th:action="@{/contacto}" method="POST" th:object="${newContact}" id="contactForm" class="needs-validation" novalidate>
 
-                                <!-- Name Input -->
+
                                 <div class="form-floating mb-3">
                                     <input class="form-control" th:field="*{nombre}" id="name" type="text" placeholder="Nombre" required/>
                                     <label for="name">Nombre</label>
                                     <div class="invalid-feedback" >Name is required.</div>
                                 </div>
 
-                                <!-- Email Input -->
+
                                 <div class="form-floating mb-3">
                                     <input class="form-control" th:field="*{email}" id="emailAddress" type="email" placeholder="Email" required />
                                     <label for="emailAddress">Email</label>
@@ -57,14 +64,14 @@
                                     <div class="invalid-feedback">Phone is not valid.</div>
                                 </div>
 
-                                <!-- Message Input -->
+
                                 <div class="form-floating mb-3">
                                     <textarea class="form-control" th:field="*{mensaje}" id="message" type="text" placeholder="Mensaje" style="height: 10rem;" required></textarea>
                                     <label for="message">Mensaje</label>
                                     <div class="invalid-feedback" >Message is required.</div>
                                 </div>
 
-                                <!-- Submit success message -->
+
                                 <div class="d-none" id="submitSuccessMessage">
                                     <div class="text-center mb-3">
                                         <div class="fw-bolder">Form submission successful!</div>
@@ -72,17 +79,17 @@
                                     </div>
                                 </div>
 
-                                <!-- Submit error message -->
+
                                 <div class="d-none" id="submitErrorMessage">
                                     <div class="text-center text-danger mb-3">Error sending message!</div>
                                 </div>
 
-                                <!-- Submit button -->
+
                                 <div class="d-grid">
-                                    <button class="btn btn-primary btn-lg" id="submitButton" type="submit">Submit</button>
+                                    <button class="btn btn-primary btn-lg" id="submitButton" type="submit">Enviar</button>
                                 </div>
                             </form>
-                            <!-- End of contact form -->
+
 
                         </div>
                     </div>
@@ -92,6 +99,7 @@
         </div>
     </div>
 </div>
+
 <script th:src="@{/js/scripts.js}"></script>
 <script th:src="@{/js/request/contacts_script.js}"></script>
 </body>
