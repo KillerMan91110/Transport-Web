@@ -52,7 +52,6 @@ public class ControladorClientes {
         cl.setNombre(nombre);
         cl.setRuc(ruc);
         cl.setDireccion(direccion);
-
         service.Guardar(cl);
 
         return "redirect:/listadoClientes";
