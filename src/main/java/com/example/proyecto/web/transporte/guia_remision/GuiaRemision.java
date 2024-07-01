@@ -16,15 +16,12 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
-@Data //Esta anotación es parte de Lombok y genera automáticamente métodos toString,
-// equals, hashCode, getter y setter para todos los campos de la clase
-@Entity //que está mapeada a una tabla en la base de datos.
-@Table(name="guia_remision") //Especifica el nombre de la tabla en la base de datos
-
-
+@Data
+@Entity
+@Table(name="guia_remision")
 public class GuiaRemision {
-    @Id //marca el campo id como clave prinaria
-    @GeneratedValue(strategy=GenerationType.IDENTITY) // Clave primaria autoincremental
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY) //INCREMENTAL
     private int id;
 
     private String NumFactura;
@@ -65,11 +62,9 @@ public class GuiaRemision {
     private float PesoProducto;
     private String Observacion;
 
-
     @ManyToOne
     @JoinColumn(name = "id_empleado", referencedColumnName = "id", nullable = true)
     private Empleados empleados;
+
 }
-
-
 
