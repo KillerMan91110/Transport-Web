@@ -2,7 +2,7 @@ package com.example.proyecto.web.transporte;
 
 import com.example.proyecto.web.transporte.contacto.Contacto;
 import com.example.proyecto.web.transporte.contacto.ContactoService;
-import com.example.proyecto.web.transporte.dto.ContactCreate;
+import com.example.proyecto.web.transporte.dto.ContactDto;
 import com.example.proyecto.web.transporte.dto.response.GenericResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -31,7 +31,7 @@ public class ControladorContacto {
 
     @PostMapping(produces = { MediaType.APPLICATION_JSON_VALUE } )
     @ResponseBody
-    public GenericResponse agregarContacto(@ModelAttribute ContactCreate contactCreate){
+    public GenericResponse agregarContacto(@ModelAttribute ContactDto contactCreate){
         service.save(contactCreate);
         return new GenericResponse("OK");
     }

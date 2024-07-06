@@ -12,27 +12,34 @@
     <th:block th:replace="menu :: NavBar"></th:block>
 </header>
 <main>
-    <div class="card-group m-5">
-        <div class="card shadow-lg p-3 mb-5 bg-body rounded me-5 border-danger">
-            <div class="card-body mx-5">
-                <div class="card-body p-5 rounded text-center">
-                    <img th:src="@{/img/mision.png}" class="card-img-top" alt="mision" width="100" height="180">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-lg p-3 mb-5 bg-body rounded border-danger h-100">
+                    <div class="card-body">
+                        <div class="text-center">
+                            <img th:src="@{/img/mision.png}" class="card-img-top" alt="mision" style="max-width:80%; height: auto;">
+                        </div>
+                        <h2 class="card-title text-center mt-4 text-danger">MISIÓN</h2>
+                        <p class="card-text text-center">En Trans-Port S.A.C. nos dedicamos a ofrecer soluciones integrales de transporte de carga por carretera, asegurando un servicio eficiente, seguro y puntual. Nuestro compromiso es satisfacer las necesidades de nuestros clientes mediante la innovación constante, la mejora continua de nuestros procesos y el desarrollo sostenible de nuestras operaciones, contribuyendo al crecimiento económico del país.</p>
+                    </div>
                 </div>
-                <h2 class="card-title text-center mt-5 text-danger">MISIÓN</h2>
-                <p class="card-text text-center">En Trans-Port S.A.C. nos dedicamos a ofrecer soluciones integrales de transporte de carga por carretera, asegurando un servicio eficiente, seguro y puntual. Nuestro compromiso es satisfacer las necesidades de nuestros clientes mediante la innovación constante, la mejora continua de nuestros procesos y el desarrollo sostenible de nuestras operaciones, contribuyendo al crecimiento económico del país.</p>
             </div>
-        </div>
-        <div class="card shadow-lg p-3 mb-5 bg-body rounded border-warning">
-            <div class="card-body mx-5">
-                <div class="card-body p-5 rounded text-center">
-                    <img th:src="@{/img/vision.png}" class="card-img-top" alt="vision" width="200" height="200">
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-lg p-3 mb-5 bg-body rounded border-warning h-100">
+                    <div class="card-body">
+                        <div class="text-center">
+                            <img th:src="@{/img/vision.png}" class="card-img-top" alt="vision" style="max-width: 80%; height: auto;">
+                        </div>
+                        <h2 class="card-title text-center mt-4 text-warning">VISIÓN</h2>
+                        <p class="card-text text-center">Ser la empresa líder en transporte de carga por carretera en la región, reconocida por nuestra excelencia operativa, responsabilidad social y ambiental, y por nuestra capacidad para adaptarnos a las demandas cambiantes del mercado. Aspiramos a ser el socio estratégico preferido por nuestros clientes, destacándonos por nuestra confiabilidad, eficiencia y calidad en el servicio.</p>
+                    </div>
                 </div>
-                <h2 class="card-title text-center mt-5 text-warning">VISIÓN</h2>
-                <p class="card-text text-center">Ser la empresa líder en transporte de carga por carretera en la región, reconocida por nuestra excelencia operativa, responsabilidad social y ambiental, y por nuestra capacidad para adaptarnos a las demandas cambiantes del mercado. Aspiramos a ser el socio estratégico preferido por nuestros clientes, destacándonos por nuestra confiabilidad, eficiencia y calidad en el servicio.</p>
             </div>
         </div>
     </div>
 </main>
+
 <footer>
     <div th:insert="menu :: #barraFooter"></div>
 </footer>

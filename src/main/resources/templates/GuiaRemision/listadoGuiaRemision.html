@@ -9,6 +9,8 @@
     <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
     <!-- Bloque de Scripts de Datatable -->
     <th:block th:replace="fragmentos/datatable/head :: dataTableHead"></th:block>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         function Eliminar(opcion) {
             event.preventDefault();
@@ -39,108 +41,108 @@
                 }
             });
         }
-
-        function Actualizar() {
-            event.preventDefault();
-            Swal.fire({
-                title: 'Desea actualizar los cambios?',
-                text: '',
-                showDenyButton: true,
-                confirmButtonText: 'Sí, actualizar',
-                denyButtonText: `No actualizar`
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire(
-                        'Éxito!',
-                        'Registro actualizado :)',
-                        'success'
-                    ).then((result) => {
-                        if (result.isConfirmed) {
-                            const form1 = document.getElementById("actualizar");
-                            form1.submit();
-                        }
-                    });
-                } else if (result.isDenied) {
-                    Swal.fire('Los cambios no se han actualizado', '', 'info');
-                }
-            });
-        }
-
-        function Editar() {
-            const exampleModal = document.getElementById('modalEditar');
-            exampleModal.addEventListener('show.bs.modal', event => {
-                const button = event.relatedTarget;
-
-                // Datos
-                const Id = button.getAttribute('data-bs-id');
-                const PuntoPartida = button.getAttribute('data-bs-PuntoPartida');
-                const PuntoLlegada = button.getAttribute('data-bs-PuntoLlegada');
-                const Destinatario = button.getAttribute('data-bs-Destinatario');
-                const DocumentoDestinatario = button.getAttribute('data-bs-DocumentoDestinatario');
-                const Proveedor = button.getAttribute('data-bs-Proveedor');
-                const DocumentoProveedor = button.getAttribute('data-bs-DocumentoProveedor');
-                const MotivoTraslado = button.getAttribute('data-bs-MotivoTraslado');
-                const ModalidadTraslado = button.getAttribute('data-bs-ModalidadTraslado');
-                const FechaEmision = button.getAttribute('data-bs-FechaEmision');
-                const HoraEmision = button.getAttribute('data-bs-HoraEmision');
-                const FechaTraslado = button.getAttribute('data-bs-FechaTraslado');
-                const NumeroPedido = button.getAttribute('data-bs-NumeroPedido');
-                const RazonSocialTransportista = button.getAttribute('data-bs-RazonSocialTransportista');
-                const RUCTransportista = button.getAttribute('data-bs-RUCTransportista');
-                const NumeroMTC = button.getAttribute('data-bs-NumeroMTC');
-                const Conductor = button.getAttribute('data-bs-Conductor');
-                const DocumentoConductor = button.getAttribute('data-bs-DocumentoConductor');
-                const NumeroLicencia = button.getAttribute('data-bs-NumeroLicencia');
-                const NumeroPlaca = button.getAttribute('data-bs-NumeroPlaca');
-
-                // Campos
-                const campoId = document.getElementById("id");
-                const campoPuntoPartida = document.getElementById("PuntoPartida");
-                const campoPuntoLlegada = document.getElementById("PuntoLlegada");
-                const campoDestinatario = document.getElementById("Destinatario");
-                const campoDocumentoDestinatario = document.getElementById("DocumentoDestinatario");
-                const campoProveedor = document.getElementById("Proveedor");
-                const campoDocumentoProveedor = document.getElementById("DocumentoProveedor");
-                const campoMotivoTraslado = document.getElementById("MotivoTraslado");
-                const campoModalidadTraslado = document.getElementById("ModalidadTraslado");
-                const campoFechaEmision = document.getElementById("FechaEmision");
-                const campoHoraEmision = document.getElementById("HoraEmision");
-                const campoFechaTraslado = document.getElementById("FechaTraslado");
-                const campoNumeroPedido = document.getElementById("NumeroPedido");
-                const campoRazonSocialTransportista = document.getElementById("RazonSocialTransportista");
-                const campoRUCTransportista = document.getElementById("RUCTransportista");
-                const campoNumeroMTC = document.getElementById("NumeroMTC");
-                const campoConductor = document.getElementById("Conductor");
-                const campoDocumentoConductor = document.getElementById("DocumentoConductor");
-                const campoNumeroLicencia = document.getElementById("NumeroLicencia");
-                const campoNumeroPlaca = document.getElementById("NumeroPlaca");
-
-                // Colocar los datos a los campos
-                campoId.value = Id;
-                campoPuntoPartida.value = PuntoPartida;
-                campoPuntoLlegada.value = PuntoLlegada;
-                campoDestinatario.value = Destinatario;
-                campoDocumentoDestinatario.value = DocumentoDestinatario;
-                campoProveedor.value = Proveedor;
-                campoDocumentoProveedor.value = DocumentoProveedor;
-                campoMotivoTraslado.value = MotivoTraslado;
-                campoModalidadTraslado.value = ModalidadTraslado;
-                campoFechaEmision.value = FechaEmision;
-                campoHoraEmision.value = HoraEmision;
-                campoFechaTraslado.value = FechaTraslado;
-                campoNumeroPedido.value = NumeroPedido;
-                campoRazonSocialTransportista.value = RazonSocialTransportista;
-                campoRUCTransportista.value = RUCTransportista;
-                campoNumeroMTC.value = NumeroMTC;
-                campoConductor.value = Conductor;
-                campoDocumentoConductor.value = DocumentoConductor;
-                campoNumeroLicencia.value = NumeroLicencia;
-                campoNumeroPlaca.value = NumeroPlaca;
-            });
-        }
+        //
+        // function Actualizar() {
+        //     event.preventDefault();
+        //     Swal.fire({
+        //         title: 'Desea actualizar los cambios?',
+        //         text: '',
+        //         showDenyButton: true,
+        //         confirmButtonText: 'Sí, actualizar',
+        //         denyButtonText: `No actualizar`
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
+        //             Swal.fire(
+        //                 'Éxito!',
+        //                 'Registro actualizado :)',
+        //                 'success'
+        //             ).then((result) => {
+        //                 if (result.isConfirmed) {
+        //                     const form1 = document.getElementById("actualizar");
+        //                     form1.submit();
+        //                 }
+        //             });
+        //         } else if (result.isDenied) {
+        //             Swal.fire('Los cambios no se han actualizado', '', 'info');
+        //         }
+        //     });
+        // }
+        //
+        // function Editar() {
+        //     const exampleModal = document.getElementById('modalEditar');
+        //     exampleModal.addEventListener('show.bs.modal', event => {
+        //         const button = event.relatedTarget;
+        //
+        //         // Datos
+        //         const Id = button.getAttribute('data-bs-id');
+        //         const PuntoPartida = button.getAttribute('data-bs-PuntoPartida');
+        //         const PuntoLlegada = button.getAttribute('data-bs-PuntoLlegada');
+        //         const Destinatario = button.getAttribute('data-bs-Destinatario');
+        //         const DocumentoDestinatario = button.getAttribute('data-bs-DocumentoDestinatario');
+        //         const Proveedor = button.getAttribute('data-bs-Proveedor');
+        //         const DocumentoProveedor = button.getAttribute('data-bs-DocumentoProveedor');
+        //         const MotivoTraslado = button.getAttribute('data-bs-MotivoTraslado');
+        //         const ModalidadTraslado = button.getAttribute('data-bs-ModalidadTraslado');
+        //         const FechaEmision = button.getAttribute('data-bs-FechaEmision');
+        //         const HoraEmision = button.getAttribute('data-bs-HoraEmision');
+        //         const FechaTraslado = button.getAttribute('data-bs-FechaTraslado');
+        //         const NumeroPedido = button.getAttribute('data-bs-NumeroPedido');
+        //         const RazonSocialTransportista = button.getAttribute('data-bs-RazonSocialTransportista');
+        //         const RUCTransportista = button.getAttribute('data-bs-RUCTransportista');
+        //         const NumeroMTC = button.getAttribute('data-bs-NumeroMTC');
+        //         const Conductor = button.getAttribute('data-bs-Conductor');
+        //         const DocumentoConductor = button.getAttribute('data-bs-DocumentoConductor');
+        //         const NumeroLicencia = button.getAttribute('data-bs-NumeroLicencia');
+        //         const NumeroPlaca = button.getAttribute('data-bs-NumeroPlaca');
+        //
+        //         // Campos
+        //         const campoId = document.getElementById("id");
+        //         const campoPuntoPartida = document.getElementById("PuntoPartida");
+        //         const campoPuntoLlegada = document.getElementById("PuntoLlegada");
+        //         const campoDestinatario = document.getElementById("Destinatario");
+        //         const campoDocumentoDestinatario = document.getElementById("DocumentoDestinatario");
+        //         const campoProveedor = document.getElementById("Proveedor");
+        //         const campoDocumentoProveedor = document.getElementById("DocumentoProveedor");
+        //         const campoMotivoTraslado = document.getElementById("MotivoTraslado");
+        //         const campoModalidadTraslado = document.getElementById("ModalidadTraslado");
+        //         const campoFechaEmision = document.getElementById("FechaEmision");
+        //         const campoHoraEmision = document.getElementById("HoraEmision");
+        //         const campoFechaTraslado = document.getElementById("FechaTraslado");
+        //         const campoNumeroPedido = document.getElementById("NumeroPedido");
+        //         const campoRazonSocialTransportista = document.getElementById("RazonSocialTransportista");
+        //         const campoRUCTransportista = document.getElementById("RUCTransportista");
+        //         const campoNumeroMTC = document.getElementById("NumeroMTC");
+        //         const campoConductor = document.getElementById("Conductor");
+        //         const campoDocumentoConductor = document.getElementById("DocumentoConductor");
+        //         const campoNumeroLicencia = document.getElementById("NumeroLicencia");
+        //         const campoNumeroPlaca = document.getElementById("NumeroPlaca");
+        //
+        //         // Colocar los datos a los campos
+        //         campoId.value = Id;
+        //         campoPuntoPartida.value = PuntoPartida;
+        //         campoPuntoLlegada.value = PuntoLlegada;
+        //         campoDestinatario.value = Destinatario;
+        //         campoDocumentoDestinatario.value = DocumentoDestinatario;
+        //         campoProveedor.value = Proveedor;
+        //         campoDocumentoProveedor.value = DocumentoProveedor;
+        //         campoMotivoTraslado.value = MotivoTraslado;
+        //         campoModalidadTraslado.value = ModalidadTraslado;
+        //         campoFechaEmision.value = FechaEmision;
+        //         campoHoraEmision.value = HoraEmision;
+        //         campoFechaTraslado.value = FechaTraslado;
+        //         campoNumeroPedido.value = NumeroPedido;
+        //         campoRazonSocialTransportista.value = RazonSocialTransportista;
+        //         campoRUCTransportista.value = RUCTransportista;
+        //         campoNumeroMTC.value = NumeroMTC;
+        //         campoConductor.value = Conductor;
+        //         campoDocumentoConductor.value = DocumentoConductor;
+        //         campoNumeroLicencia.value = NumeroLicencia;
+        //         campoNumeroPlaca.value = NumeroPlaca;
+        //     });
+        // }
     </script>
 </head>
-<body onload="Editar()">
+<body>
 <header>
     <div th:replace="menu :: NavBar"></div>
 </header>
@@ -178,7 +180,8 @@
                 <th>Documento del Conductor</th>
                 <th>Número de Licencia</th>
                 <th>Número de Placa</th>
-                <th>Acciones</th>
+                <th>Estado</th>
+                <th sec:authorize="hasAnyAuthority('ADMINISTRADOR')">Acciones</th>
             </tr>
             </thead>
             <tbody>
@@ -200,44 +203,42 @@
                 <td th:text="${guia_remision.razonSocialTransportista}"></td>
                 <td th:text="${guia_remision.RUCTransportista}"></td>
                 <td th:text="${guia_remision.numeroMTC}"></td>
-                <td th:text="${guia_remision.conductor}"></td>
-                <td th:text="${guia_remision.documentoConductor}"></td>
-                <td th:text="${guia_remision.numeroLicencia}"></td>
+                <td th:text="${guia_remision.empleados.nombre}"></td>
+                <td th:text="${guia_remision.empleados.dni}"></td>
+                <td th:text="${guia_remision.empleados.num_licencia}"></td>
                 <td th:text="${guia_remision.numeroPlaca}"></td>
-                <td class="d-flex">
-                    <a onclick="return Eliminar(this)" th:href="@{/eliminarFactura(id=${guia_remision.id})}" class="btn btn-danger me-2">
+                <td>
+                    <select id="estado" class="form-select" th:attr="data-id=${guia_remision.id}">
+                        <option th:each="estado : ${T(com.example.proyecto.web.transporte.guia_remision.Estado).values()}"
+                                th:value="${estado}" th:text="${estado.displayValue}"
+                                th:selected="${estado} == ${guia_remision.estado}">
+                        </option>
+                    </select>
+                </td>
+                <td class="d-flex" sec:authorize="hasAnyAuthority('ADMINISTRADOR')">
+                    <a
+                            th:onclick="editRecord([[${guia_remision.id}]])"
+                            class="btn btn-info"
+                            title="editar"
+                    >
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                    <a
+                            href="#"
+                            class="btn btn-danger btn-sm"
+                            th:attr="id-item=${guia_remision.id}"
+                            title="eliminar"
+                    >
+                        <!--th:onclick="deleteRecord(${contacto.id})"-->
                         <i class="bi bi-trash-fill"></i>
                     </a>
-                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEditar"
-                            th:attr="data-bs-id=${guia_remision.id},
-                            data-bs-PuntoPartida=${guia_remision.PuntoPartida},
-                            data-bs-PuntoLlegada=${guia_remision.PuntoLlegada},
-                            data-bs-Destinatario=${guia_remision.Destinatario},
-                            data-bs-DocumentoDestinatario=${guia_remision.DocumentoDestinatario},
-                            data-bs-Proveedor=${guia_remision.Proveedor},
-                            data-bs-DocumentoProveedor=${guia_remision.DocumentoProveedor},
-                            data-bs-MotivoTraslado=${guia_remision.MotivoTraslado},
-                            data-bs-ModalidadTraslado=${guia_remision.ModalidadTraslado},
-                            data-bs-FechaEmision=${guia_remision.FechaEmision},
-                            data-bs-HoraEmision=${guia_remision.HoraEmision},
-                            data-bs-FechaTraslado=${guia_remision.FechaTraslado},
-                            data-bs-NumeroPedido=${guia_remision.NumeroPedido},
-                            data-bs-RazonSocialTransportista=${guia_remision.RazonSocialTransportista},
-                            data-bs-RUCTransportista=${guia_remision.RUCTransportista},
-                            data-bs-NumeroMTC=${guia_remision.NumeroMTC},
-                            data-bs-Conductor=${guia_remision.Conductor},
-                            data-bs-DocumentoConductor=${guia_remision.DocumentoConductor},
-                            data-bs-NumeroLicencia=${guia_remision.NumeroLicencia},
-                            data-bs-NumeroPlaca=${guia_remision.NumeroPlaca}">
-                        <i class="bi bi-pencil"></i>
-                    </button>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
 
-    <div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div sec:authorize="hasAnyAuthority('ADMINISTRADOR')" class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -245,89 +246,83 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="actualizarFacturas" method="POST" id="actualizar" class="p-5">
+                    <form method="PUT" id="actualizar" class="p-5">
                         <input type="hidden" name="id" id="id">
                         <div class="mb-3">
                             <label for="PuntoPartida" class="col-form-label">Punto de Partida:</label>
-                            <input type="text" name="PuntoPartida" id="PuntoPartida" placeholder="Ingrese Punto de Partida" class="form-control">
+                            <input type="text" name="puntoPartida" id="PuntoPartida" placeholder="Ingrese Punto de Partida" class="form-control">
                         </div>
                         <div class="mb-3">
                             <label for="PuntoLlegada" class="col-form-label">Punto de Llegada:</label>
-                            <input type="text" name="PuntoLlegada" id="PuntoLlegada" placeholder="Ingrese Punto de Llegada" class="form-control">
+                            <input type="text" name="puntoLlegada" id="PuntoLlegada" placeholder="Ingrese Punto de Llegada" class="form-control">
                         </div>
                         <div class="mb-3">
                             <label for="Destinatario" class="col-form-label">Destinatario:</label>
-                            <input type="text" name="Destinatario" id="Destinatario" placeholder="Ingrese Destinatario" class="form-control">
+                            <input type="text" name="destinatario" id="Destinatario" placeholder="Ingrese Destinatario" class="form-control">
                         </div>
                         <div class="mb-3">
                             <label for="DocumentoDestinatario" class="col-form-label">Documento del Destinatario:</label>
-                            <input type="text" name="DocumentoDestinatario" id="DocumentoDestinatario" placeholder="Ingrese Documento del Destinatario" class="form-control">
+                            <input type="text" name="documentoDestinatario" id="DocumentoDestinatario" placeholder="Ingrese Documento del Destinatario" class="form-control">
                         </div>
                         <div class="mb-3">
                             <label for="Proveedor" class="col-form-label">Proveedor:</label>
-                            <input type="text" name="Proveedor" id="Proveedor" placeholder="Ingrese Proveedor" class="form-control">
+                            <input type="text" name="proveedor" id="Proveedor" placeholder="Ingrese Proveedor" class="form-control">
                         </div>
                         <div class="mb-3">
                             <label for="DocumentoProveedor" class="col-form-label">Documento del Proveedor:</label>
-                            <input type="text" name="DocumentoProveedor" id="DocumentoProveedor" placeholder="Ingrese Documento del Proveedor" class="form-control">
+                            <input type="text" name="documentoProveedor" id="DocumentoProveedor" placeholder="Ingrese Documento del Proveedor" class="form-control">
                         </div>
                         <div class="mb-3">
                             <label for="MotivoTraslado" class="col-form-label">Motivo del Traslado:</label>
-                            <input type="text" name="MotivoTraslado" id="MotivoTraslado" placeholder="Ingrese Motivo del Traslado" class="form-control">
+                            <input type="text" name="motivoTraslado" id="MotivoTraslado" placeholder="Ingrese Motivo del Traslado" class="form-control">
                         </div>
                         <div class="mb-3">
                             <label for="ModalidadTraslado" class="col-form-label">Modalidad del Traslado:</label>
-                            <input type="text" name="ModalidadTraslado" id="ModalidadTraslado" placeholder="Ingrese Modalidad del Traslado" class="form-control">
+                            <input type="text" name="modalidadTraslado" id="ModalidadTraslado" placeholder="Ingrese Modalidad del Traslado" class="form-control">
                         </div>
                         <div class="mb-3">
                             <label for="FechaEmision" class="col-form-label">Fecha de Emisión:</label>
-                            <input type="date" name="FechaEmision" id="FechaEmision" class="form-control">
+                            <input type="date" name="fechaEmision" id="FechaEmision" class="form-control">
                         </div>
                         <div class="mb-3">
                             <label for="HoraEmision" class="col-form-label">Hora de Emisión:</label>
-                            <input type="time" name="HoraEmision" id="HoraEmision" class="form-control">
+                            <input type="time" name="horaEmision" id="HoraEmision" class="form-control">
                         </div>
                         <div class="mb-3">
                             <label for="FechaTraslado" class="col-form-label">Fecha de Traslado:</label>
-                            <input type="date" name="FechaTraslado" id="FechaTraslado" class="form-control">
+                            <input type="date" name="fechaTraslado" id="FechaTraslado" class="form-control">
                         </div>
                         <div class="mb-3">
                             <label for="NumeroPedido" class="col-form-label">Número de Pedido:</label>
-                            <input type="text" name="NumeroPedido" id="NumeroPedido" placeholder="Ingrese Número de Pedido" class="form-control">
+                            <input type="text" name="numeroPedido" id="NumeroPedido" placeholder="Ingrese Número de Pedido" class="form-control">
                         </div>
                         <div class="mb-3">
                             <label for="RazonSocialTransportista" class="col-form-label">Razón Social del Transportista:</label>
-                            <input type="text" name="RazonSocialTransportista" id="RazonSocialTransportista" placeholder="Ingrese Razón Social del Transportista" class="form-control">
+                            <input type="text" name="razonSocialTransportista" id="RazonSocialTransportista" placeholder="Ingrese Razón Social del Transportista" class="form-control">
                         </div>
                         <div class="mb-3">
                             <label for="RUCTransportista" class="col-form-label">RUC del Transportista:</label>
-                            <input type="text" name="RUCTransportista" id="RUCTransportista" placeholder="Ingrese RUC del Transportista" class="form-control">
+                            <input type="text" name="ructransportista" id="rucTransportista" placeholder="Ingrese RUC del Transportista" class="form-control">
                         </div>
                         <div class="mb-3">
                             <label for="NumeroMTC" class="col-form-label">Número de MTC:</label>
-                            <input type="text" name="NumeroMTC" id="NumeroMTC" placeholder="Ingrese Número de MTC" class="form-control">
+                            <input type="text" name="numeroMTC" id="NumeroMTC" placeholder="Ingrese Número de MTC" class="form-control">
                         </div>
-                        <div class="mb-3">
-                            <label for="Conductor" class="col-form-label">Conductor:</label>
-                            <input type="text" name="Conductor" id="Conductor" placeholder="Ingrese Conductor" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label for="DocumentoConductor" class="col-form-label">Documento del Conductor:</label>
-                            <input type="text" name="DocumentoConductor" id="DocumentoConductor" placeholder="Ingrese Documento del Conductor" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label for="NumeroLicencia" class="col-form-label">Número de Licencia:</label>
-                            <input type="text" name="NumeroLicencia" id="NumeroLicencia" placeholder="Ingrese Número de Licencia" class="form-control">
+                        <div class="mb-3 conductor-container">
+                            <label for="conductor" class="form-label">Conductor</label>
+                            <select id="conductor" name="idEmpleado" class="js-example-placeholder-single js-states form-control" required>
+                                <option th:each="empleado : ${empleados}" th:value="${empleado.id}" th:text="|${empleado.nombre} - ${empleado.dni}|"></option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="NumeroPlaca" class="col-form-label">Número de Placa:</label>
-                            <input type="text" name="NumeroPlaca" id="NumeroPlaca" placeholder="Ingrese Número de Placa" class="form-control">
+                            <input type="text" name="numeroPlaca" id="NumeroPlaca" placeholder="Ingrese Número de Placa" class="form-control">
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button onclick="return Actualizar()" type="button" class="btn btn-primary">Actualizar</button>
+                    <button onclick="actualizar()" type="button" class="btn btn-primary">Actualizar</button>
                 </div>
             </div>
         </div>
@@ -339,5 +334,61 @@
 </footer>
 <th:block th:replace="fragmentos/datatable/scripts :: dataTableScript"></th:block>
 <script th:src="@{/js/datatables-demo.js}"></script>
+<script th:src="@{/js/request/guia_remision_script.js}"></script>
+<script sec:authorize="hasAnyAuthority('ADMINISTRADOR')">
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+    });
+
+    $(document).ready(function () {
+        if (localStorage.getItem("Status")) {
+            let status = localStorage.getItem("Status");
+            Toast.fire({
+                icon: "success",
+                title: "<center>"+ status +"</center>",
+            });
+            localStorage.clear();
+        }
+    });
+
+    $('#myTable tbody').on('click', 'a[title = eliminar]', function () {
+        ///console.log($(this).attr("id-item"));
+        const file = $(this).parents('tr');
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: "No podrás revertir esto!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sí, eliminar!",
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: "/guiaRemision/guia/" + $(this).attr("id-item"),
+                    type: "DELETE",
+                    success: function () {
+                        // Remove it
+                        table.row(file)
+                            .remove()
+                            .draw();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    },
+                });
+            }
+        });
+
+    });
+</script>
 </body>
 </html>

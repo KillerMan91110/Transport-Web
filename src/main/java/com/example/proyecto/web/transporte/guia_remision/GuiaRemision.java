@@ -1,6 +1,9 @@
 package com.example.proyecto.web.transporte.guia_remision;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,11 +15,17 @@ import javax.persistence.TemporalType;
 import java.util.Date;
 
 import com.example.proyecto.web.transporte.empleados.Empleados;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name="guia_remision")
 public class GuiaRemision {
@@ -50,9 +59,6 @@ public class GuiaRemision {
     private String RazonSocialTransportista;
     private String RUCTransportista;
     private String NumeroMTC;
-    private String Conductor;
-    private String DocumentoConductor;
-    private String NumeroLicencia;
     private String NumeroPlaca;
     private String IdProducto;
     private String CodigoProducto;
@@ -61,6 +67,9 @@ public class GuiaRemision {
     private String UnidadMedida;
     private float PesoProducto;
     private String Observacion;
+    @Column(columnDefinition = "ENUM('PEND', 'ENC', 'CONC', 'RECH')")
+    @Enumerated(EnumType.STRING)
+    private Estado estado;
 
     @ManyToOne
     @JoinColumn(name = "id_empleado", referencedColumnName = "id", nullable = true)

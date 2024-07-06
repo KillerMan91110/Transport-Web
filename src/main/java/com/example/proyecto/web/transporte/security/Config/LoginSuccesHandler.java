@@ -23,7 +23,7 @@ public class LoginSuccesHandler extends SavedRequestAwareAuthenticationSuccessHa
         if (userDetails.hasRole("ADMINISTRADOR")) {
             redirectURL = "/";
         } else if (userDetails.hasRole("CONDUCTOR")) {
-            redirectURL = "/registroGuiaRemision";
+            redirectURL = "/guiaRemision/list";
         }
 
         response.sendRedirect(redirectURL);
