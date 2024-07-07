@@ -34,7 +34,7 @@ public class ConfigSecurity {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> {
                     auth.antMatchers("/", "/nosotros","/contacto", "/img/**","/js/**").permitAll();
-                    auth.antMatchers("/listadoGuiaRemision","/eliminarGuiaRemision","/registroGuiaRemision","/actualizarGuiaRemision").hasAnyAuthority("CONDUCTOR","ADMINISTRADOR");
+                    auth.antMatchers("/guiaRemision/list/**").hasAnyAuthority("CONDUCTOR","ADMINISTRADOR");
                     auth.anyRequest().hasAnyAuthority("ADMINISTRADOR");
                 })
                 .formLogin(formLogin -> formLogin

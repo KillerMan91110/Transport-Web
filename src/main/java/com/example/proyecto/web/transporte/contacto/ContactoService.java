@@ -1,6 +1,6 @@
 package com.example.proyecto.web.transporte.contacto;
 
-import com.example.proyecto.web.transporte.dto.ContactCreate;
+import com.example.proyecto.web.transporte.dto.ContactDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ public class ContactoService implements IContactoService{
     }
 
     @Override
-    public void save(ContactCreate contacto) {
+    public void save(ContactDto contacto) {
 
         repository.save(Contacto.builder()
                         .nombre(contacto.getNombre())

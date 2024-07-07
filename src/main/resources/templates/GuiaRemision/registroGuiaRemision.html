@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html >
 <head xmlns:th="http://www.thymeleaf.org">
-    <title>REGISTRO VIAJES</title>
+    <title>REGISTRO GUIA REMISION</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- CSS only -->
@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <!-- SweetAlert2 -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         function validarFormulario() {
             const formulario = document.getElementById('agregar');
@@ -70,61 +74,61 @@
                         <img th:src="@{/img/factura.png}" alt="registrar_viaje" height="200" width="200">
                     </div>
                     <hr class="border border-success">
-                    <form action="registroGuiaRemision" method="POST" id="agregar" class="row g-3 needs-validation p-4" novalidate>
+                    <form th:action="@{/guiaRemision/registro}" method="POST" id="agregar" th:object="${guiaRemision}" class="row g-3 needs-validation p-4" novalidate>
                         <div class="col-12">
                             <label for="Num_Factura" class="form-label">Número de Factura</label>
-                            <input type="text" name="Num_Factura" class="form-control" required>
+                            <input id="Num_Factura" type="text" th:field="*{numFactura}" class="form-control" required>
                         </div>
                         <div class="col-12">
                             <h5>Datos de destinatario y envío</h5>
                         </div>
                         <div class="col-md-6">
                             <label for="PuntoPartida" class="form-label">Punto de partida</label>
-                            <input type="text" name="PuntoPartida" class="form-control" required>
+                            <input id="PuntoPartida" type="text" th:field="*{puntoPartida}" class="form-control" required>
                         </div>
                         <div class="col-md-6">
                             <label for="PuntoLlegada" class="form-label">Punto de llegada</label>
-                            <input type="text" name="PuntoLlegada" class="form-control" required>
+                            <input type="text" id="PuntoLlegada" th:field="*{puntoLlegada}" class="form-control" required>
                         </div>
                         <div class="col-md-6">
                             <label for="Destinatario" class="form-label">Destinatario</label>
-                            <input type="text" name="Destinatario" class="form-control" required>
+                            <input id="Destinatario" type="text" th:field="*{destinatario}" class="form-control" required>
                         </div>
                         <div class="col-md-6">
                             <label for="DocumentoDestinatario" class="form-label">Documento (DNI/RUC)</label>
-                            <input type="text" name="DocumentoDestinatario" class="form-control" required>
+                            <input id="DocumentoDestinatario" type="text" th:field="*{documentoDestinatario}"  class="form-control" required>
                         </div>
                         <div class="col-md-6">
                             <label for="Proveedor" class="form-label">Proveedor</label>
-                            <input type="text" name="Proveedor" class="form-control" required>
+                            <input id="Proveedor" type="text" th:field="*{proveedor}" class="form-control" required>
                         </div>
                         <div class="col-md-6">
                             <label for="DocumentoProveedor" class="form-label">Documento (DNI/RUC)</label>
-                            <input type="text" name="DocumentoProveedor" class="form-control" required>
+                            <input id="DocumentoProveedor" type="text" th:field="*{documentoProveedor}" class="form-control" required>
                         </div>
                         <div class="col-md-6">
                             <label for="MotivoTraslado" class="form-label">Motivo de traslado</label>
-                            <input type="text" name="MotivoTraslado" class="form-control" required>
+                            <input id="MotivoTraslado" type="text" th:field="*{motivoTraslado}" class="form-control" required>
                         </div>
                         <div class="col-md-6">
                             <label for="ModalidadTraslado" class="form-label">Modalidad Traslado</label>
-                            <input type="text" name="ModalidadTraslado" class="form-control" required>
+                            <input id="ModalidadTraslado" type="text" th:field="*{modalidadTraslado}" class="form-control" required>
                         </div>
                         <div class="col-md-6">
                             <label for="FechaEmision" class="form-label">Fecha emisión</label>
-                            <input type="date" name="FechaEmision" class="form-control" required>
+                            <input id="FechaEmision" type="date" th:field="*{fechaEmision}" class="form-control" required>
                         </div>
                         <div class="col-md-6">
                             <label for="HoraEmision" class="form-label">Hora emisión</label>
-                            <input type="time" name="HoraEmision" class="form-control" required>
+                            <input id="HoraEmision" type="time" th:field="*{horaEmision}" class="form-control" required>
                         </div>
                         <div class="col-md-6">
                             <label for="FechaTraslado" class="form-label">Fecha traslado</label>
-                            <input type="date" name="FechaTraslado" class="form-control" required>
+                            <input id="FechaTraslado" type="date" th:field="*{fechaTraslado}" class="form-control" required>
                         </div>
                         <div class="col-md-6">
                             <label for="NumeroPedido" class="form-label">Número pedido</label>
-                            <input type="text" name="NumeroPedido" class="form-control" required>
+                            <input id="NumeroPedido" type="text" th:field="*{numeroPedido}" class="form-control" required>
                         </div>
 
                         <div class="col-12">
@@ -132,36 +136,31 @@
                         </div>
                         <div class="col-md-6">
                             <label for="RazonSocialTransportista" class="form-label">Razón social</label>
-                            <input type="text" name="RazonSocialTransportista" class="form-control" required>
+                            <input id="RazonSocialTransportista" type="text" th:field="*{razonSocialTransportista}" class="form-control" required>
                         </div>
                         <div class="col-md-6">
                             <label for="RUCTransportista" class="form-label">RUC</label>
-                            <input type="text" name="RUCTransportista" class="form-control" required>
+                            <input id="RUCTransportista" type="text" th:field="*{ructransportista}" class="form-control" required>
                         </div>
                         <div class="col-md-6">
                             <label for="NumeroMTC" class="form-label">Número MTC</label>
-                            <input type="text" name="NumeroMTC" class="form-control" required>
+                            <input id="NumeroMTC" type="text" th:field="*{numeroMTC}" class="form-control" required>
                         </div>
 
                         <div class="col-12">
                             <h5>Datos de la unidad y Conductor</h5>
                         </div>
-                        <div class="col-md-6">
-                            <label for="Conductor" class="form-label">Conductor</label>
-                            <input type="text" name="Conductor" class="form-control" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="DocumentoConductor" class="form-label">Documento Identidad</label>
-                            <input type="text" name="DocumentoConductor" class="form-control" required>
 
+                        <div class="col-md-6">
+                            <label for="conductor" class="form-label">Conductor</label>
+                            <select id="conductor" th:field="*{idEmpleado}" class="js-example-placeholder-single js-states form-control" required>
+                                <option value="0">Seleccionar Empleado</option>
+                                <option th:each="empleado : ${empleados}" th:value="${empleado.id}" th:text="|${empleado.nombre} - ${empleado.dni}|"></option>
+                            </select>
                         </div>
                         <div class="col-md-6">
-                            <label for="NumeroLicencia" class="form-label">Nº licencia</label>
-                            <input type="text" name="NumeroLicencia" class="form-control" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="NumeroPlaca" class="form-label">Número placa</label>
-                            <input type="text" name="NumeroPlaca" class="form-control" required>
+                            <label for="NumeroPlaca" class="form-label">Número Placa</label>
+                            <input id="NumeroPlaca" type="text" th:field="*{numeroPlaca}" class="form-control" required>
                         </div>
 
                         <div class="col-12">
@@ -169,36 +168,45 @@
                         </div>
                         <div class="col-md-6">
                             <label for="IdProducto" class="form-label">IdProducto</label>
-                            <input type="text" name="IdProducto" class="form-control" required>
+                            <input id="IdProducto" type="text" th:field="*{idProducto}" class="form-control" required>
                         </div>
                         <div class="col-md-6">
                             <label for="CodigoProducto" class="form-label">CodigoProducto</label>
-                            <input type="text" name="CodigoProducto" class="form-control" required>
+                            <input id="CodigoProducto" type="text" th:field="*{codigoProducto}" class="form-control" required>
                         </div>
                         <div class="col-md-6">
                             <label for="DescripcionProducto" class="form-label">Descripción</label>
-                            <input type="text" name="DescripcionProducto" class="form-control" required>
+                            <input id="DescripcionProducto" type="text" th:field="*{descripcionProducto}" class="form-control" required>
                         </div>
                         <div class="col-md-6">
                             <label for="CantidadProducto" class="form-label">Cantidad</label>
-                            <input type="number" name="CantidadProducto" class="form-control" min="0" required>
+                            <input id="CantidadProducto" type="number" th:field="*{cantidadProducto}" class="form-control" min="0" required>
                         </div>
                         <div class="col-md-6">
                             <label for="UnidadMedida" class="form-label">Unidad de Medida</label>
-                            <select name="UnidadMedida" class="form-select" required>
+                            <select id="UnidadMedida" th:field="*{unidadMedida}" class="form-select" required>
                                 <option value="Kilogramos">Kilogramos</option>
                                 <option value="Tonelada">Tonelada</option>
                             </select>
                         </div>
                         <div class="col-md-6">
                             <label for="PesoProducto" class="form-label">Peso</label>
-                            <input type="number" name="PesoProducto" class="form-control" min="0" required>
+                            <input id="PesoProducto" type="number" th:field="*{pesoProducto}"  class="form-control" min="0" required>
                         </div>
 
                         <div class="col-md-12">
                             <label for="Observacion" class="form-label">Observación</label>
-                            <input type="text" name="Observacion" class="form-control">
+                            <input id="Observacion" type="text" th:field="*{observacion}" class="form-control">
                         </div>
+                        <div class="col-md-6">
+                            <label for="estado" class="form-label">Conductor</label>
+                            <select id="estado" th:field="*{estado}" class="js-example-placeholder-single js-states form-control">
+                                <option th:each="estado : ${T(com.example.proyecto.web.transporte.guia_remision.Estado).values()}"
+                                        th:value="${estado}" th:text="${estado.displayValue}">
+                                </option>
+                            </select>
+                        </div>
+
 
                         <div class="d-grid gap-3 mt-5 mb-2">
                             <button onclick="Agregar1(event)" class="btn btn-success" type="submit" name="registrar"><i class="bi bi-check-circle-fill"></i> Registrar Guía de Remisión</button>
@@ -213,5 +221,13 @@
 <footer>
     <div th:insert="menu :: #barraFooter"></div>
 </footer>
+<script>
+    $(document).ready(function() {
+        $('#conductor').select2({
+            placeholder: "Seleccionar Conductor",
+            allowClear: true
+        });
+    });
+</script>
 </body>
 </html>
