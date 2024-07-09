@@ -10,32 +10,47 @@
         <!-- Bloque de Scripts de Datatable -->
         <th:block th:replace="fragmentos/datatable/head :: dataTableHead"></th:block>
         <script>
-            function Agregar1() {
-                event.preventDefault();
-
-                Swal.fire({
-                    title: '¿Estas seguro de agregar un nuevo tracto?',
-                    text: "Se podrá modificar en el futuro",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Aceptar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        Swal.fire(
-                                'Agregado!',
-                                'El tracto ha sido agregado.',
-                                'Exito'
-                                ).then((result) => {
-                            if (result.isConfirmed) {
-                                const formulario = document.getElementById('agregar');
-                                formulario.submit();
-                            }
-                        });
-                    }
-                });
+            function validarPlacaTracto() {
+                var placaTracto = document.getElementById("PlacaTracto").value;
+                var pattern = /^[A-Za-z0-9-]{1,7}$/;  // Permitir de 1 a 7 caracteres alfanuméricos o guiones (-)
+                return pattern.test(placaTracto);
             }
+
+            function Agregar1() {
+            event.preventDefault();
+
+
+            if (!validarPlacaTracto()) {
+             Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'La placa del tracto debe contener entre 1 y 7 caracteres alfanuméricos o guiones (-).'
+         });
+          return;
+    }
+
+
+             Swal.fire({
+                title: '¿Estás seguro de agregar un nuevo tracto?',
+                text: 'Se podrá modificar en el futuro',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Aceptar'
+            }).then((result) => {
+              if (result.isConfirmed) {
+                 Swal.fire(
+                'Agregado!',
+                'El tracto ha sido agregado.',
+                'success'
+                 ).then(() => {
+                const formulario = document.getElementById('agregar');
+                formulario.submit();
+                });
+               }
+            });
+         }
             function Eliminar(opcion)
             {
                 event.preventDefault();
@@ -116,7 +131,7 @@
                    </td>
                </tr>
                </tbody>
-            </table> 
+            </table>
         </div>
         <!-- Model REGISTRAR -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -133,12 +148,12 @@
 
                     </div>
                     <div class="modal-body p-5">
-                        <form action="registroTracto" method="POST" id="agregar">                            
+                        <form action="registroTracto" method="POST" id="agregar">
                             <div class="d-flex mb-2">
                                 <div class="col-md-6 me-3">
                                     <label for="recipient-name" class="col-form-label">Placa Tracto:</label>
                                     <input type="text" name="PlacaTracto" id="PlacaTracto" placeholder="Ingrese Placa Tracto" class="form-control">
-
+                                    <span id="errorPlacaTracto" style="color: red; display: none;">La placa del tracto debe contener entre 1 y 7 caracteres alfanuméricos o guiones (-).</span>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="recipient-name" class="col-form-label">Tipo de Tracción</label>
@@ -152,11 +167,25 @@
                             <div class="d-flex mb-2">
                                 <div class=" col-md-6 me-3">
                                     <label for="message-text" class="col-form-label">Potencia:</label>
-                                    <input type="text" name="Potencia" id="Potencia" placeholder="Ingrese potencia" class="form-control">
+                                    <select name="Potencia" id="Potencia" class="form-control">
+                                        <option value="">Seleccione</option>
+                                        <option>100 hp</option>
+                                        <option>200 hp</option>
+                                        <option>300 hp</option>
+                                        <option>400 hp</option>
+                                        <option>500 hp</option>
+                                        <option>600 hp</option>
+                                    </select>
                                 </div>
                                 <div class=" col-md-6">
                                     <label for="recipient-name" class="col-form-label">Motor:</label>
-                                    <input type="text" name="Motor" id="Motor" placeholder="Ingrese Motor" class="form-control">
+                                    <select name="Motor" id="Motor" class="form-control">
+                                        <option value="">Seleccione</option>
+                                        <option>Diesel</option>
+                                        <option>Gasolina</option>
+                                        <option>Electrico</option>
+                                        <option>Hibrido</option>
+                                    </select>
 
                                 </div>
                             </div>
