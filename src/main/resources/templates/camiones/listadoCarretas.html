@@ -10,63 +10,119 @@
         <!-- Bloque de Scripts de Datatable -->
         <th:block th:replace="fragmentos/datatable/head :: dataTableHead"></th:block>
         <script>
-            function Agregar1() {
-                event.preventDefault();
+            // Función para validar si la placa del tracto ya existe en la base de datos
+            function validateCarreta() {
+            let PlacaCarreta = document.getElementById('PlacaCarreta').value;
 
-                Swal.fire({
-                    title: '¿Estas seguro de agregar una nueva carreta?',
-                    text: "Se podrá modificar en el futuro",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Aceptar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        Swal.fire(
-                                'Agregado!',
-                                'El tracto ha sido agregado.',
-                                'Exito'
-                                ).then((result) => {
-                            if (result.isConfirmed) {
-                                const formulario = document.getElementById('agregar');
-                                formulario.submit();
-                            }
-                        });
-                    }
-                });
-            }
-            function Eliminar(opcion)
-            {
-                event.preventDefault();
-                Swal.fire({
+            return $.ajax({
+                url: `/carretas/validar`,
+                type: 'GET',
+                data: { PlacaCarreta: PlacaCarreta },
+                async: false
+            }).responseJSON;
+          }
 
-                    title: '¿Eliminar?',
-                    text: "Esta desicion no se podra revertir",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    cancelButtonText: 'Cancelar',
-                    confirmButtonText: 'Eliminar',
-                    allowOutsideClick: false,
-                    allowEscapeKey: false
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        Swal.fire({
-                            title: 'Eliminar',
-                            text: 'Eliminado correctamente',
-                            icon: 'success',
-                            allowOutsideClick: false,
-                            allowEscapeKey: false
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                location.href = opcion.href;
-                            }
-                        });
-                    }
+            //funcion validar rango de placa
+            function validarPlacaCarreta() {
+           let placaCarreta= document.getElementById("PlacaCarreta").value;
+           let pattern = /^[A-Za-z0-9-]{1,7}$/;  // Permitir de 1 a 7 caracteres alfanuméricos o guiones (-)
+           return pattern.test(placaCarreta);
+         }
+
+
+
+           //funcion agregar carreta
+           function Agregar1() {
+               event.preventDefault();
+
+             // Obtener valores de los campos
+             PlacaCarreta_1 = document.getElementById('PlacaCarreta').value;
+             Peso = document.getElementById('Peso').value;
+             Largo = document.getElementById('Largo').value;
+             Ancho = document.getElementById('Ancho').value;
+
+            // Validar que todos los campos obligatorios estén llenos
+                 if (!PlacaCarreta_1 || !Peso || !Largo || !Ancho) {
+                Swal.fire({
+                 title: 'Campos vacíos',
+                 text: 'Por favor complete todos los campos.',
+                 icon: 'error'
+                 });
+                 return;
+                }
+
+                if (!validarPlacaCarreta()) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'La placa de la carreta debe contener entre 1 y 7 caracteres alfanuméricos o guiones (-).'
                 });
+                return;  // Salir de la función si la validación falla
             }
+            // Validar si la placa del tracto ya existe en la base de datos
+                if (validateCarreta()) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'La placa de la Carreta ya existe en la base de datos.'
+                });
+                return;  // Salir de la función si la placa del tracto ya existe
+                 }
+
+               Swal.fire({
+                   title: '¿Estas seguro de agregar una nueva carreta?',
+                   text: "Se podrá modificar en el futuro",
+                   icon: 'warning',
+                   showCancelButton: true,
+                   confirmButtonColor: '#3085d6',
+                   cancelButtonColor: '#d33',
+                   confirmButtonText: 'Aceptar'
+               }).then((result) => {
+                   if (result.isConfirmed) {
+                       Swal.fire(
+                               'Agregado!',
+                               'El tracto ha sido agregado.',
+                               'Exito'
+                               ).then((result) => {
+                           if (result.isConfirmed) {
+                               const formulario = document.getElementById('agregar');
+                               formulario.submit();
+                           }
+                       });
+                   }
+               });
+           }
+           function Eliminar(opcion)
+           {
+               event.preventDefault();
+               Swal.fire({
+
+                   title: '¿Eliminar?',
+                   text: "Esta desicion no se podra revertir",
+                   icon: 'warning',
+                   showCancelButton: true,
+                   confirmButtonColor: '#3085d6',
+                   cancelButtonColor: '#d33',
+                   cancelButtonText: 'Cancelar',
+                   confirmButtonText: 'Eliminar',
+                   allowOutsideClick: false,
+                   allowEscapeKey: false
+               }).then((result) => {
+                   if (result.isConfirmed) {
+                       Swal.fire({
+                           title: 'Eliminar',
+                           text: 'Eliminado correctamente',
+                           icon: 'success',
+                           allowOutsideClick: false,
+                           allowEscapeKey: false
+                       }).then((result) => {
+                           if (result.isConfirmed) {
+                               location.href = opcion.href;
+                           }
+                       });
+                   }
+               });
+           }
 
 
         </script>
@@ -136,21 +192,22 @@
                                 <div class="col-md-6 me-3">
                                     <label for="recipient-name" class="col-form-label">Placa Careta</label>
                                     <input type="text" name="PlacaCarreta" id="PlacaCarreta" placeholder="Ingrese Placa de Carreta" class="form-control">
+                                    <span id="errorPlacaCarreta" style="color: red; display: none;">La placa de la Carreta debe contener entre 1 y 7 caracteres alfanuméricos o guiones (-).</span>
 
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="recipient-name" class="col-form-label">Peso</label>
+                                    <label for="recipient-name" class="col-form-label">Peso (en Kg):</label>
                                     <input type="text" name="Peso" id="Peso" placeholder="Ingrese Peso de la Carreta" class="form-control">
 
                                 </div>
                             </div>
                             <div class="d-flex mb-2">
                                 <div class=" col-md-6 me-3">
-                                    <label for="message-text" class="col-form-label">Largo</label>
+                                    <label for="message-text" class="col-form-label">Largo (en metros):</label>
                                     <input type="text" name="Largo" id="Largo" placeholder="Ingrese Largo" class="form-control">
                                 </div>
                                 <div class=" col-md-6">
-                                    <label for="recipient-name" class="col-form-label">Ancho:</label>
+                                    <label for="recipient-name" class="col-form-label">Ancho (en metros):</label>
                                     <input type="text" name="Ancho" id="Ancho" placeholder="Ingrese Motor" class="form-control">
 
                                 </div>

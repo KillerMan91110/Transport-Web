@@ -79,7 +79,7 @@ public class ControladorViajes {
                             @RequestParam("nombre_empleado") Empleados nombre,
                             @RequestParam("PlacaTracto") Tractos PlacaTracto,
                             @RequestParam("PlacaCarreta") Carretas PlacaCarreta,
-                            @RequestParam("nombre") Clientes Nombre,
+                            @RequestParam("clientes") Clientes clientes,
                             @RequestParam("Destino") String Destino,
                             @RequestParam("AlmacenRetiroContenedor") String AlmacenRetiroContenedor,
                             @RequestParam("AlmacenDevolucionContenedor") String AlmacenDevolucionContenedor,
@@ -91,7 +91,7 @@ public class ControladorViajes {
         v.setEmpleados(nombre);
         v.setTractos(PlacaTracto);
         v.setCarretas(PlacaCarreta);
-        v.setClientes(Nombre);
+        v.setClientes(clientes);
         v.setDestino(Destino);
         v.setAlmacenRetiroContenedor(AlmacenRetiroContenedor);
         v.setAlmacenDevolucionContenedor(AlmacenDevolucionContenedor);

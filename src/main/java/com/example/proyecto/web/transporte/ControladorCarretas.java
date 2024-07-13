@@ -6,12 +6,14 @@ import com.example.proyecto.web.transporte.carretas.ICarretasService;
 
 import java.util.List;
 
+import com.example.proyecto.web.transporte.tractos.Tractos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class ControladorCarretas {
@@ -71,6 +73,17 @@ public class ControladorCarretas {
         return "camiones/listadoCarretas";
     }
 
+    @GetMapping("/carretas/validar")
+    @ResponseBody
+    public boolean validarCarreta(@RequestParam("PlacaCarreta") String PlacaCarreta) {
+        List<Carretas> carretas = serviceCarretas.Listar();
+        for (Carretas carreta : carretas) {
+            if ( carreta.getPlacaCarreta().equalsIgnoreCase(PlacaCarreta)) {
+                return true;
+            }
+        }
+        return false;
+    }
     /*@GetMapping("/ascendenteViajes")
     public String MostrarAscendente(Model model) {
         List<Viajes> viajes = serviceViaje.ListarOrdenAscendente();
