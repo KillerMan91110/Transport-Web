@@ -50,6 +50,33 @@
                  });
                  return;
                 }
+            //validar numeros del peso
+             if (!/^\d+(\.\d{1,2})?$/.test(Peso)) {
+              Swal.fire({
+                title: 'Peso inválido',
+                text: 'El Peso solo debe contener números y puede tener hasta dos decimales.',
+                icon: 'error'
+                 });
+                 return;
+                }
+                //validar numeros del peso
+             if (!/^\d+(\.\d{1,2})?$/.test(Largo)) {
+              Swal.fire({
+                title: 'Peso inválido',
+                text: 'El Peso solo debe contener números y puede tener hasta dos decimales.',
+                icon: 'error'
+                 });
+                 return;
+                }//validar numeros del peso
+             if (!/^\d+(\.\d{1,2})?$/.test(Ancho)) {
+              Swal.fire({
+                title: 'Peso inválido',
+                text: 'El Peso solo debe contener números y puede tener hasta dos decimales.',
+                icon: 'error'
+                 });
+                 return;
+                }
+
 
                 if (!validarPlacaCarreta()) {
                 Swal.fire({
