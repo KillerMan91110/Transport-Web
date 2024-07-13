@@ -12,28 +12,188 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <!-- SweetAlert2 -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         function Agregar1(event) {
-            event.preventDefault();
-            Swal.fire({
-                title: '¿Estas seguro de agregar un nuevo conductor?',
-                text: "Se podrá modificar en el futuro",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Aceptar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire(
-                        'Agregado!',
-                        'El conductor ha sido agregado.',
-                        'Exito'
-                    ).then((result) => {
-                        if (result.isConfirmed) {
-                            const formulario = document.getElementById('agregar');
-                            formulario.submit();
+    event.preventDefault();
+
+    var dni = document.getElementById('dni').value;
+    var nombre = document.getElementById('nombre').value;
+    var sexo = document.getElementById('sexo').value;
+    var num_licencia = document.getElementById('num_licencia').value;
+    var celular = document.getElementById('celular').value;
+    var correo = document.getElementById('correo').value;
+    var direccion = document.getElementById('direccion').value;
+    var username = document.getElementById('username').value;
+    var password = document.getElementById('password').value;
+    var enable = document.getElementById('enable').value;
+
+    // Validar que todos los campos estén llenos
+    if (!dni || !nombre || !sexo || !num_licencia || !celular || !correo || !direccion || !username || !password || !enable) {
+        Swal.fire({
+            title: 'Error',
+            text: 'Todos los campos son obligatorios.',
+            icon: 'error'
+        });
+        return;
+    }
+
+    // Validar longitud del DNI
+    if (dni.length !== 8) {
+        Swal.fire({
+            title: 'DNI inválido',
+            text: 'El DNI debe tener 8 caracteres.',
+            icon: 'error'
+        });
+        return;
+    }
+
+    // Validar longitud del teléfono
+    if (celular.length !== 9) {
+        Swal.fire({
+            title: 'Teléfono inválido',
+            text: 'El teléfono debe tener 9 caracteres.',
+            icon: 'error'
+        });
+        return;
+    }
+
+    // Verificar si el DNI ya existe
+    $.ajax({
+        url: `/conductores/validarDNI`,
+        method: 'GET',
+        data: { dni: dni },
+        success: function(data) {
+            if (data) {
+                Swal.fire({
+                    title: 'DNI duplicado',
+                    text: 'El DNI ya está registrado.',
+                    icon: 'error'
+                });
+            } else {
+                // Verificar si el username ya existe
+                $.ajax({
+                    url: `/conductores/validarUsername`,
+                    method: 'GET',
+                    data: { username: username },
+                    success: function(data) {
+                        if (data) {
+                            Swal.fire({
+                                title: 'Usuario duplicado',
+                                text: 'El nombre de usuario ya está en uso.',
+                                icon: 'error'
+                            });
+                        } else {
+                            // Verificar si el número de licencia ya existe
+                            $.ajax({
+                                url: `/validarLicencia`,
+                                method: 'GET',
+                                data: { num_licencia: num_licencia },
+                                success: function(data) {
+                                    if (data) {
+                                        Swal.fire({
+                                            title: 'Licencia duplicada',
+                                            text: 'El número de licencia ya está registrado.',
+                                            icon: 'error'
+                                        });
+                                    } else {
+                                        // Confirmación para agregar un nuevo conductor
+                                        Swal.fire({
+                                            title: '¿Estás seguro de agregar un nuevo conductor?',
+                                            text: "Se podrá modificar en el futuro",
+                                            icon: 'warning',
+                                            showCancelButton: true,
+                                            confirmButtonColor: '#3085d6',
+                                            cancelButtonColor: '#d33',
+                                            confirmButtonText: 'Aceptar'
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                // Si se confirma, se envía el formulario
+                                                Swal.fire(
+                                                    'Agregado!',
+                                                    'El conductor ha sido agregado.',
+                                                    'success'
+                                                ).then((result) => {
+                                                    if (result.isConfirmed) {
+                                                        const formulario = document.getElementById('agregar');
+                                                        formulario.submit(); // Envío del formulario
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error("Error en la solicitud:", xhr, status, error);
+                                    Swal.fire({
+                                        title: 'Error',
+                                        text: 'No se pudo verificar la licencia.',
+                                        icon: 'error'
+                                    });
+                                }
+                            });
                         }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error en la solicitud:", xhr, status, error);
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'No se pudo verificar el nombre de usuario.',
+                            icon: 'error'
+                        });
+                    }
+                });
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error en la solicitud:", xhr, status, error);
+            Swal.fire({
+                title: 'Error',
+                text: 'No se pudo verificar el DNI.',
+                icon: 'error'
+            });
+        }
+    });
+}
+
+
+        function buscarDNI() {
+            var dni = document.getElementById('dni').value;
+
+            if (dni.length !== 8) {
+                Swal.fire({
+                    title: 'DNI inválido',
+                    text: 'El DNI debe tener 8 caracteres.',
+                    icon: 'error'
+                });
+                return;
+            }
+
+            $.ajax({
+                url: `https://apiperu.dev/api/dni/${dni}`,
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer b42b126b2671e91b142fb0fae9588d9172442b06db43bc223ab189729f33def0'
+                },
+                success: function(data) {
+                    console.log("Datos recibidos:", data);
+                    if (data && data.data) {
+                        var persona = data.data;
+                        document.getElementById('nombre').value = `${persona.nombres} ${persona.apellido_paterno} ${persona.apellido_materno}`;
+                    } else {
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'No se pudo obtener información del DNI.',
+                            icon: 'error'
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error en la solicitud:", xhr, status, error);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'No se pudo obtener información del DNI.',
+                        icon: 'error'
                     });
                 }
             });
@@ -58,50 +218,56 @@
                     <hr class="border border-primary">
                     <form action="registroEmpleados" method="POST" id="agregar" class="row g-3 needs-validation p-4" novalidate>
                         <div class="col-md-0">
-                            <input class="form-control" type="hidden" name="id" required="required" placeholder="Id">
-                        </div>
-                        <div class="col-md-4">
-                            <label for="exampleFormControlInput2" class="form-label">DNI</label>
-                            <input type="text" name="dni" id="dni" class="form-control" required>
+                            <input class="form-control" type="hidden" name="id" required>
                         </div>
                         <div class="col-md-8">
-                            <label for="exampleFormControlInput1" class="form-label">Nombre completo</label>
-                            <input type="text" name="nombre" id="nombre" class="form-control" required>
+                            <label for="dni" class="form-label">DNI</label>
+
+                            <div class="input-group">
+                                <input type="text" name="dni" id="dni" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-secondary" style="margin-top:2rem;padding-right:3rem;padding-left:3rem" onclick="buscarDNI()">Buscar</button>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="nombre" class="form-label">Nombre completo</label>
+                            <input type="text" name="nombre" id="nombre" class="form-control" readonly required>
                         </div>
                         <div class="col-md-6">
-                            <label for="validationTooltip03" class="form-label">Sexo</label>
-                            <select name="sexo" id="sexo" class="form-control">
+                            <label for="sexo" class="form-label">Sexo</label>
+                            <select name="sexo" id="sexo" class="form-control" required>
                                 <option value="">Seleccione</option>
                                 <option>MASCULINO</option>
                                 <option>FEMENINO</option>
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label for="exampleFormControlInput3" class="form-label">N° Licencia</label>
+                            <label for="num_licencia" class="form-label">N° Licencia</label>
                             <input type="text" name="num_licencia" id="num_licencia" class="form-control" required>
                         </div>
                         <div class="col-md-4">
-                            <label for="exampleFormControlInput4" class="form-label">Celular</label>
+                            <label for="celular" class="form-label">Celular</label>
                             <input type="text" name="celular" id="celular" class="form-control" required>
                         </div>
                         <div class="col-md-8">
-                            <label for="exampleFormControlInput5" class="form-label">Correo</label>
+                            <label for="correo" class="form-label">Correo</label>
                             <input type="email" name="correo" id="correo" class="form-control" required>
                         </div>
                         <div class="col-md-12">
-                            <label for="exampleFormControlInput6" class="form-label">Dirección</label>
+                            <label for="direccion" class="form-label">Dirección</label>
                             <input type="text" name="direccion" id="direccion" class="form-control" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="exampleFormControlInput7" class="form-label">Usuario</label>
+                            <label for="username" class="form-label">Usuario</label>
                             <input type="text" name="username" id="username" class="form-control" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="exampleFormControlInput8" class="form-label">Contraseña</label>
+                            <label for="password" class="form-label">Contraseña</label>
                             <input type="password" name="password" id="password" class="form-control" required>
                         </div>
                         <div class="col-md-12">
-                            <label for="exampleFormControlInput9" class="form-label">Activo</label>
+                            <label for="enable" class="form-label">Activo</label>
                             <select name="enable" id="enable" class="form-control" required>
                                 <option value="true">Si</option>
                                 <option value="false">No</option>

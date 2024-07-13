@@ -7,6 +7,7 @@ public interface IEmpleadosService {
     public List<Empleados> Listar();
     public Optional<Empleados> ConsultarId(int id);
     Optional<Empleados> consultarUsername(String username);
+    Optional<Empleados> buscarPorNumeroLicencia(String num_licencia);
     public void Guardar(Empleados e);
     public void Eliminar(int id);
     public List<Empleados> Buscar(String dato);

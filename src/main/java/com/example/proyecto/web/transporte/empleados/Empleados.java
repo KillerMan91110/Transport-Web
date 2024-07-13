@@ -13,6 +13,8 @@ import java.util.Set;
 @Table(name="empleados")
 public class Empleados {
 
+
+
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY) //Autoincremental
     @Column(name = "id")

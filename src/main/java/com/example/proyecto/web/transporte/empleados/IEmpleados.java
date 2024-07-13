@@ -1,5 +1,5 @@
 package com.example.proyecto.web.transporte.empleados;
-
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -17,6 +17,9 @@ public interface IEmpleados extends CrudRepository<Empleados,Integer>{
 
     @Query(value="SELECT * FROM empleados WHERE username = ?1 LIMIT 1",nativeQuery = true)
     Optional<Empleados> findByUsername(String username);
+
+    @Query("SELECT e FROM Empleados e WHERE e.num_licencia = :num_licencia")
+    Optional<Empleados> buscarNumLicencia(@Param("num_licencia") String num_licencia);
 
     @Query(value =
                 "SELECT e.* FROM empleados e "+
