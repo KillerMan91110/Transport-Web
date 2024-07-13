@@ -11,148 +11,7 @@
     <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
     <!-- Bloque de Scripts de Datatable -->
     <th:block th:replace="fragmentos/datatable/head :: dataTableHead"></th:block>
-    <script>
-        function Agregar1() {
-            event.preventDefault();
 
-            Swal.fire({
-                title: '¿Estas seguro de agregar un nuevo viaje?',
-                text: "Se podrá modificar en el futuro",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Aceptar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire(
-                            'Agregado!',
-                            'El viaje ha sido agregado.',
-                            'Exito'
-                            ).then((result) => {
-                        if (result.isConfirmed) {
-                            const formulario = document.getElementById('agregar');
-                            formulario.submit();
-                        }
-                    });
-                }
-            });
-        }
-        function Eliminar(opcion)
-        {
-            event.preventDefault();
-            Swal.fire({
-
-                title: '¿Eliminar?',
-                text: "Esta desicion no se podra revertir",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                cancelButtonText: 'Cancelar',
-                confirmButtonText: 'Eliminar',
-                allowOutsideClick: false,
-                allowEscapeKey: false
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        title: 'Eliminar',
-                        text: 'Eliminado correctamente',
-                        icon: 'success',
-                        allowOutsideClick: false,
-                        allowEscapeKey: false
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            location.href = opcion.href;
-                        }
-                    });
-                }
-            });
-        }
-        function Actualizar()
-        {
-            event.preventDefault();
-            Swal.fire({
-                title: 'Desea actualizar los cambios?',
-                text: '',
-                showDenyButton: true,
-                confirmButtonText: 'Sí,actualizar',
-                denyButtonText: No actualizar
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire(
-                            'Éxito!',
-                            'Registro actualizado :)',
-                            'success'
-                            ).then((result) => {
-                        if (result.isConfirmed)
-                        {
-                            const form1 = document.getElementById("actualizar");
-                            form1.submit();
-                        }
-
-                    });
-                } else if (result.isDenied)
-                {
-                    Swal.fire('Los cambios no se han actualizado', '', 'info');
-                }
-            });
-        }
-
-        function Editar() {
-            const exampleModal = document.getElementById('modalEditar');
-            exampleModal.addEventListener('show.bs.modal', event => {
-                // Button that triggered the modal
-                const button = event.relatedTarget;
-                //datos
-                //const NumOrden = button.getAttribute('data-bs-NumOrden');
-
-
-                const id = button.getAttribute('data-bs-id');
-                const nombre = button.getAttribute('data-bs-nombre');
-                const PlacaTracto = button.getAttribute('data-bs-PlacaTracto');
-                const PlacaCarreta = button.getAttribute('data-bs-PlacaCarreta');
-                const Fecha = button.getAttribute('data-bs-Fecha');
-                const TipoServicio = button.getAttribute('data-bs-TipoServicio');
-                const Cliente = button.getAttribute('data-bs-Cliente');
-                const Destino = button.getAttribute('data-bs-Destino');
-                const AlmacenRetiroContenedor = button.getAttribute('data-bs-AlmacenRetiroContenedor');
-                const AlmacenDevolucionContenedor = button.getAttribute('data-bs-AlmacenDevolucionContenedor');
-                const MontoViaje = button.getAttribute('data-bs-MontoViaje');
-
-                //campos
-                //const campoNumOrden = document.getElementById("NumOrden");
-                const campoId = document.getElementById("id");
-                const camponombre = document.getElementById("nombrex");
-                const campoPlacaTracto = document.getElementById("PlacaTractox");
-                const campoPlacaCarreta = document.getElementById("PlacaCarretax");
-                const campoFecha = document.getElementById("Fechax");
-                const campoTipoServicio = document.getElementById("TipoServiciox");
-                const campoCliente = document.getElementById("Clientex");
-                const campoDestino = document.getElementById("Destinox");
-                const campoAlmacenRetiroContenedor = document.getElementById("AlmacenRetiroContenedorx");
-                const campoAlmacenDevolucionContenedor = document.getElementById("AlmacenDevolucionContenedorx");
-                const campoMontoViaje = document.getElementById("MontoViajex");
-                //Colocar los datos a los campos
-                //campoNumOrden.value = NumOrden;
-                campoId.value = id;
-                camponombre.value = nombre;
-                campoPlacaTracto.value = PlacaTracto;
-                campoPlacaCarreta.value = PlacaCarreta;
-                campoFecha.value = Fecha;
-                campoTipoServicio.value = TipoServicio;
-                campoCliente.value = Cliente;
-                campoDestino.value = Destino;
-                campoAlmacenRetiroContenedor.value = AlmacenRetiroContenedor;
-                campoAlmacenDevolucionContenedor.value = AlmacenDevolucionContenedor;
-                campoMontoViaje.value = MontoViaje;
-
-
-
-            })
-        }
-
-    </script>
 </head>
 <body onload="Editar()">
 <header>
@@ -201,7 +60,7 @@
             <td th:text="${viajes.empleados.nombre}"></td>
             <td th:text="${viajes.tractos.PlacaTracto}"></td>
             <td th:text="${viajes.carretas.PlacaCarreta}"></td>
-            <td th:text="${viajes.clientes.Nombre}"></td>
+            <td th:text="${viajes.clientes.RazonSocial}"></td>
             <td th:text="${viajes.Destino}"></td>
             <td th:text="${viajes.AlmacenRetiroContenedor}"></td>
             <td th:text="${viajes.AlmacenDevolucionContenedor}"></td>
@@ -217,7 +76,7 @@
                                 data-bs-nombre=${viajes.empleados.nombre},
                                 data-bs-PlacaTracto=${viajes.tractos.PlacaTracto},
                                 data-bs-PlacaCarreta=${viajes.carretas.PlacaCarreta},
-                                data-bs-Cliente=${viajes.clientes.Nombre},
+                                data-bs-Cliente=${viajes.clientes.RazonSocial},
                                 data-bs-Destino=${viajes.Destino},
                                 data-bs-AlmacenRetiroContenedor=${viajes.AlmacenRetiroContenedor},
                                 data-bs-AlmacenDevolucionContenedor=${viajes.AlmacenDevolucionContenedor},
@@ -286,9 +145,9 @@
                     <div class="d-flex mb-2">
                         <div class=" col-md-6 me-3">
                             <label for="recipient-name" class="col-form-label">Cliente:</label>
-                            <select name="nombre" id="Cliente" class="form-control">
+                            <select name="clientes" id="Cliente" class="form-control">
                                 <option value="">Seleccione</option>
-                                <option th:each="clientes : ${clientes}" th:value="${clientes.id}" th:text="${clientes.nombre}"></option>
+                                <option th:each="clientes : ${clientes}" th:value="${clientes.id}" th:text="${clientes.RazonSocial}"></option>
                             </select>
                         </div>
                         <div class=" col-md-6">
@@ -314,7 +173,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button onclick="return Agregar1()" type="button" class="btn btn-primary">Registrar</button>
+                <button onclick="return Agregar1(event)" type="button" class="btn btn-primary">Registrar</button>
             </div>
         </div>
     </div>
@@ -373,7 +232,7 @@
                             <label for="recipient-name" class="col-form-label">Cliente:</label>
                             <select name="Cliente" id="Clientex" class="form-control">
                                 <option value="">Seleccione</option>
-                                <option th:each="clientes : ${clientes}" th:value="${clientes.id}" th:text="${clientes.nombre}"></option>
+                                <option th:each="clientes : ${clientes}" th:value="${clientes.id}" th:text="${clientes.RazonSocial}"></option>
                             </select>
                         </div>
                         <div class="col-md-6">
@@ -406,5 +265,123 @@
 </div>
 <th:block th:replace="fragmentos/datatable/scripts :: dataTableScript"></th:block>
 <script th:src="@{/js/datatables-demo.js}"></script>
+<script>
+    function Agregar1(event) {
+  event.preventDefault();
+
+  Swal.fire({
+      title: '¿Estás seguro de agregar un nuevo viaje?',
+      text: "Se podrá modificar en el futuro",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Aceptar'
+  }).then((result) => {
+      if (result.isConfirmed) {
+          Swal.fire(
+              'Agregado!',
+              'El viaje ha sido agregado.',
+              'success'
+          ).then((result) => {
+              if (result.isConfirmed) {
+                  document.getElementById('agregar').submit();
+              }
+          });
+      }
+  });
+}
+
+function Eliminar(event, opcion) {
+  event.preventDefault();
+
+  Swal.fire({
+      title: '¿Eliminar?',
+      text: "Esta decisión no se podrá revertir",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Eliminar',
+      allowOutsideClick: false,
+      allowEscapeKey: false
+  }).then((result) => {
+      if (result.isConfirmed) {
+          Swal.fire({
+              title: 'Eliminar',
+              text: 'Eliminado correctamente',
+              icon: 'success',
+              allowOutsideClick: false,
+              allowEscapeKey: false
+          }).then((result) => {
+              if (result.isConfirmed) {
+                  location.href = opcion.href;
+              }
+          });
+      }
+  });
+}
+
+function Actualizar(event) {
+  event.preventDefault();
+
+  Swal.fire({
+      title: '¿Desea actualizar los cambios?',
+      text: '',
+      showDenyButton: true,
+      confirmButtonText: 'Sí, actualizar',
+      denyButtonText: 'No actualizar'
+  }).then((result) => {
+      if (result.isConfirmed) {
+          Swal.fire(
+              'Éxito!',
+              'Registro actualizado :)',
+              'success'
+          ).then((result) => {
+              if (result.isConfirmed) {
+                  document.getElementById("actualizar").submit();
+              }
+          });
+      } else if (result.isDenied) {
+          Swal.fire('Los cambios no se han actualizado', '', 'info');
+      }
+  });
+}
+
+function Editar() {
+  const exampleModal = document.getElementById('modalEditar');
+  exampleModal.addEventListener('show.bs.modal', event => {
+      const button = event.relatedTarget;
+
+      const id = button.getAttribute('data-bs-id');
+      const nombre = button.getAttribute('data-bs-nombre');
+      const PlacaTracto = button.getAttribute('data-bs-PlacaTracto');
+      const PlacaCarreta = button.getAttribute('data-bs-PlacaCarreta');
+      const Fecha = button.getAttribute('data-bs-Fecha');
+      const TipoServicio = button.getAttribute('data-bs-TipoServicio');
+      const Cliente = button.getAttribute('data-bs-Cliente');
+      const Destino = button.getAttribute('data-bs-Destino');
+      const AlmacenRetiroContenedor = button.getAttribute('data-bs-AlmacenRetiroContenedor');
+      const AlmacenDevolucionContenedor = button.getAttribute('data-bs-AlmacenDevolucionContenedor');
+      const MontoViaje = button.getAttribute('data-bs-MontoViaje');
+
+      document.getElementById("id").value = id;
+      document.getElementById("nombrex").value = nombre;
+      document.getElementById("PlacaTractox").value = PlacaTracto;
+      document.getElementById("PlacaCarretax").value = PlacaCarreta;
+      document.getElementById("Fechax").value = Fecha;
+      document.getElementById("TipoServiciox").value = TipoServicio;
+      document.getElementById("Clientex").value = Cliente;
+      document.getElementById("Destinox").value = Destino;
+      document.getElementById("AlmacenRetiroContenedorx").value = AlmacenRetiroContenedor;
+      document.getElementById("AlmacenDevolucionContenedorx").value = AlmacenDevolucionContenedor;
+      document.getElementById("MontoViajex").value = MontoViaje;
+  });
+}
+
+
+</script>
+
 </body>
 </html>
