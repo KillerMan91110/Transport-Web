@@ -228,6 +228,21 @@
             allowClear: true
         });
     });
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+            // Obtener la fecha actual en formato YYYY-MM-DD
+            const today = new Date();
+            const day = String(today.getDate()).padStart(2, '0');
+            const month = String(today.getMonth() + 1).padStart(2, '0'); // Enero es 0
+            const year = today.getFullYear();
+            const currentDate = `${year}-${month}-${day}`;
+
+            // Asignar la fecha actual como mínima al campo de fecha
+            document.getElementById('FechaEmision').min = currentDate;
+            document.getElementById('FechaTraslado').min = currentDate;
+
+        });
+
 </script>
 </body>
 </html>
