@@ -33,7 +33,7 @@ public class GuiaRemisionService implements IGuiaRemisionService {
         GuiaRemision guiaRemision = dataGuiaRemision.findById(id).orElse(new GuiaRemision());
         return GuiaRemisionDto.builder()
                 .NumFactura(guiaRemision.getNumFactura())
-                .PuntoPartida(guiaRemision.getPuntoLlegada())
+                .PuntoPartida(guiaRemision.getPuntoPartida())
                 .PuntoLlegada(guiaRemision.getPuntoLlegada())
                 .Destinatario(guiaRemision.getDestinatario())
                 .DocumentoDestinatario(guiaRemision.getDocumentoDestinatario())
@@ -65,7 +65,7 @@ public class GuiaRemisionService implements IGuiaRemisionService {
     public void GuardarDto(GuiaRemisionDto guiaRemision) {
         dataGuiaRemision.save(GuiaRemision.builder()
                         .NumFactura(guiaRemision.getNumFactura())
-                        .PuntoPartida(guiaRemision.getPuntoLlegada())
+                        .PuntoPartida(guiaRemision.getPuntoPartida())
                         .PuntoLlegada(guiaRemision.getPuntoLlegada())
                         .Destinatario(guiaRemision.getDestinatario())
                         .DocumentoDestinatario(guiaRemision.getDocumentoDestinatario())

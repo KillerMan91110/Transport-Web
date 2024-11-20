@@ -13,49 +13,68 @@
     <th:block th:replace="fragmentos/datatable/head :: dataTableHead"></th:block>
     <script>
         // Función para validar si la placa del tracto ya existe en la base de datos
-        function validateTracto() {
-            let PlacaTracto = document.getElementById('PlacaTracto').value;
-
-            return $.ajax({
+        async function validateTracto() {
+            const PlacaTracto = document.getElementById('PlacaTracto').value;
+            const response = await $.ajax({
                 url: `/tractos/validar`,
                 type: 'GET',
-                data: { PlacaTracto: PlacaTracto },
+                data: { PlacaTracto },
                 async: false
-            }).responseJSON;
+            });
+            return response.responseJSON;
         }
 
-        // Función para validar el rango de caracteres de la placa del tracto
+        // Función para validar el formato de la placa del tracto
         function validarPlacaTracto() {
-            let placaTracto = document.getElementById("PlacaTracto").value;
-            let pattern = /^[A-Za-z0-9-]{1,7}$/;  // Permitir de 1 a 7 caracteres alfanuméricos o guiones (-)
-            return pattern.test(placaTracto);
+            const pattern = /^[A-Za-z0-9-]{1,7}$/; // 1 a 7 caracteres alfanuméricos o guiones
+            return pattern.test(document.getElementById("PlacaTracto").value);
+        }
+
+        // Validación de campos Potencia, TipoTraccion y Motor
+        function validarCamposOpcionales() {
+            const Potencia = document.getElementById("Potencia").value;
+            const TipoTraccion = document.getElementById("TipoTraccion").value;
+            const Motor = document.getElementById("Motor").value;
+
+            if (Potencia == 0 || TipoTraccion == 0 || Motor == 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Seleccione una opción correcta en los campos Potencia, Tipo de Tracción y Motor.'
+                });
+                return false;
+            }
+            return true;
         }
 
         // Función para agregar un nuevo tracto
-        function Agregar1() {
-            event.preventDefault();  // Prevenir el envío del formulario por defecto
+        async function Agregar1(event) {
+            event.preventDefault();
 
-            // Validar la placa del tracto
+            // Validar campos opcionales
+            if (!validarCamposOpcionales()) {
+                return;
+            }
+
+            // Validar formato de la placa
             if (!validarPlacaTracto()) {
-                Swal.fire({
+                return Swal.fire({
                     icon: 'error',
                     title: 'Error',
                     text: 'La placa del tracto debe contener entre 1 y 7 caracteres alfanuméricos o guiones (-).'
                 });
-                return;  // Salir de la función si la validación falla
             }
 
-            // Validar si la placa del tracto ya existe en la base de datos
-            if (validateTracto()) {
-                Swal.fire({
+            // Validar existencia de la placa en la base de datos
+            if (await validateTracto()) {
+                return Swal.fire({
                     icon: 'error',
                     title: 'Error',
                     text: 'La placa del tracto ya existe en la base de datos.'
                 });
-                return;  // Salir de la función si la placa del tracto ya existe
             }
 
-            // Mostrar una alerta de confirmación antes de agregar el tracto
+            // Confirmación de agregar tracto
             Swal.fire({
                 title: '¿Estás seguro de agregar un nuevo tracto?',
                 text: 'Se podrá modificar en el futuro',
@@ -71,15 +90,14 @@
                         'El tracto ha sido agregado.',
                         'success'
                     ).then(() => {
-                        const formulario = document.getElementById('agregarForm');
-                        formulario.submit();  // Enviar el formulario si se confirma
+                        document.getElementById('agregarForm').submit();
                     });
                 }
             });
         }
 
         // Función para eliminar un tracto
-        function Eliminar(opcion) {
+        function Eliminar(event, opcion) {
             event.preventDefault();
             Swal.fire({
                 title: '¿Eliminar?',
@@ -100,10 +118,8 @@
                         icon: 'success',
                         allowOutsideClick: false,
                         allowEscapeKey: false
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            location.href = opcion.href;
-                        }
+                    }).then(() => {
+                        location.href = opcion.href;
                     });
                 }
             });
@@ -210,7 +226,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button onclick="Agregar1()" type="button" class="btn btn-primary">Registrar</button>
+                <button onclick="Agregar1(event)" type="button" class="btn btn-primary">Registrar</button>
             </div>
         </div>
     </div>

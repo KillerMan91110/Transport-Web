@@ -263,6 +263,9 @@
         </div>
     </div>
 </div>
+<footer>
+    <div th:insert="menu :: #barraFooter"></div>
+</footer>
 <th:block th:replace="fragmentos/datatable/scripts :: dataTableScript"></th:block>
 <script th:src="@{/js/datatables-demo.js}"></script>
 <script>

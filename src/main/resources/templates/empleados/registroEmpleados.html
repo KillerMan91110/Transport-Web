@@ -15,186 +15,122 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         function Agregar1(event) {
-    event.preventDefault();
+            event.preventDefault();
 
-    var dni = document.getElementById('dni').value;
-    var nombre = document.getElementById('nombre').value;
-    var sexo = document.getElementById('sexo').value;
-    var num_licencia = document.getElementById('num_licencia').value;
-    var celular = document.getElementById('celular').value;
-    var correo = document.getElementById('correo').value;
-    var direccion = document.getElementById('direccion').value;
-    var username = document.getElementById('username').value;
-    var password = document.getElementById('password').value;
-    var enable = document.getElementById('enable').value;
+            const inputs = {
+                dni: document.getElementById('dni').value,
+                nombre: document.getElementById('nombre').value,
+                sexo: document.getElementById('sexo').value,
+                num_licencia: document.getElementById('num_licencia').value,
+                celular: document.getElementById('celular').value,
+                correo: document.getElementById('correo').value,
+                direccion: document.getElementById('direccion').value,
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value,
+                enable: document.getElementById('enable').value
+            };
 
-    // Validar que todos los campos estén llenos
-    if (!dni || !nombre || !sexo || !num_licencia || !celular || !correo || !direccion || !username || !password || !enable) {
-        Swal.fire({
-            title: 'Error',
-            text: 'Todos los campos son obligatorios.',
-            icon: 'error'
-        });
-        return;
-    }
+            if (!validateFields(inputs)) return;
 
-    // Validar longitud del DNI
-    if (dni.length !== 8) {
-        Swal.fire({
-            title: 'DNI inválido',
-            text: 'El DNI debe tener 8 caracteres.',
-            icon: 'error'
-        });
-        return;
-    }
+            validateExistence('/conductores/validarDNI', { dni: inputs.dni }, 'DNI duplicado', 'El DNI ya está registrado.')
+                .then(() => validateExistence('/conductores/validarUsername', { username: inputs.username }, 'Usuario duplicado', 'El nombre de usuario ya está en uso.'))
+                .then(() => validateExistence('/validarLicencia', { num_licencia: inputs.num_licencia }, 'Licencia duplicada', 'El número de licencia ya está registrado.'))
+                .then(showConfirmation)
+                .then(() => document.getElementById('agregar').submit())
+                .catch(err => console.error(err));
+        }
 
-    // Validar longitud del teléfono
-    if (celular.length !== 9) {
-        Swal.fire({
-            title: 'Teléfono inválido',
-            text: 'El teléfono debe tener 9 caracteres.',
-            icon: 'error'
-        });
-        return;
-    }
+        function validateFields(inputs) {
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-    // Verificar si el DNI ya existe
-    $.ajax({
-        url: `/conductores/validarDNI`,
-        method: 'GET',
-        data: { dni: dni },
-        success: function(data) {
-            if (data) {
+            for (const key in inputs) {
+                if (!inputs[key]) {
+                    Swal.fire({ title: 'Error', text: 'Todos los campos son obligatorios.', icon: 'error' });
+                    return false;
+                }
+            }
+
+            if (inputs.dni.length !== 8) {
+                Swal.fire({ title: 'DNI inválido', text: 'El DNI debe tener 8 caracteres.', icon: 'error' });
+                return false;
+            }
+
+            if (inputs.celular.length !== 9) {
+                Swal.fire({ title: 'Teléfono inválido', text: 'El teléfono debe tener 9 caracteres.', icon: 'error' });
+                return false;
+            }
+
+            if (!emailRegex.test(inputs.correo)) {
                 Swal.fire({
-                    title: 'DNI duplicado',
-                    text: 'El DNI ya está registrado.',
+                    title: 'Correo inválido',
+                    text: 'El correo debe tener @ y un punto.',
                     icon: 'error'
                 });
-            } else {
-                // Verificar si el username ya existe
+                return false;
+            }
+
+            return true;
+        }
+
+        function validateExistence(url, data, title, errorMessage) {
+            return new Promise((resolve, reject) => {
                 $.ajax({
-                    url: `/conductores/validarUsername`,
+                    url,
                     method: 'GET',
-                    data: { username: username },
-                    success: function(data) {
-                        if (data) {
-                            Swal.fire({
-                                title: 'Usuario duplicado',
-                                text: 'El nombre de usuario ya está en uso.',
-                                icon: 'error'
-                            });
+                    data,
+                    success: function(response) {
+                        if (response) {
+                            Swal.fire({ title, text: errorMessage, icon: 'error' });
+                            reject(new Error(errorMessage));
                         } else {
-                            // Verificar si el número de licencia ya existe
-                            $.ajax({
-                                url: `/validarLicencia`,
-                                method: 'GET',
-                                data: { num_licencia: num_licencia },
-                                success: function(data) {
-                                    if (data) {
-                                        Swal.fire({
-                                            title: 'Licencia duplicada',
-                                            text: 'El número de licencia ya está registrado.',
-                                            icon: 'error'
-                                        });
-                                    } else {
-                                        // Confirmación para agregar un nuevo conductor
-                                        Swal.fire({
-                                            title: '¿Estás seguro de agregar un nuevo conductor?',
-                                            text: "Se podrá modificar en el futuro",
-                                            icon: 'warning',
-                                            showCancelButton: true,
-                                            confirmButtonColor: '#3085d6',
-                                            cancelButtonColor: '#d33',
-                                            confirmButtonText: 'Aceptar'
-                                        }).then((result) => {
-                                            if (result.isConfirmed) {
-                                                // Si se confirma, se envía el formulario
-                                                Swal.fire(
-                                                    'Agregado!',
-                                                    'El conductor ha sido agregado.',
-                                                    'success'
-                                                ).then((result) => {
-                                                    if (result.isConfirmed) {
-                                                        const formulario = document.getElementById('agregar');
-                                                        formulario.submit(); // Envío del formulario
-                                                    }
-                                                });
-                                            }
-                                        });
-                                    }
-                                },
-                                error: function(xhr, status, error) {
-                                    console.error("Error en la solicitud:", xhr, status, error);
-                                    Swal.fire({
-                                        title: 'Error',
-                                        text: 'No se pudo verificar la licencia.',
-                                        icon: 'error'
-                                    });
-                                }
-                            });
+                            resolve();
                         }
                     },
                     error: function(xhr, status, error) {
-                        console.error("Error en la solicitud:", xhr, status, error);
-                        Swal.fire({
-                            title: 'Error',
-                            text: 'No se pudo verificar el nombre de usuario.',
-                            icon: 'error'
-                        });
+                        Swal.fire({ title: 'Error', text: `No se pudo verificar ${title.toLowerCase()}.`, icon: 'error' });
+                        reject(error);
                     }
                 });
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error("Error en la solicitud:", xhr, status, error);
-            Swal.fire({
-                title: 'Error',
-                text: 'No se pudo verificar el DNI.',
-                icon: 'error'
             });
         }
-    });
-}
 
+        function showConfirmation() {
+            return Swal.fire({
+                title: '¿Estás seguro de agregar un nuevo conductor?',
+                text: "Se podrá modificar en el futuro",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Aceptar'
+            }).then((result) => {
+                if (!result.isConfirmed) throw new Error('Usuario canceló la acción');
+                Swal.fire('Agregado!', 'El conductor ha sido agregado.', 'success');
+            });
+        }
 
         function buscarDNI() {
-            var dni = document.getElementById('dni').value;
+            const dni = document.getElementById('dni').value;
 
             if (dni.length !== 8) {
-                Swal.fire({
-                    title: 'DNI inválido',
-                    text: 'El DNI debe tener 8 caracteres.',
-                    icon: 'error'
-                });
+                Swal.fire({ title: 'DNI inválido', text: 'El DNI debe tener 8 caracteres.', icon: 'error' });
                 return;
             }
 
             $.ajax({
                 url: `https://apiperu.dev/api/dni/${dni}`,
                 method: 'GET',
-                headers: {
-                    'Authorization': 'Bearer b42b126b2671e91b142fb0fae9588d9172442b06db43bc223ab189729f33def0'
-                },
+                headers: { 'Authorization': 'Bearer b42b126b2671e91b142fb0fae9588d9172442b06db43bc223ab189729f33def0' },
                 success: function(data) {
-                    console.log("Datos recibidos:", data);
                     if (data && data.data) {
-                        var persona = data.data;
+                        const persona = data.data;
                         document.getElementById('nombre').value = `${persona.nombres} ${persona.apellido_paterno} ${persona.apellido_materno}`;
                     } else {
-                        Swal.fire({
-                            title: 'Error',
-                            text: 'No se pudo obtener información del DNI.',
-                            icon: 'error'
-                        });
+                        Swal.fire({ title: 'Error', text: 'No se pudo obtener información del DNI.', icon: 'error' });
                     }
                 },
                 error: function(xhr, status, error) {
-                    console.error("Error en la solicitud:", xhr, status, error);
-                    Swal.fire({
-                        title: 'Error',
-                        text: 'No se pudo obtener información del DNI.',
-                        icon: 'error'
-                    });
+                    Swal.fire({ title: 'Error', text: 'No se pudo obtener información del DNI.', icon: 'error' });
                 }
             });
         }

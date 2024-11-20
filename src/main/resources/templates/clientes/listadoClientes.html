@@ -11,89 +11,78 @@
     <!-- Bloque de Scripts de Datatable -->
     <th:block th:replace="fragmentos/datatable/head :: dataTableHead"></th:block>
     <script>
+        // Utilidad para mostrar alertas de SweetAlert
+        function showAlert(title, text, icon) {
+            Swal.fire({ title, text, icon });
+        }
 
-        function validateCliente() {
-     razonSocial = document.getElementById('razonsocial').value;
-     ruc = document.getElementById('ruc').value;
+        // Validación de campos comunes
+        function validateFields(fields) {
+            for (const [field, value] of Object.entries(fields)) {
+                if (!value) {
+                    showAlert('Campos vacíos', `Por favor complete el campo ${field}.`, 'error');
+                    return false;
+                }
+            }
+            return true;
+        }
 
-    return $.ajax({
-        url: `/clientes/validar`,
-        type: 'GET',
-        data: { razonsocial: razonSocial, ruc: ruc },
-        async: false
-    }).responseJSON;
-}
+        // Validación específica para RUC y teléfono
+        function validateLength(value, length, fieldName) {
+            if (value.length !== length) {
+                showAlert(`${fieldName} inválido`, `${fieldName} debe tener ${length} caracteres.`, 'error');
+                return false;
+            }
+            return true;
+        }
 
-function Agregar1(event) {
-    event.preventDefault();
+        // Validación de existencia de Cliente
+        function validateCliente(razonSocial, ruc) {
+            return $.ajax({
+                url: '/clientes/validar',
+                type: 'GET',
+                data: { razonsocial: razonSocial, ruc },
+                async: false
+            }).responseJSON;
+        }
 
-    // Obtener valores de los campos
-     razonSocial = document.getElementById('razonsocial').value;
-     ruc = document.getElementById('ruc').value;
-     direccion = document.getElementById('direccion').value;
-     telefono = document.getElementById('telefono').value;
+        // Agregar cliente
+        function Agregar1(event) {
+            event.preventDefault();
 
-    // Validar que todos los campos obligatorios estén llenos
-    if (!razonSocial || !ruc || !direccion || !telefono) {
-        Swal.fire({
-            title: 'Campos vacíos',
-            text: 'Por favor complete todos los campos.',
-            icon: 'error'
-        });
-        return;
-    }
+            const fields = {
+                'Razón Social': document.getElementById('razonsocial').value,
+                'RUC': document.getElementById('ruc').value,
+                'Dirección': document.getElementById('direccion').value,
+                'Teléfono': document.getElementById('telefono').value
+            };
 
-    if (ruc.length !== 11) {
-        Swal.fire({
-            title: 'RUC inválido',
-            text: 'El RUC debe tener 11 caracteres.',
-            icon: 'error'
-        });
-        return;
-    }
+            if (!validateFields(fields)) return;
+            if (!validateLength(fields['RUC'], 11, 'RUC') || !validateLength(fields['Teléfono'], 9, 'Teléfono')) return;
 
-    if (telefono.length !== 9) {
-        Swal.fire({
-            title: 'Teléfono inválido',
-            text: 'El teléfono debe tener 9 caracteres.',
-            icon: 'error'
-        });
-        return;
-    }
-
-     isValid = validateCliente();
-
-    if (!isValid) {
-        Swal.fire({
-            title: '¿Estás seguro de agregar un nuevo cliente?',
-            text: "Se podrá modificar en el futuro",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Aceptar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire(
-                    'Agregado!',
-                    'El cliente ha sido agregado.',
-                    'success'
-                ).then((result) => {
+            const isValid = validateCliente(fields['Razón Social'], fields['RUC']);
+            if (isValid) {
+                showAlert('Error', 'La Razón Social o el RUC ya existen en la base de datos.', 'error');
+            } else {
+                Swal.fire({
+                    title: '¿Estás seguro de agregar un nuevo cliente?',
+                    text: "Se podrá modificar en el futuro",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Aceptar'
+                }).then(result => {
                     if (result.isConfirmed) {
-                        const formulario = document.getElementById('agregar');
-                        formulario.submit();
+                        Swal.fire('Agregado!', 'El cliente ha sido agregado.', 'success').then(() => {
+                            document.getElementById('agregar').submit();
+                        });
                     }
                 });
             }
-        });
-    } else {
-        Swal.fire({
-            title: 'Error',
-            text: 'La Razón Social o el RUC ya existen en la base de datos.',
-            icon: 'error'
-        });
-    }
-}
+        }
+
+        // Eliminar cliente
         function Eliminar(opcion) {
             event.preventDefault();
             Swal.fire({
@@ -103,83 +92,44 @@ function Agregar1(event) {
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                cancelButtonText: 'Cancelar',
-                confirmButtonText: 'Eliminar',
-                allowOutsideClick: false,
-                allowEscapeKey: false
-            }).then((result) => {
+                confirmButtonText: 'Eliminar'
+            }).then(result => {
                 if (result.isConfirmed) {
-                    Swal.fire({
-                        title: 'Eliminar',
-                        text: 'Eliminado correctamente',
-                        icon: 'success',
-                        allowOutsideClick: false,
-                        allowEscapeKey: false
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            location.href = opcion.href;
-                        }
+                    Swal.fire('Eliminado correctamente', '', 'success').then(() => {
+                        location.href = opcion.href;
                     });
                 }
             });
         }
 
+        // Editar cliente
         function Editar() {
-         modalEditar = document.getElementById('modalEditar');
-         modalEditar.addEventListener('show.bs.modal', event => {
-        // Button that triggered the modal
-        const button = event.relatedTarget;
+            const modalEditar = document.getElementById('modalEditar');
+            modalEditar.addEventListener('show.bs.modal', event => {
+                const button = event.relatedTarget;
+                const fields = ['id', 'razonsocial', 'ruc', 'direccion', 'telefono'];
 
-        // Extraer datos del botón
-         id = button.getAttribute('data-bs-id');
-         razonSocial = button.getAttribute('data-bs-razonsocial');
-         ruc = button.getAttribute('data-bs-ruc');
-         direccion = button.getAttribute('data-bs-direccion');
-         telefono = button.getAttribute('data-bs-telefono');
+                fields.forEach(field => {
+                    document.getElementById(field).value = button.getAttribute(`data-bs-${field}`);
+                });
+            });
+        }
 
-        // Campos en el modal de edición
-         campoId = document.getElementById("id");
-         campoRazonSocial = document.getElementById("razonsocial");
-         campoRuc = document.getElementById("ruc");
-         campoDireccion = document.getElementById("direccion");
-         campoTelefono = document.getElementById("telefono");
+        // Actualizar cliente
+        function Actualizar(event) {
+            event.preventDefault();
 
-        // Colocar los datos en los campos del formulario de edición
-        campoId.value = id;
-        campoRazonSocial.value = razonSocial;
-        campoRuc.value = ruc;
-        campoDireccion.value = direccion;
-        campoTelefono.value = telefono;
-    });
-}
+            const fields = {
+                'Razón Social': document.getElementById('razonsocial').value,
+                'RUC': document.getElementById('ruc').value,
+                'Dirección': document.getElementById('direccion').value,
+                'Teléfono': document.getElementById('telefono').value
+            };
 
-function Actualizar() {
-    event.preventDefault();
+            if (!validateFields(fields) || !validateLength(fields['RUC'], 11, 'RUC') || !validateLength(fields['Teléfono'], 9, 'Teléfono')) return;
 
-    // Obtener valores de los campos del formulario de edición
-     id = document.getElementById('id').value;
-     razonSocial = document.getElementById('razonsocial').value;
-     ruc = document.getElementById('ruc').value;
-     direccion = document.getElementById('direccion').value;
-     telefono = document.getElementById('telefono').value;
-
-    // Validar que no haya campos vacíos y que el RUC y el teléfono tengan el número correcto de caracteres
-    if (!razonSocial || !ruc || !direccion || !telefono) {
-        Swal.fire({
-            title: 'Campos vacíos',
-            text: 'Por favor complete todos los campos.',
-            icon: 'error'
-        });
-        return;
-    }
-
-
-    // Enviar el formulario de actualización
-     form1 = document.getElementById("actualizar");
-    form1.submit();
-}
-
-
+            document.getElementById('actualizar').submit();
+        }
     </script>
 </head>
 <body onload="Editar()">
